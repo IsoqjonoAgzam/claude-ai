@@ -418,5 +418,63 @@
         <p>Birinchi bob yakunida shuni ta'kidlash joizki, axborot tizimlari nazariyasi va mavjud analoglarning tahlili bizga yangi tizim uchun aniq tasavvur hosil qilish imkonini berdi. Tahlil natijalariga ko'ra, yaratilayotgan tizim quyidagi asosiy xususiyatlarga ega bo'lishi kerak: muzqaymoq savdosiga ixtisoslashtirilganligi, o'zbek tilidagi interfeys, veb-texnologiyalarga asoslanganligi, qulay va oddiy foydalanuvchi interfeysi, sovuq zanjir nazorati funksiyasi va bepul tarqatilishi. Keyingi bobda biz ushbu talablarni batafsil ko'rib chiqamiz va tizimni loyihalash jarayonini tasvirlaymiz.</p>
     </div>
 
+    <!-- SAHIFA 13 - II BOB boshlanishi -->
+    <div class="page">
+        <h2 style="text-align:center; font-weight:bold; margin-top: 40px;">II BOB. MUZQAYMOQ DO'KONI BOSHQARUV TIZIMINI LOYIHALASH</h2>
+
+        <h3 style="text-align:left; font-weight:bold; margin-top: 30px;">2.1 Tizimga qo'yilgan talablar va funksional tahlil</h3>
+
+        <p>Axborot tizimini loyihalashning birinchi va eng muhim bosqichi — tizimga qo'yilgan talablarni aniqlashdir. Talablarni to'g'ri va to'liq shakllantirish loyihaning muvaffaqiyatini belgilovchi asosiy omillardan biridir. IEEE 830 standartiga ko'ra, dasturiy ta'minot talablari spetsifikatsiyasi (Software Requirements Specification — SRS) funksional va nofunksional talablarni o'z ichiga olishi kerak. Funksional talablar — tizim nima qilishi kerakligini belgilaydi. Nofunksional talablar — tizim qanday ishlashi kerakligini aniqlaydi (tezlik, xavfsizlik, ishonchlilik va h.k.).</p>
+
+        <p>Muzqaymoq do'koni boshqaruv tizimiga qo'yilgan funksional talablarni aniqlash uchun do'kon faoliyatining asosiy biznes-jarayonlari tahlil qilindi. Tahlil natijasida quyidagi asosiy jarayonlar aniqlandi: mahsulotlar assortimentini boshqarish, omborxona hisobini yuritish, buyurtmalarni qabul qilish va bajarish, mijozlar bazasini yuritish, xodimlar faoliyatini boshqarish, moliyaviy hisobotlarni shakllantirish va foydalanuvchilar huquqlarini boshqarish. Har bir jarayon uchun alohida funksional talablar ishlab chiqildi.</p>
+
+        <p>Tizimning funksional talablari quyidagi jadvalda keltirilgan:</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border: 1px solid #000; padding: 8px; width: 10%;">ID</th>
+                <th style="border: 1px solid #000; padding: 8px; width: 25%;">Modul</th>
+                <th style="border: 1px solid #000; padding: 8px; width: 45%;">Funksional talab</th>
+                <th style="border: 1px solid #000; padding: 8px; width: 20%;">Ustuvorlik</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-01</td><td style="border:1px solid #000;padding:8px;">Mahsulotlar</td><td style="border:1px solid #000;padding:8px;">Mahsulotlar ro'yxatini ko'rish, qo'shish, tahrirlash va o'chirish</td><td style="border:1px solid #000;padding:8px;">Yuqori</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-02</td><td style="border:1px solid #000;padding:8px;">Mahsulotlar</td><td style="border:1px solid #000;padding:8px;">Mahsulotlarni toifalar bo'yicha tasniflash</td><td style="border:1px solid #000;padding:8px;">Yuqori</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-03</td><td style="border:1px solid #000;padding:8px;">Omborxona</td><td style="border:1px solid #000;padding:8px;">Mahsulot kirim va chiqimini qayd etish</td><td style="border:1px solid #000;padding:8px;">Yuqori</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-04</td><td style="border:1px solid #000;padding:8px;">Omborxona</td><td style="border:1px solid #000;padding:8px;">Minimal qoldiq haqida ogohlantirish</td><td style="border:1px solid #000;padding:8px;">O'rta</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-05</td><td style="border:1px solid #000;padding:8px;">Buyurtmalar</td><td style="border:1px solid #000;padding:8px;">Yangi buyurtma yaratish va holatini kuzatish</td><td style="border:1px solid #000;padding:8px;">Yuqori</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-06</td><td style="border:1px solid #000;padding:8px;">Buyurtmalar</td><td style="border:1px solid #000;padding:8px;">Buyurtma tarixini ko'rish va filtrlash</td><td style="border:1px solid #000;padding:8px;">O'rta</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-07</td><td style="border:1px solid #000;padding:8px;">Mijozlar</td><td style="border:1px solid #000;padding:8px;">Mijozlar bazasini yuritish</td><td style="border:1px solid #000;padding:8px;">O'rta</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-08</td><td style="border:1px solid #000;padding:8px;">Hisobotlar</td><td style="border:1px solid #000;padding:8px;">Kunlik, haftalik, oylik savdo hisobotlari</td><td style="border:1px solid #000;padding:8px;">Yuqori</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-09</td><td style="border:1px solid #000;padding:8px;">Xodimlar</td><td style="border:1px solid #000;padding:8px;">Xodimlar ro'yxati va ish grafiklari</td><td style="border:1px solid #000;padding:8px;">Past</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">FR-10</td><td style="border:1px solid #000;padding:8px;">Xavfsizlik</td><td style="border:1px solid #000;padding:8px;">Foydalanuvchi autentifikatsiyasi va avtorizatsiyasi</td><td style="border:1px solid #000;padding:8px;">Yuqori</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>2.1-jadval. Tizimning funksional talablari</i></p>
+    </div>
+
+    <!-- SAHIFA 14 - 2.1 davomi (Nofunksional talablar) -->
+    <div class="page">
+        <p>Nofunksional talablar tizimning sifat ko'rsatkichlarini belgilaydi. Ular tizimning qanday ishlashi kerakligini aniqlaydi. Quyida muzqaymoq do'koni boshqaruv tizimiga qo'yilgan nofunksional talablar keltirilgan.</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border: 1px solid #000; padding: 8px;">ID</th>
+                <th style="border: 1px solid #000; padding: 8px;">Toifa</th>
+                <th style="border: 1px solid #000; padding: 8px;">Talab</th>
+                <th style="border: 1px solid #000; padding: 8px;">Ko'rsatkich</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">NFR-01</td><td style="border:1px solid #000;padding:8px;">Unumdorlik</td><td style="border:1px solid #000;padding:8px;">Sahifa yuklash vaqti</td><td style="border:1px solid #000;padding:8px;">3 soniyadan kam</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">NFR-02</td><td style="border:1px solid #000;padding:8px;">Unumdorlik</td><td style="border:1px solid #000;padding:8px;">Bir vaqtda foydalanuvchilar soni</td><td style="border:1px solid #000;padding:8px;">Kamida 10 ta</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">NFR-03</td><td style="border:1px solid #000;padding:8px;">Xavfsizlik</td><td style="border:1px solid #000;padding:8px;">Parollar shifrlash</td><td style="border:1px solid #000;padding:8px;">BCrypt algoritmi</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">NFR-04</td><td style="border:1px solid #000;padding:8px;">Ishonchlilik</td><td style="border:1px solid #000;padding:8px;">Tizim mavjudligi (uptime)</td><td style="border:1px solid #000;padding:8px;">99.5%</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">NFR-05</td><td style="border:1px solid #000;padding:8px;">Foydalanuvchanlik</td><td style="border:1px solid #000;padding:8px;">O'rganish vaqti</td><td style="border:1px solid #000;padding:8px;">1 kundan kam</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">NFR-06</td><td style="border:1px solid #000;padding:8px;">Moslik</td><td style="border:1px solid #000;padding:8px;">Brauzer moslik</td><td style="border:1px solid #000;padding:8px;">Chrome, Firefox, Safari</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>2.2-jadval. Tizimning nofunksional talablari</i></p>
+
+        <p>Tizimga qo'yilgan talablardan tashqari, foydalanuvchilar rollarini ham aniqlash zarur. Tizimda uchta asosiy foydalanuvchi roli mavjud: Administrator — tizimning to'liq boshqaruvi, barcha modullarga kirish huquqi, foydalanuvchilarni boshqarish. Menejer (do'kon boshqaruvchisi) — mahsulotlar, buyurtmalar, hisobotlar va omborxonani boshqarish. Sotuvchi — buyurtmalarni qabul qilish va kassani boshqarish.</p>
+
+        <p>Foydalanuvchi holatlari (Use Cases) tizimning funksionalligini vizual tarzda ifodalash uchun ishlatiladi. Tizimning asosiy Use Case'lari quyidagilar: Administrator uchun — foydalanuvchilarni qo'shish/o'chirish, tizim sozlamalarini o'zgartirish, barcha hisobotlarni ko'rish. Menejer uchun — mahsulotlar qo'shish va tahrirlash, buyurtmalarni boshqarish, hisobotlarni ko'rish, omborxonani nazorat qilish. Sotuvchi uchun — buyurtma yaratish, mijoz qidirish, chek chop etish. Keyingi bo'limda biz ma'lumotlar bazasini loyihalash jarayonini ko'rib chiqamiz.</p>
+    </div>
+
 </body>
 </html>
