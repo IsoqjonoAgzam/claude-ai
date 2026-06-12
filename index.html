@@ -23,93 +23,213 @@
             margin: 10px auto;
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .cover-top {
-            text-align: center;
-            margin-top: 1cm;
-        }
-        .cover-top p {
-            margin: 5px 0;
-            font-weight: bold;
-        }
-        .cover-middle {
-            text-align: center;
-        }
-        .cover-middle p {
-            margin: 5px 0;
-        }
-        .cover-middle .kurs-ishi {
-            font-size: 36px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .cover-middle .mavzu {
-            font-weight: bold;
-        }
-        .cover-right {
-            text-align: right;
-            width: 100%;
-            padding-right: 1cm;
-        }
-        .cover-right p {
-            margin: 3px 0;
-        }
-        .cover-bottom {
-            text-align: center;
-            margin-bottom: 1cm;
-        }
-        .cover-bottom p {
-            font-weight: bold;
+            position: relative;
         }
         @media print {
             body {
                 background: white;
                 padding: 0;
-                margin: 0;
             }
             .page {
-                box-shadow: none;
-                border: none;
-                margin: 0;
                 page-break-after: always;
+                box-shadow: none;
+                margin: 0;
             }
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        p {
+            text-align: justify;
+            text-indent: 1.25cm;
+            margin: 8px 0;
+        }
+        .no-indent {
+            text-indent: 0;
+        }
+        .center {
+            text-align: center;
+        }
+        .right {
+            text-align: right;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            text-indent: 0;
+        }
+        .toc-item span:last-child {
+            text-align: right;
+        }
+
+        /* Page 1 - Cover page */
+        .page-cover {
+            border: 2px solid #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .cover-top {
+            text-align: center;
+        }
+        .cover-middle {
+            text-align: center;
+        }
+        .cover-bottom {
+            text-align: center;
+        }
+
+        /* TOC styles */
+        .toc-line {
+            display: flex;
+            margin: 8px 0;
+            text-indent: 0;
+        }
+        .toc-title {
+            flex: 1;
+        }
+        .toc-dots {
+            flex: 1;
+            border-bottom: 1px dotted #000;
+            margin: 0 5px;
+            align-self: flex-end;
+            margin-bottom: 5px;
+        }
+        .toc-page {
+            width: 30px;
+            text-align: right;
         }
     </style>
 </head>
 <body>
-    <div class="page">
+
+    <!-- SAHIFA 1 - MUQOVA -->
+    <div class="page page-cover">
         <div class="cover-top">
-            <p>RENESSANS TA'LIM UNIVERSITETI</p>
-            <p>&nbsp;</p>
-            <p>"MATEMATIKA VA IQTISOD" FAKULTETI</p>
-            <p>&nbsp;</p>
-            <p>"AXBOROT TEXNOLOGIYALARI" KAFEDRASI</p>
-            <p>&nbsp;</p>
-            <p style="font-weight: normal; font-style: italic;">60610100-Axborot tizimlari va texnologiyalari</p>
-            <p>&nbsp;</p>
-            <p>"AXBOROT TIZIMLARI" FANIDAN</p>
+            <p class="no-indent center bold">RENESSANS TA'LIM UNIVERSITETI</p>
+            <p class="no-indent center bold">"MATEMATIKA VA IQTISOD" FAKULTETI</p>
+            <p class="no-indent center bold">"AXBOROT TEXNOLOGIYALARI" KAFEDRASI</p>
+            <br>
+            <p class="no-indent center" style="font-style: italic;">60610100-Axborot tizimlari va texnologiyalari</p>
         </div>
 
         <div class="cover-middle">
-            <p class="kurs-ishi">KURS ISHI</p>
-            <p class="mavzu">MAVZU: MUZQAYMOQ DO'KONI BOSHQARUV TIZIMINI YARATISH</p>
-        </div>
-
-        <div class="cover-right">
-            <p>Guruh: 3-kurs 62S-23</p>
-            <p>Bajardi: Bababekova Gozal.</p>
-            <p>Qabul qildi: dots.Maxmudova M.A.</p>
-            <p>Baho: ____________</p>
+            <p class="no-indent center bold">"AXBOROT TIZIMLARI" FANIDAN</p>
+            <br>
+            <p class="no-indent center bold" style="font-size: 36px;">KURS ISHI</p>
+            <br>
+            <p class="no-indent center bold">MAVZU: MUZQAYMOQ DO'KONI BOSHQARUV TIZIMINI YARATISH</p>
         </div>
 
         <div class="cover-bottom">
-            <p>TOSHKENT-2026</p>
+            <div class="right" style="margin-bottom: 40px;">
+                <p class="no-indent right">Guruh: 3-kurs 62S-23</p>
+                <p class="no-indent right">Bajardi: Bababekova Gozal.</p>
+                <p class="no-indent right">Qabul qildi: dots.Maxmudova M.A.</p>
+                <p class="no-indent right">Baho: ____________</p>
+            </div>
+            <p class="no-indent center bold">TOSHKENT-2026</p>
         </div>
     </div>
+
+    <!-- SAHIFA 2 - MUNDARIJA -->
+    <div class="page">
+        <h2 style="font-size: 20px; font-weight: bold;">MUNDARIJA</h2>
+
+        <div class="toc-line">
+            <span class="toc-title">KIRISH</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">3</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title"><b>I BOB. AXBOROT TIZIMLARI VA MUZQAYMOQ SANOATI TAHLILI</b></span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">5</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">1.1 Axborot tizimlarining nazariy asoslari</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">5</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">1.2 Muzqaymoq do'koni faoliyatini avtomatlashtirishning dolzarbligi</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">7</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">1.3 Mavjud boshqaruv tizimlarining qiyosiy tahlili</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">9</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title"><b>II BOB. MUZQAYMOQ DO'KONI BOSHQARUV TIZIMINI LOYIHALASH</b></span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">11</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">2.1 Tizimga qo'yilgan talablar va funksional tahlil</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">11</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">2.2 Ma'lumotlar bazasini loyihalash</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">14</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">2.3 Tizim arxitekturasi va UML diagrammalar</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">17</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title"><b>III BOB. TIZIMNI DASTURIY TA'MINOT BILAN AMALGA OSHIRISH</b></span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">20</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">3.1 Dasturlash tillari va texnologiyalarni tanlash</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">20</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">3.2 Tizim modullarini ishlab chiqish</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">22</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title">3.3 Testlash va natijalar</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">25</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title"><b>XULOSA</b></span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">27</span>
+        </div>
+
+        <div class="toc-line">
+            <span class="toc-title"><b>FOYDALANILGAN ADABIYOTLAR</b></span>
+            <span class="toc-dots"></span>
+            <span class="toc-page">29</span>
+        </div>
+    </div>
+
 </body>
 </html>
