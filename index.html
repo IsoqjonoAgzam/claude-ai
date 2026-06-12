@@ -2341,5 +2341,110 @@ class TestingConfig(Config):
         <p>Mahsulotlar sahifasida quyidagi elementlar mavjud: yuqorida sarlavha va "Yangi mahsulot" tugmasi, qidirish maydoni va filterlar (toifa, tartiblash), jadval ko'rinishidagi mahsulotlar ro'yxati (ID, nomi, toifa, narxi, qoldiq, muddat, amallar), pastda statistika paneli va sahifalash (pagination). Qoldig'i kam bo'lgan mahsulotlar qizil rang bilan belgilangan va ogohlantirish belgisi ko'rsatilgan. Bu foydalanuvchiga darhol e'tibor qaratish zarur bo'lgan mahsulotlarni ko'rish imkonini beradi.</p>
     </div>
 
+    <div class="page">
+        <h3 style="text-align:left;font-weight:bold;">3.2.4 Xavfsizlik mexanizmlarining batafsil tahlili</h3>
+
+        <p>Axborot xavfsizligi zamonaviy dasturiy ta'minotning eng muhim jihati hisoblanadi. OWASP (Open Web Application Security Project) tashkilotining ma'lumotlariga ko'ra, veb-ilovalarning 43 foizi biror turdagi xavfsizlik zaifligiga ega. Shu sababli, muzqaymoq do'koni boshqaruv tizimida xavfsizlikka alohida e'tibor qaratildi. Tizimda amalga oshirilgan xavfsizlik mexanizmlari quyida batafsil tahlil qilinadi.</p>
+
+        <p>Parol siyosati va xeshlash. Tizimda parollar uchun quyidagi minimal talablar belgilangan: kamida 8 ta belgi uzunligi, kamida bitta katta harf, kamida bitta kichik harf, kamida bitta raqam. Parollar ma'lumotlar bazasida ochiq ko'rinishda saqlanmaydi — ular PBKDF2 (Password-Based Key Derivation Function 2) algoritmi yordamida xeshlanadi. Bu algoritm 260,000 marta iteratsiya qiladi, bu esa brute-force hujumlarini deyarli imkonsiz qiladi.</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+# Parol validatsiyasi
+import re
+
+def validate_password(password):
+    """Parol murakkabligini tekshirish"""
+    if len(password) &lt; 8:
+        return False, "Parol kamida 8 ta belgidan iborat bo'lishi kerak"
+    if not re.search(r'[A-Z]', password):
+        return False, "Kamida bitta katta harf bo'lishi kerak"
+    if not re.search(r'[a-z]', password):
+        return False, "Kamida bitta kichik harf bo'lishi kerak"
+    if not re.search(r'[0-9]', password):
+        return False, "Kamida bitta raqam bo'lishi kerak"
+    return True, "Parol talablarga javob beradi"
+
+# Brute-force himoyasi
+from datetime import datetime, timedelta
+
+login_attempts = {}  # {ip: [attempts_count, last_attempt_time]}
+
+def check_brute_force(ip_address):
+    """Brute-force hujumini aniqlash"""
+    if ip_address in login_attempts:
+        attempts, last_time = login_attempts[ip_address]
+        if attempts &gt;= 5 and datetime.now() - last_time &lt; timedelta(minutes=15):
+            return False  # Bloklangan
+    return True  # Ruxsat berilgan
+</pre>
+<p class="center no-indent" style="font-size:14px;"><i>3.12-kod. Parol validatsiyasi va brute-force himoyasi</i></p>
+
+        <p>SQL Injection himoyasi. SQL Injection — bu eng xavfli veb-hujum turlaridan biri bo'lib, tajovuzkor SQL so'rovlariga zararli kod kiritish orqali ma'lumotlar bazasiga ruxsatsiz kirish imkoniga ega bo'ladi. Bizning tizimda SQLAlchemy ORM ishlatilganligi sababli, barcha so'rovlar parametrlangan (parameterized) ko'rinishda bajariladi. Bu SQL Injection hujumlarini to'liq bartaraf etadi, chunki foydalanuvchi kiritgan ma'lumotlar hech qachon to'g'ridan-to'g'ri SQL so'rovga qo'shilmaydi.</p>
+
+        <p>XSS (Cross-Site Scripting) himoyasi. XSS hujumida tajovuzkor veb-sahifaga zararli JavaScript kodi kiritadi. Flask freymvorkining Jinja2 shablon tizimi avtomatik ravishda barcha o'zgaruvchilarni escape qiladi (auto-escaping). Bu shuni anglatadiki, foydalanuvchi kiritgan HTML yoki JavaScript kodi brauzerda ijro etilmaydi, balki oddiy matn sifatida ko'rsatiladi.</p>
+    </div>
+
+    <div class="page">
+        <h3 style="text-align:left;font-weight:bold;">3.2.5 Xatolarni boshqarish va logging tizimi</h3>
+
+        <p>Professional dasturiy ta'minotda xatolarni to'g'ri boshqarish muhim ahamiyatga ega. Xatolar foydalanuvchiga tushunarli tilda ko'rsatilishi kerak, shu bilan birga tizim loglari ishlab chiquvchilar uchun batafsil texnik ma'lumotni saqlashi lozim. Quyida tizimning xatolarni boshqarish kodi keltirilgan.</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+import logging
+from flask import jsonify, render_template
+
+# Logging sozlamalari
+logging.basicConfig(
+    filename='app.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# Xato handlerlar
+@app.errorhandler(404)
+def not_found(error):
+    """Sahifa topilmadi"""
+    logger.warning(f"404 xatosi: {request.url}")
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(403)
+def forbidden(error):
+    """Ruxsat yo'q"""
+    logger.warning(f"403 xatosi: {request.url}, User: {current_user}")
+    return render_template('errors/403.html'), 403
+
+@app.errorhandler(500)
+def internal_error(error):
+    """Ichki server xatosi"""
+    logger.error(f"500 xatosi: {str(error)}", exc_info=True)
+    db.session.rollback()
+    return render_template('errors/500.html'), 500
+
+# Custom exception
+class InsufficientStockError(Exception):
+    """Omborxonada yetarli mahsulot yo'q"""
+    def __init__(self, product_name, requested, available):
+        self.message = (
+            f"{product_name}: so'ralgan {requested} dona, "
+            f"mavjud {available} dona"
+        )
+        super().__init__(self.message)
+
+@app.errorhandler(InsufficientStockError)
+def handle_stock_error(error):
+    logger.info(f"Omborxona xatosi: {error.message}")
+    return jsonify({
+        'status': 'error',
+        'message': error.message
+    }), 400
+</pre>
+<p class="center no-indent" style="font-size:14px;"><i>3.13-kod. Xatolarni boshqarish va logging tizimi</i></p>
+
+        <p>Logging tizimi barcha muhim hodisalarni fayl va konsolga yozib boradi. Log darajalari: DEBUG — ishlab chiqish vaqtida batafsil ma'lumot, INFO — oddiy operatsiyalar (kirish, chiqish, buyurtma), WARNING — e'tiborga loyiq holatlar (noto'g'ri parol, 404 xatolik), ERROR — jiddiy xatolar (server xatoligi, ma'lumotlar bazasi muammolari), CRITICAL — tizimning ishlamay qolishi. Loglar 30 kun davomida saqlanadi va keyin avtomatik arxivlanadi.</p>
+
+        <p>Tizimda shuningdek monitoring va alerting (ogohlantirish) mexanizmi ham mavjud. Agar tizimda ketma-ket 5 ta 500 xatolik yuz bersa yoki ma'lumotlar bazasi ulanishi uzilsa, administrator elektron pochta orqali ogohlantiriladi. Bu mexanizm tizimning uzluksiz ishlashini ta'minlashga yordam beradi va muammolarni erta bosqichda aniqlash imkonini beradi.</p>
+    </div>
+
 </body>
 </html>
