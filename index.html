@@ -2103,5 +2103,125 @@ def mahsulot_kirim():
         <p>Raqobatchilar tahlili va bozor tadqiqoti natijalaridan xulosa qilish mumkinki, muzqaymoq do'koni boshqaruv tizimini yaratish nafaqat texnik, balki iqtisodiy jihatdan ham maqsadga muvofiq. Tizim joriy etish xarajatlari minimal (bepul dasturiy ta'minot), ammo kutilayotgan samaradorlik oshishi sezilarli. Bu esa kichik va o'rta biznes egalari uchun juda jozibador taklifdir.</p>
     </div>
 
+    <!-- SAHIFA 43 -->
+    <div class="page">
+        <h3 style="text-align:left; font-weight:bold;">3.2.3 Tizimni joylashtirish va konfiguratsiya</h3>
+
+        <p>Tizimni ishlab chiqish yakunlangandan so'ng uni real muhitda joylashtirish (deployment) zarur. Joylashtirish jarayoni bir necha bosqichlardan iborat: serverlarni tayyorlash, muhit sozlamalarini o'rnatish, ma'lumotlar bazasini migratsiya qilish, statik fayllarni tayyorlash va xavfsizlik choralarini joriy etish. Muzqaymoq do'koni boshqaruv tizimi Linux serverida Gunicorn WSGI server va Nginx reverse proxy yordamida joylashtiriladi.</p>
+
+        <p>Tizimning konfiguratsiya fayli quyidagicha ko'rinishga ega:</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+# config.py - Tizim konfiguratsiyasi
+import os
+
+class Config:
+    """Asosiy konfiguratsiya"""
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'default-secret-key')
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL', 'sqlite:///database.db'
+    )
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Sessiya sozlamalari
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = True
+    PERMANENT_SESSION_LIFETIME = 86400  # 24 soat
+    
+    # Fayl yuklash sozlamalari
+    UPLOAD_FOLDER = 'static/uploads'
+    MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5 MB
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+class DevelopmentConfig(Config):
+    """Ishlab chiqish muhiti"""
+    DEBUG = True
+    SESSION_COOKIE_SECURE = False
+
+class ProductionConfig(Config):
+    """Ishlab chiqarish muhiti"""
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    
+class TestingConfig(Config):
+    """Testlash muhiti"""
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+</pre>
+<p class="center no-indent" style="font-size:14px;"><i>3.11-kod. Tizim konfiguratsiya fayli</i></p>
+
+        <p>Konfiguratsiya faylida uchta muhit uchun alohida sozlamalar ko'rsatilgan. Development (ishlab chiqish) muhitida debug rejimi yoqilgan va xavfsizlik cheklovlari yumshatilgan. Production (ishlab chiqarish) muhitida xavfsizlik choralari to'liq qo'llaniladi va debug rejimi o'chirilgan. Testing muhitida esa in-memory SQLite bazasi ishlatiladi.</p>
+
+        <p>Joylashtirish jarayonining bosqichlari:</p>
+
+<table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+<tr style="background: #f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">#</th>
+<th style="border:1px solid #000;padding:8px;">Bosqich</th>
+<th style="border:1px solid #000;padding:8px;">Tavsif</th>
+<th style="border:1px solid #000;padding:8px;">Vaqt</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:8px;">1</td><td style="border:1px solid #000;padding:8px;">Server tayyorlash</td><td style="border:1px solid #000;padding:8px;">Linux (Ubuntu 22.04) o'rnatish</td><td style="border:1px solid #000;padding:8px;">30 min</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">2</td><td style="border:1px solid #000;padding:8px;">Python muhiti</td><td style="border:1px solid #000;padding:8px;">Python 3.11 va virtualenv o'rnatish</td><td style="border:1px solid #000;padding:8px;">15 min</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">3</td><td style="border:1px solid #000;padding:8px;">Bog'liqliklar</td><td style="border:1px solid #000;padding:8px;">pip install -r requirements.txt</td><td style="border:1px solid #000;padding:8px;">5 min</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">4</td><td style="border:1px solid #000;padding:8px;">Baza migratsiya</td><td style="border:1px solid #000;padding:8px;">Ma'lumotlar bazasini yaratish</td><td style="border:1px solid #000;padding:8px;">2 min</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">5</td><td style="border:1px solid #000;padding:8px;">Gunicorn</td><td style="border:1px solid #000;padding:8px;">WSGI server sozlash</td><td style="border:1px solid #000;padding:8px;">10 min</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">6</td><td style="border:1px solid #000;padding:8px;">Nginx</td><td style="border:1px solid #000;padding:8px;">Reverse proxy sozlash</td><td style="border:1px solid #000;padding:8px;">15 min</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">7</td><td style="border:1px solid #000;padding:8px;">SSL sertifikat</td><td style="border:1px solid #000;padding:8px;">Let's Encrypt o'rnatish</td><td style="border:1px solid #000;padding:8px;">10 min</td></tr>
+<tr style="background:#f0f0f0; font-weight:bold;"><td style="border:1px solid #000;padding:8px;"></td><td style="border:1px solid #000;padding:8px;">JAMI</td><td style="border:1px solid #000;padding:8px;">To'liq joylashtirish</td><td style="border:1px solid #000;padding:8px;">~90 min</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>3.6-jadval. Tizimni joylashtirish bosqichlari</i></p>
+    </div>
+
+    <!-- SAHIFA 44 -->
+    <div class="page">
+        <p>Quyida tizimning joylashtirish diagrammasi (Deployment Diagram) keltirilgan. U tizimning qanday serverlarda va qanday komponentlar bilan ishlashini vizual tarzda ko'rsatadi.</p>
+
+<div style="text-align: center; margin: 20px 0;">
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="350" viewBox="0 0 650 350" style="max-width:100%; height:auto; display:block; margin:0 auto;">
+  <rect width="650" height="350" fill="#fafafa"/>
+  <!-- Client side -->
+  <rect x="20" y="20" width="180" height="120" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1.5"/>
+  <text x="110" y="42" text-anchor="middle" font-size="11" font-weight="bold" fill="#1976d2">Mijoz tomoni</text>
+  <rect x="40" y="55" width="60" height="40" rx="3" fill="white" stroke="#666"/>
+  <text x="70" y="80" text-anchor="middle" font-size="9">Brauzer</text>
+  <rect x="120" y="55" width="60" height="40" rx="3" fill="white" stroke="#666"/>
+  <text x="150" y="80" text-anchor="middle" font-size="9">Telefon</text>
+  <text x="110" y="120" text-anchor="middle" font-size="9" fill="#333">HTML/CSS/JS</text>
+  <!-- Server side -->
+  <rect x="240" y="20" width="180" height="300" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1.5"/>
+  <text x="330" y="42" text-anchor="middle" font-size="11" font-weight="bold" fill="#388e3c">Web Server</text>
+  <rect x="260" y="55" width="140" height="35" rx="3" fill="white" stroke="#666"/>
+  <text x="330" y="77" text-anchor="middle" font-size="10">Nginx (port 80/443)</text>
+  <rect x="260" y="105" width="140" height="35" rx="3" fill="white" stroke="#666"/>
+  <text x="330" y="127" text-anchor="middle" font-size="10">Gunicorn (port 8000)</text>
+  <rect x="260" y="155" width="140" height="35" rx="3" fill="white" stroke="#666"/>
+  <text x="330" y="177" text-anchor="middle" font-size="10">Flask App</text>
+  <rect x="260" y="205" width="140" height="35" rx="3" fill="white" stroke="#666"/>
+  <text x="330" y="227" text-anchor="middle" font-size="10">SQLAlchemy ORM</text>
+  <rect x="260" y="260" width="140" height="40" rx="3" fill="#fff9c4" stroke="#f57f17"/>
+  <text x="330" y="284" text-anchor="middle" font-size="10" font-weight="bold">SQLite DB</text>
+  <!-- Arrows -->
+  <line x1="200" y1="80" x2="260" y2="72" stroke="#333" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <text x="225" y="65" font-size="8" fill="#333">HTTPS</text>
+  <!-- Backup server -->
+  <rect x="470" y="200" width="160" height="100" rx="5" fill="#fce4ec" stroke="#c62828" stroke-width="1.5"/>
+  <text x="550" y="222" text-anchor="middle" font-size="11" font-weight="bold" fill="#c62828">Zaxira server</text>
+  <rect x="490" y="235" width="120" height="25" rx="3" fill="white" stroke="#666"/>
+  <text x="550" y="252" text-anchor="middle" font-size="9">Kunlik backup</text>
+  <rect x="490" y="265" width="120" height="25" rx="3" fill="white" stroke="#666"/>
+  <text x="550" y="282" text-anchor="middle" font-size="9">30 kun saqlash</text>
+  <line x1="400" y1="280" x2="470" y2="265" stroke="#333" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr3)"/>
+  <text x="430" y="260" font-size="8" fill="#333">Backup</text>
+  <defs><marker id="arr3" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#333"/></marker></defs>
+</svg>
+<p class="center no-indent" style="font-size:14px;"><i>3.4-rasm. Tizimning joylashtirish diagrammasi</i></p>
+</div>
+
+        <p>Joylashtirish diagrammasidan ko'rinib turibdiki, tizim uch qismdan iborat: mijoz tomoni (brauzer yoki mobil qurilma), web server (Nginx + Gunicorn + Flask + SQLite) va zaxira server. Mijoz HTTPS protokoli orqali Nginx serveriga murojaat qiladi. Nginx so'rovni Gunicorn WSGI serveriga yo'naltiradi, u esa Flask ilovasini ishga tushiradi. Flask SQLAlchemy ORM orqali SQLite ma'lumotlar bazasi bilan ishlaydi. Zaxira server har kuni yarim tunda ma'lumotlar bazasi nusxasini saqlaydi.</p>
+
+        <p>Tizimning minimal apparat talablari quyidagicha: protsessor — 2 yadroli (Intel Core i3 yoki yuqori), operativ xotira — 4 GB RAM (tavsiya: 8 GB), disk hajmi — 20 GB SSD, operatsion tizim — Ubuntu 22.04 LTS, tarmoq — 10 Mbps doimiy internet ulanishi. Bu talablar kichik va o'rta muzqaymoq do'konlari uchun yetarli bo'lib, bitta server bir vaqtda 50 gacha foydalanuvchini xizmat ko'rsatishi mumkin.</p>
+    </div>
+
 </body>
 </html>
