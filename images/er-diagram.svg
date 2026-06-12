@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="500" viewBox="0 0 750 500">
+  <!-- Background -->
+  <rect width="750" height="500" fill="#fafafa"/>
+
+  <!-- Toifalar jadvali -->
+  <rect x="20" y="30" width="140" height="100" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="20" y="30" width="140" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="90" y="48" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Toifalar</text>
+  <text x="28" y="70" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="28" y="85" font-family="Times New Roman" font-size="10">nomi</text>
+  <text x="28" y="100" font-family="Times New Roman" font-size="10">tavsif</text>
+  <text x="28" y="115" font-family="Times New Roman" font-size="10">yaratilgan_sana</text>
+
+  <!-- Mahsulotlar jadvali -->
+  <rect x="220" y="20" width="150" height="140" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="220" y="20" width="150" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="295" y="38" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Mahsulotlar</text>
+  <text x="228" y="58" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="228" y="73" font-family="Times New Roman" font-size="10">nomi</text>
+  <text x="228" y="88" font-family="Times New Roman" font-size="10">toifa_id (FK)</text>
+  <text x="228" y="103" font-family="Times New Roman" font-size="10">narxi</text>
+  <text x="228" y="118" font-family="Times New Roman" font-size="10">qoldiq</text>
+  <text x="228" y="133" font-family="Times New Roman" font-size="10">saqlash_muddati</text>
+  <text x="228" y="148" font-family="Times New Roman" font-size="10">harorat_min/max</text>
+
+  <!-- Buyurtmalar jadvali -->
+  <rect x="430" y="20" width="150" height="130" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="430" y="20" width="150" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="505" y="38" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Buyurtmalar</text>
+  <text x="438" y="58" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="438" y="73" font-family="Times New Roman" font-size="10">mijoz_id (FK)</text>
+  <text x="438" y="88" font-family="Times New Roman" font-size="10">xodim_id (FK)</text>
+  <text x="438" y="103" font-family="Times New Roman" font-size="10">sana</text>
+  <text x="438" y="118" font-family="Times New Roman" font-size="10">umumiy_summa</text>
+  <text x="438" y="133" font-family="Times New Roman" font-size="10">holati, tolov_usuli</text>
+
+  <!-- Buyurtma_tafsilotlari jadvali -->
+  <rect x="300" y="210" width="170" height="110" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="300" y="210" width="170" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="385" y="228" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Buyurtma_tafsilotlari</text>
+  <text x="308" y="250" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="308" y="265" font-family="Times New Roman" font-size="10">buyurtma_id (FK)</text>
+  <text x="308" y="280" font-family="Times New Roman" font-size="10">mahsulot_id (FK)</text>
+  <text x="308" y="295" font-family="Times New Roman" font-size="10">miqdor</text>
+  <text x="308" y="310" font-family="Times New Roman" font-size="10">narxi</text>
+
+  <!-- Mijozlar jadvali -->
+  <rect x="590" y="180" width="140" height="120" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="590" y="180" width="140" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="660" y="198" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Mijozlar</text>
+  <text x="598" y="220" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="598" y="235" font-family="Times New Roman" font-size="10">ism</text>
+  <text x="598" y="250" font-family="Times New Roman" font-size="10">familiya</text>
+  <text x="598" y="265" font-family="Times New Roman" font-size="10">telefon</text>
+  <text x="598" y="280" font-family="Times New Roman" font-size="10">manzil</text>
+  <text x="598" y="295" font-family="Times New Roman" font-size="10">yaratilgan_sana</text>
+
+  <!-- Xodimlar jadvali -->
+  <rect x="560" y="360" width="150" height="120" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="560" y="360" width="150" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="635" y="378" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Xodimlar</text>
+  <text x="568" y="400" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="568" y="415" font-family="Times New Roman" font-size="10">ism, familiya</text>
+  <text x="568" y="430" font-family="Times New Roman" font-size="10">lavozim</text>
+  <text x="568" y="445" font-family="Times New Roman" font-size="10">telefon</text>
+  <text x="568" y="460" font-family="Times New Roman" font-size="10">maosh</text>
+  <text x="568" y="475" font-family="Times New Roman" font-size="10">ishga_kirgan_sana</text>
+
+  <!-- Foydalanuvchilar jadvali -->
+  <rect x="20" y="360" width="160" height="120" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="20" y="360" width="160" height="25" fill="#d0d0d0" stroke="black" stroke-width="1.5"/>
+  <text x="100" y="378" text-anchor="middle" font-family="Times New Roman" font-size="11" font-weight="bold">Foydalanuvchilar</text>
+  <text x="28" y="400" font-family="Times New Roman" font-size="10">id (PK)</text>
+  <text x="28" y="415" font-family="Times New Roman" font-size="10">login</text>
+  <text x="28" y="430" font-family="Times New Roman" font-size="10">parol (hash)</text>
+  <text x="28" y="445" font-family="Times New Roman" font-size="10">rol</text>
+  <text x="28" y="460" font-family="Times New Roman" font-size="10">xodim_id (FK)</text>
+  <text x="28" y="475" font-family="Times New Roman" font-size="10">yaratilgan_sana</text>
+
+  <!-- Bog'lanish chiziqlari -->
+  <!-- Toifalar -> Mahsulotlar (1:N) -->
+  <line x1="160" y1="75" x2="220" y2="75" stroke="black" stroke-width="1.2"/>
+  <text x="175" y="68" font-family="Times New Roman" font-size="9">1</text>
+  <text x="208" y="68" font-family="Times New Roman" font-size="9">N</text>
+
+  <!-- Mahsulotlar -> Buyurtma_tafsilotlari (1:N) -->
+  <line x1="295" y1="160" x2="350" y2="210" stroke="black" stroke-width="1.2"/>
+  <text x="305" y="175" font-family="Times New Roman" font-size="9">1</text>
+  <text x="340" y="205" font-family="Times New Roman" font-size="9">N</text>
+
+  <!-- Buyurtmalar -> Buyurtma_tafsilotlari (1:N) -->
+  <line x1="505" y1="150" x2="430" y2="210" stroke="black" stroke-width="1.2"/>
+  <text x="490" y="170" font-family="Times New Roman" font-size="9">1</text>
+  <text x="440" y="205" font-family="Times New Roman" font-size="9">N</text>
+
+  <!-- Mijozlar -> Buyurtmalar (1:N) -->
+  <line x1="590" y1="220" x2="580" y2="100" stroke="black" stroke-width="1.2"/>
+  <text x="595" y="210" font-family="Times New Roman" font-size="9">1</text>
+  <text x="577" y="115" font-family="Times New Roman" font-size="9">N</text>
+
+  <!-- Xodimlar -> Buyurtmalar (1:N) -->
+  <line x1="610" y1="360" x2="550" y2="150" stroke="black" stroke-width="1.2"/>
+  <text x="615" y="350" font-family="Times New Roman" font-size="9">1</text>
+  <text x="555" y="160" font-family="Times New Roman" font-size="9">N</text>
+
+  <!-- Xodimlar -> Foydalanuvchilar (1:1) -->
+  <line x1="560" y1="430" x2="180" y2="430" stroke="black" stroke-width="1.2"/>
+  <text x="540" y="423" font-family="Times New Roman" font-size="9">1</text>
+  <text x="190" y="423" font-family="Times New Roman" font-size="9">1</text>
+
+  <!-- Legend -->
+  <rect x="20" y="195" width="120" height="55" fill="white" stroke="#999" stroke-width="0.8"/>
+  <text x="30" y="212" font-family="Times New Roman" font-size="9" font-weight="bold">Izoh:</text>
+  <line x1="30" y1="225" x2="60" y2="225" stroke="black" stroke-width="1.2"/>
+  <text x="65" y="229" font-family="Times New Roman" font-size="9">Bog'lanish</text>
+  <text x="30" y="244" font-family="Times New Roman" font-size="9">PK - Primary Key</text>
+  <text x="30" y="256" font-family="Times New Roman" font-size="9" fill="#555">FK - Foreign Key</text>
+</svg>

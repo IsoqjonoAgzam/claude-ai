@@ -476,5 +476,66 @@
         <p>Foydalanuvchi holatlari (Use Cases) tizimning funksionalligini vizual tarzda ifodalash uchun ishlatiladi. Tizimning asosiy Use Case'lari quyidagilar: Administrator uchun — foydalanuvchilarni qo'shish/o'chirish, tizim sozlamalarini o'zgartirish, barcha hisobotlarni ko'rish. Menejer uchun — mahsulotlar qo'shish va tahrirlash, buyurtmalarni boshqarish, hisobotlarni ko'rish, omborxonani nazorat qilish. Sotuvchi uchun — buyurtma yaratish, mijoz qidirish, chek chop etish. Keyingi bo'limda biz ma'lumotlar bazasini loyihalash jarayonini ko'rib chiqamiz.</p>
     </div>
 
+    <!-- SAHIFA 15 - 2.2 Ma'lumotlar bazasini loyihalash -->
+    <div class="page">
+        <h3 style="text-align: left; font-size: 16px; margin-top: 0;">2.2 Ma'lumotlar bazasini loyihalash</h3>
+
+        <p>Ma'lumotlar bazasini loyihalash axborot tizimini yaratishning eng muhim bosqichlaridan biri hisoblanadi. Bu jarayonda avvalo kontseptual model yaratiladi, keyin u mantiqiy va fizik modellarga aylantiriladi. Kontseptual modellashtirish uchun Entity-Relationship (ER) diagrammasidan foydalaniladi. ER-diagramma ma'lumotlar bazasidagi ob'ektlar (entitylar) va ular orasidagi bog'lanishlarni (relationships) grafik tarzda ifodalaydi. Muzqaymoq do'koni boshqaruv tizimi uchun quyidagi asosiy ob'ektlar aniqlandi: Toifalar, Mahsulotlar, Mijozlar, Buyurtmalar, Buyurtma tafsilotlari, Xodimlar va Foydalanuvchilar.</p>
+
+        <p>Tizimning ER-diagrammasi quyida keltirilgan. Diagrammada har bir ob'ekt to'rtburchak shaklida tasvirlangan, ob'ektlar orasidagi bog'lanishlar chiziqlar bilan ko'rsatilgan. Bog'lanishlar turlari: bir-ko'p (1:N) va ko'p-ko'p (M:N) munosabatlar mavjud.</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <img src="images/er-diagram.svg" alt="ER-diagramma" style="max-width: 100%; height: auto;">
+            <p class="center no-indent" style="font-size:14px;"><i>2.1-rasm. Tizimning ER-diagrammasi</i></p>
+        </div>
+
+        <p>ER-diagrammadan ko'rinib turibdiki, tizimda yettita asosiy jadval mavjud. Toifalar jadvali mahsulot turlarini saqlaydi (masalan: plombir, fruktli muzqaymoq, shokoladli muzqaymoq). Mahsulotlar jadvali har bir mahsulot haqida batafsil ma'lumot saqlaydi va Toifalar jadvali bilan 1:N bog'lanishga ega. Buyurtmalar jadvali har bir buyurtma haqida umumiy ma'lumotni (sana, umumiy summa, holati) saqlaydi. Buyurtma_tafsilotlari jadvali buyurtma tarkibini (qaysi mahsulotdan nechta) saqlaydi — bu Buyurtmalar va Mahsulotlar orasidagi ko'p-ko'p munosabatni hal qiluvchi oraliq jadval.</p>
+    </div>
+
+    <!-- SAHIFA 16 - 2.2 davomi (Jadvallar strukturasi) -->
+    <div class="page">
+        <p>Quyida ma'lumotlar bazasining har bir jadvali uchun batafsil struktura keltirilgan.</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Ustun nomi</th>
+                <th style="border:1px solid #000;padding:8px;">Ma'lumot turi</th>
+                <th style="border:1px solid #000;padding:8px;">Cheklov</th>
+                <th style="border:1px solid #000;padding:8px;">Tavsif</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">id</td><td style="border:1px solid #000;padding:8px;">INTEGER</td><td style="border:1px solid #000;padding:8px;">PRIMARY KEY</td><td style="border:1px solid #000;padding:8px;">Unikal identifikator</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">nomi</td><td style="border:1px solid #000;padding:8px;">VARCHAR(100)</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Mahsulot nomi</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">toifa_id</td><td style="border:1px solid #000;padding:8px;">INTEGER</td><td style="border:1px solid #000;padding:8px;">FOREIGN KEY</td><td style="border:1px solid #000;padding:8px;">Toifaga bog'lanish</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">narxi</td><td style="border:1px solid #000;padding:8px;">DECIMAL(10,2)</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Mahsulot narxi (so'm)</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">qoldiq</td><td style="border:1px solid #000;padding:8px;">INTEGER</td><td style="border:1px solid #000;padding:8px;">DEFAULT 0</td><td style="border:1px solid #000;padding:8px;">Omborxona qoldig'i</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">saqlash_muddati</td><td style="border:1px solid #000;padding:8px;">DATE</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Yaroqlilik muddati</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">harorat_min</td><td style="border:1px solid #000;padding:8px;">FLOAT</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Min saqlash harorati</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">harorat_max</td><td style="border:1px solid #000;padding:8px;">FLOAT</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Max saqlash harorati</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">yaratilgan_sana</td><td style="border:1px solid #000;padding:8px;">DATETIME</td><td style="border:1px solid #000;padding:8px;">DEFAULT NOW()</td><td style="border:1px solid #000;padding:8px;">Yozuv yaratilgan sana</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>2.3-jadval. "Mahsulotlar" jadvalining strukturasi</i></p>
+
+        <p>Buyurtmalar jadvali har bir buyurtma haqida asosiy ma'lumotlarni saqlaydi:</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Ustun nomi</th>
+                <th style="border:1px solid #000;padding:8px;">Ma'lumot turi</th>
+                <th style="border:1px solid #000;padding:8px;">Cheklov</th>
+                <th style="border:1px solid #000;padding:8px;">Tavsif</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">id</td><td style="border:1px solid #000;padding:8px;">INTEGER</td><td style="border:1px solid #000;padding:8px;">PRIMARY KEY</td><td style="border:1px solid #000;padding:8px;">Unikal identifikator</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">mijoz_id</td><td style="border:1px solid #000;padding:8px;">INTEGER</td><td style="border:1px solid #000;padding:8px;">FOREIGN KEY</td><td style="border:1px solid #000;padding:8px;">Mijozga bog'lanish</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">xodim_id</td><td style="border:1px solid #000;padding:8px;">INTEGER</td><td style="border:1px solid #000;padding:8px;">FOREIGN KEY</td><td style="border:1px solid #000;padding:8px;">Sotuvchiga bog'lanish</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">sana</td><td style="border:1px solid #000;padding:8px;">DATETIME</td><td style="border:1px solid #000;padding:8px;">DEFAULT NOW()</td><td style="border:1px solid #000;padding:8px;">Buyurtma sanasi</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">umumiy_summa</td><td style="border:1px solid #000;padding:8px;">DECIMAL(12,2)</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Jami summa</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">holati</td><td style="border:1px solid #000;padding:8px;">VARCHAR(20)</td><td style="border:1px solid #000;padding:8px;">DEFAULT 'yangi'</td><td style="border:1px solid #000;padding:8px;">Buyurtma holati</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">tolov_usuli</td><td style="border:1px solid #000;padding:8px;">VARCHAR(20)</td><td style="border:1px solid #000;padding:8px;">NOT NULL</td><td style="border:1px solid #000;padding:8px;">Naqd/karta/online</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>2.4-jadval. "Buyurtmalar" jadvalining strukturasi</i></p>
+
+        <p>Ma'lumotlar bazasini loyihalashda normalizatsiya jarayoni muhim o'rin tutadi. Bizning tizimda ma'lumotlar bazasi uchinchi normal formaga (3NF) keltirilgan. Bu shuni anglatadiki, barcha noprimary atributlar faqat primary keyga bog'liq va o'zaro tranzitiv bog'lanishga ega emas. Normalizatsiya ma'lumotlar takrorlanishini (redundancy) minimallashtirishga va ma'lumotlar yaxlitligini ta'minlashga yordam beradi.</p>
+    </div>
+
 </body>
 </html>
