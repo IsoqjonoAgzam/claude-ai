@@ -1,0 +1,7 @@
+{
+  "task_id": "task-kurs-ishi-html",
+  "task_description": "Generate a complete 70-page academic course work (kurs ishi) as a single self-contained HTML file with embedded CSS and SVG diagrams. Topic: 'Muzqaymoq do'koni boshqaruv tizimini yaratish' (Creating an ice cream shop management system). For Renessans Ta'lim Universiteti, Information Systems course. Content in Uzbek language, academic style.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002"],
+  "blocked_reason": null
+}

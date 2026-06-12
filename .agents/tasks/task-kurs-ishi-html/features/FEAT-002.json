@@ -1,0 +1,35 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Continue the HTML document by APPENDING pages 36-70 to the existing file. This covers the rest of Chapter II (section 2.2 continuation and 2.3), all of Chapter III, Conclusion, and References. The file from FEAT-001 already has pages 1-35; this feature adds the remaining pages.",
+  "status": "pending",
+  "steps": [
+    "Read the existing /projects/sandbox/claude-ai/index.html (which has pages 1-35 from FEAT-001)",
+    "INSERT additional page divs BEFORE the closing </body></html> tags to add pages 36-70",
+    "Pages 36-39: Continue section 2.2 - database tables structure with detailed column descriptions in table format (jadval nomi, ustun, turi, tavsif)",
+    "Pages 40-46: Section 2.3 'Tizim arxitekturasi va UML diagrammalar' (7 pages) - Include SVG diagrams: (1) Use-case diagram with Admin, Sotuvchi, Mijoz actors, (2) Class diagram showing main system classes (Mahsulot, Buyurtma, Mijoz, Xodim, Tolov classes with attributes and methods), (3) System architecture diagram showing 3-tier architecture (Presentation/Business Logic/Data layers)",
+    "Pages 47-51: Section 3.1 'Dasturlash tillari va texnologiyalarni tanlash' (5 pages) - Python, Flask, SQLAlchemy, HTML/CSS/JS selection justification with comparison tables",
+    "Pages 52-59: Section 3.2 'Tizim modullarini ishlab chiqish' (8 pages) - Code examples with syntax highlighting (Python/Flask routes, models, templates). Show actual code blocks for: database models, API routes, authentication, order management",
+    "Pages 60-64: Section 3.3 'Testlash va natijalar' (5 pages) - Testing methodology, test results table, screenshots mockup as styled divs, performance metrics",
+    "Pages 65-67: XULOSA (Conclusion, 3 pages) - Summary of findings, achievements, recommendations, future work",
+    "Pages 68-70: FOYDALANILGAN ADABIYOTLAR (References, 3 pages) - At least 25 sources: books, journal articles, web resources. Format each properly with author, title, publisher, year.",
+    "Include at least 3 SVG diagrams in this section: Use-case, Class diagram, Architecture diagram",
+    "Ensure all code blocks use monospace font with #f5f5f5 background and proper indentation",
+    "Final page count should be approximately 70 pages total"
+  ],
+  "acceptance_criteria": [
+    "File has approximately 70 page divs total (65-72 acceptable range)",
+    "Use-case SVG diagram present with actors (Admin, Sotuvchi, Mijoz)",
+    "Class diagram SVG present showing system classes",
+    "Architecture diagram SVG present showing 3-tier design",
+    "Code examples present with proper formatting",
+    "References section has at least 25 sources",
+    "Total file size exceeds 200KB",
+    "All content is academic Uzbek language"
+  ],
+  "verification": [
+    "Run: unset NODE_OPTIONS && node -e \"const fs=require('fs'); const html=fs.readFileSync('/projects/sandbox/claude-ai/index.html','utf8'); const pages=(html.match(/class=\\\"page\\\"/g)||[]).length; const svgs=(html.match(/<svg/g)||[]).length; const codes=(html.match(/<code/g)||[]).length; console.log('Pages:',pages,'SVGs:',svgs,'Code blocks:',codes,'Size:',(html.length/1024).toFixed(0)+'KB');\""
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="450" viewBox="0 0 700 450">
+  <!-- Background -->
+  <rect width="700" height="450" fill="white"/>
+
+  <!-- Sarlavha -->
+  <text x="350" y="30" text-anchor="middle" font-family="Times New Roman" font-size="14" font-weight="bold">Tizimning uch qatlamli arxitekturasi</text>
+
+  <!-- Prezentatsiya qatlami (ko'k) -->
+  <rect x="100" y="50" width="500" height="100" fill="#cce5ff" stroke="#004085" stroke-width="2" rx="8"/>
+  <text x="350" y="80" text-anchor="middle" font-family="Times New Roman" font-size="14" font-weight="bold" fill="#004085">Prezentatsiya qatlami (Frontend)</text>
+  <text x="350" y="105" text-anchor="middle" font-family="Times New Roman" font-size="12" fill="#004085">HTML5 / CSS3 / JavaScript</text>
+  <text x="350" y="125" text-anchor="middle" font-family="Times New Roman" font-size="12" fill="#004085">Brauzer (Chrome, Firefox, Safari)</text>
+  <text x="350" y="143" text-anchor="middle" font-family="Times New Roman" font-size="11" fill="#004085">Bootstrap 5, Responsive dizayn</text>
+
+  <!-- O'q yuqoridan pastga (1-2 qatlam orasida) -->
+  <line x1="350" y1="150" x2="350" y2="190" stroke="#333" stroke-width="2"/>
+  <polygon points="345,185 355,185 350,195" fill="#333"/>
+  <line x1="350" y1="195" x2="350" y2="190" stroke="#333" stroke-width="2"/>
+  <polygon points="345,155 355,155 350,150" fill="#333"/>
+  <text x="380" y="175" font-family="Times New Roman" font-size="10" fill="#666">HTTP/REST API</text>
+
+  <!-- Biznes-logika qatlami (yashil) -->
+  <rect x="100" y="195" width="500" height="100" fill="#d4edda" stroke="#155724" stroke-width="2" rx="8"/>
+  <text x="350" y="225" text-anchor="middle" font-family="Times New Roman" font-size="14" font-weight="bold" fill="#155724">Biznes-logika qatlami (Backend)</text>
+  <text x="350" y="250" text-anchor="middle" font-family="Times New Roman" font-size="12" fill="#155724">Python Flask mikro-freymvorki</text>
+  <text x="350" y="270" text-anchor="middle" font-family="Times New Roman" font-size="12" fill="#155724">REST API, SQLAlchemy ORM</text>
+  <text x="350" y="288" text-anchor="middle" font-family="Times New Roman" font-size="11" fill="#155724">Autentifikatsiya, Validatsiya, Biznes qoidalar</text>
+
+  <!-- O'q 2-3 qatlam orasida -->
+  <line x1="350" y1="295" x2="350" y2="335" stroke="#333" stroke-width="2"/>
+  <polygon points="345,330 355,330 350,340" fill="#333"/>
+  <line x1="350" y1="340" x2="350" y2="335" stroke="#333" stroke-width="2"/>
+  <polygon points="345,300 355,300 350,295" fill="#333"/>
+  <text x="380" y="320" font-family="Times New Roman" font-size="10" fill="#666">SQL so'rovlar</text>
+
+  <!-- Ma'lumotlar qatlami (sariq) -->
+  <rect x="100" y="340" width="500" height="100" fill="#fff3cd" stroke="#856404" stroke-width="2" rx="8"/>
+  <text x="350" y="370" text-anchor="middle" font-family="Times New Roman" font-size="14" font-weight="bold" fill="#856404">Ma'lumotlar qatlami (Database)</text>
+  <text x="350" y="395" text-anchor="middle" font-family="Times New Roman" font-size="12" fill="#856404">SQLite relyatsion ma'lumotlar bazasi</text>
+  <text x="350" y="415" text-anchor="middle" font-family="Times New Roman" font-size="12" fill="#856404">Ma'lumotlar bazasi fayllari</text>
+  <text x="350" y="433" text-anchor="middle" font-family="Times New Roman" font-size="11" fill="#856404">Jadvallar, Indekslar, Triggerlar</text>
+</svg>

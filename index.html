@@ -537,5 +537,65 @@
         <p>Ma'lumotlar bazasini loyihalashda normalizatsiya jarayoni muhim o'rin tutadi. Bizning tizimda ma'lumotlar bazasi uchinchi normal formaga (3NF) keltirilgan. Bu shuni anglatadiki, barcha noprimary atributlar faqat primary keyga bog'liq va o'zaro tranzitiv bog'lanishga ega emas. Normalizatsiya ma'lumotlar takrorlanishini (redundancy) minimallashtirishga va ma'lumotlar yaxlitligini ta'minlashga yordam beradi.</p>
     </div>
 
+    <!-- Sahifa 17 -->
+    <div class="page">
+        <h2 style="text-align:left;font-weight:bold;">2.3 Tizim arxitekturasi va UML diagrammalar</h2>
+
+        <p>Tizim arxitekturasi — bu tizimning umumiy tuzilishini, tarkibiy qismlarini va ular orasidagi o'zaro ta'sirni belgilovchi yuqori darajadagi loyiha hisoblanadi. Muzqaymoq do'koni boshqaruv tizimi uch qatlamli (three-tier) arxitekturada qurilgan. Bu arxitektura prezentatsiya qatlami, biznes-logika qatlami va ma'lumotlarga kirish qatlamidan iborat. Bunday yondashuv tizimning kengaytirilishi (scalability), saqlanishi (maintainability) va xavfsizligini ta'minlashga yordam beradi. Quyida tizim arxitekturasining umumiy sxemasi keltirilgan.</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <img src="images/architecture-diagram.svg" alt="Tizim arxitekturasi" style="max-width: 100%; height: auto;">
+            <p class="center no-indent" style="font-size:14px;"><i>2.2-rasm. Tizimning uch qatlamli arxitekturasi</i></p>
+        </div>
+
+        <p>Prezentatsiya qatlami (Frontend) foydalanuvchi interfeysi uchun javob beradi. Bu qatlamda HTML5, CSS3 va JavaScript texnologiyalari ishlatilgan. Foydalanuvchi brauzer orqali tizimga kirib, barcha operatsiyalarni amalga oshiradi. Interfeys responsive (moslashuvchan) dizaynga ega bo'lib, kompyuter, planshet va mobil qurilmalarda to'g'ri ko'rinadi. Bootstrap 5 freymvorki interfeys komponentlarini yaratish uchun ishlatilgan.</p>
+
+        <p>Biznes-logika qatlami (Backend) tizimning asosiy mantiqiy qismi hisoblanadi. Bu qatlamda Python dasturlash tili va Flask mikro-freymvorki ishlatilgan. Flask RESTful API orqali frontend bilan aloqa o'rnatadi. Bu qatlamda barcha biznes qoidalari, validatsiyalar, hisob-kitoblar va ma'lumotlarni qayta ishlash amalga oshiriladi.</p>
+
+        <p>Ma'lumotlarga kirish qatlami (Database) ma'lumotlarni saqlash va boshqarish uchun javob beradi. SQLite relyatsion ma'lumotlar bazasi boshqaruv tizimi ishlatilgan. SQLite yengil, server talab qilmaydigan va kichik loyihalar uchun ideal MBBT hisoblanadi.</p>
+
+        <p>Quyidagi jadvalda har bir arxitektura qatlamining asosiy texnologiyalari va vazifalari keltirilgan:</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Qatlam</th>
+                <th style="border:1px solid #000;padding:8px;">Texnologiyalar</th>
+                <th style="border:1px solid #000;padding:8px;">Vazifasi</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Prezentatsiya</td><td style="border:1px solid #000;padding:8px;">HTML5, CSS3, JavaScript, Bootstrap 5</td><td style="border:1px solid #000;padding:8px;">Foydalanuvchi interfeysi, ma'lumotlarni ko'rsatish</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Biznes-logika</td><td style="border:1px solid #000;padding:8px;">Python 3.11, Flask 3.0, SQLAlchemy</td><td style="border:1px solid #000;padding:8px;">API, validatsiya, biznes qoidalar</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Ma'lumotlar</td><td style="border:1px solid #000;padding:8px;">SQLite 3, SQL</td><td style="border:1px solid #000;padding:8px;">Ma'lumotlarni saqlash va boshqarish</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>2.5-jadval. Arxitektura qatlamlari va texnologiyalar</i></p>
+    </div>
+
+    <!-- Sahifa 18 -->
+    <div class="page">
+        <p>UML (Unified Modeling Language) — dasturiy ta'minotni modellashtirish uchun standart grafik til. UML diagrammalar tizimning turli jihatlarini vizual tarzda ifodalash imkonini beradi. Bizning loyihamizda Use Case (foydalanish holatlari) diagrammasidan foydalanildi. Use Case diagramma tizim foydalanuvchilari (aktorlar) va ular bajara oladigan amallarni ko'rsatadi. Quyida tizimning Use Case diagrammasi keltirilgan.</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <img src="images/use-case-diagram.svg" alt="Use Case diagramma" style="max-width: 100%; height: auto;">
+            <p class="center no-indent" style="font-size:14px;"><i>2.3-rasm. Tizimning Use Case diagrammasi</i></p>
+        </div>
+
+        <p>Use Case diagrammadan ko'rinib turibdiki, tizimda uchta asosiy aktor mavjud. Administrator eng yuqori darajadagi huquqlarga ega bo'lib, u barcha funksiyalardan foydalanishi mumkin, shu jumladan foydalanuvchilarni boshqarish va tizim sozlamalarini o'zgartirish. Menejer mahsulotlar, buyurtmalar, omborxona va hisobotlar modullari bilan ishlaydi. Sotuvchi esa faqat buyurtmalar yaratish va chek chop etish funksiyalariga kirish huquqiga ega.</p>
+
+        <p>Tizimning komponent diagrammasini ko'rib chiqsak, quyidagi asosiy komponentlarni ajratib ko'rsatish mumkin: Authentication moduli (foydalanuvchi autentifikatsiyasi), Products moduli (mahsulotlar boshqaruvi), Orders moduli (buyurtmalar), Inventory moduli (omborxona), Reports moduli (hisobotlar), Users moduli (foydalanuvchilar boshqaruvi). Har bir modul mustaqil ishlaydi va boshqa modullar bilan API orqali aloqa qiladi. Bu modular arxitektura tizimni kengaytirish va yangi funksionallik qo'shishni osonlashtiradi.</p>
+
+        <p>Quyidagi jadvalda har bir aktorning tizimda bajara oladigan funksiyalari keltirilgan:</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Aktor</th>
+                <th style="border:1px solid #000;padding:8px;">Funksiyalar</th>
+                <th style="border:1px solid #000;padding:8px;">Kirish darajasi</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Administrator</td><td style="border:1px solid #000;padding:8px;">Tizimga kirish, Mahsulotlar boshqarish, Buyurtma yaratish, Hisobotlar ko'rish, Foydalanuvchilar boshqarish, Omborxona nazorati</td><td style="border:1px solid #000;padding:8px;">To'liq kirish</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Menejer</td><td style="border:1px solid #000;padding:8px;">Tizimga kirish, Mahsulotlar boshqarish, Buyurtma yaratish, Hisobotlar ko'rish, Omborxona nazorati</td><td style="border:1px solid #000;padding:8px;">Kengaytirilgan kirish</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Sotuvchi</td><td style="border:1px solid #000;padding:8px;">Tizimga kirish, Buyurtma yaratish, Chek chop etish</td><td style="border:1px solid #000;padding:8px;">Cheklangan kirish</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>2.6-jadval. Aktorlar va ularning funksiyalari</i></p>
+    </div>
+
 </body>
 </html>
