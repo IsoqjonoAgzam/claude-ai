@@ -865,5 +865,169 @@ class BuyurtmaTafsilot(db.Model):
         <p class="center no-indent" style="font-size:14px;"><i>3.1-jadval. Buyurtma holatlari va o'tish qoidalari</i></p>
     </div>
 
+    <!-- Sahifa 23 -->
+    <div class="page">
+        <p><b>3.2 Hisobotlar moduli (davomi)</b></p>
+
+        <p>Hisobotlar moduli boshqaruvchilar uchun eng muhim modullardan biri hisoblanadi. U kunlik, haftalik va oylik savdo hisobotlarini avtomatik shakllantiradi. Hisobotlarda umumiy savdo summasi, eng ko'p sotilgan mahsulotlar, o'rtacha chek summasi va boshqa ko'rsatkichlar aks etadi.</p>
+
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from flask import Blueprint, render_template, request
+from flask_login import login_required
+from models.order import Buyurtma, BuyurtmaTafsilot
+from models.product import Mahsulot
+from datetime import datetime, timedelta
+from sqlalchemy import func
+from app import db
+
+reports_bp = Blueprint('reports', __name__, url_prefix='/reports')
+
+@reports_bp.route('/daily')
+@login_required
+def daily_report():
+    """Kunlik savdo hisoboti"""
+    bugun = datetime.utcnow().date()
+    
+    # Kunlik umumiy savdo
+    kunlik_savdo = db.session.query(
+        func.sum(Buyurtma.umumiy_summa)
+    ).filter(
+        func.date(Buyurtma.sana) == bugun,
+        Buyurtma.holati == 'bajarildi'
+    ).scalar() or 0
+    
+    # Buyurtmalar soni
+    buyurtmalar_soni = Buyurtma.query.filter(
+        func.date(Buyurtma.sana) == bugun
+    ).count()
+    
+    # Eng ko'p sotilgan mahsulotlar
+    top_mahsulotlar = db.session.query(
+        Mahsulot.nomi,
+        func.sum(BuyurtmaTafsilot.soni).label('jami')
+    ).join(BuyurtmaTafsilot).join(Buyurtma).filter(
+        func.date(Buyurtma.sana) == bugun
+    ).group_by(Mahsulot.id).order_by(
+        func.sum(BuyurtmaTafsilot.soni).desc()
+    ).limit(5).all()
+    
+    return render_template('reports/daily.html',
+                         kunlik_savdo=kunlik_savdo,
+                         buyurtmalar_soni=buyurtmalar_soni,
+                         top_mahsulotlar=top_mahsulotlar)
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.5-kod. Kunlik hisobot moduli</i></p>
+
+        <p>Hisobotlar modulida shuningdek grafik ko'rinishida vizualizatsiya ham mavjud. Savdo dinamikasi chiziqli grafik ko'rinishida, mahsulotlar taqsimoti doiraviy diagramma shaklida ko'rsatiladi. Bu boshqaruvchiga savdo tendensiyalarini vizual tarzda ko'rish va tezkor qarorlar qabul qilish imkonini beradi.</p>
+
+        <p>Kunlik hisobot natijalariga misol:</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Ko'rsatkich</th>
+                <th style="border:1px solid #000;padding:8px;">Qiymat</th>
+                <th style="border:1px solid #000;padding:8px;">O'tgan kunga nisbatan</th>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Umumiy savdo</td>
+                <td style="border:1px solid #000;padding:8px;">4,250,000 so'm</td>
+                <td style="border:1px solid #000;padding:8px;">+12%</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Buyurtmalar soni</td>
+                <td style="border:1px solid #000;padding:8px;">48 ta</td>
+                <td style="border:1px solid #000;padding:8px;">+8%</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">O'rtacha chek</td>
+                <td style="border:1px solid #000;padding:8px;">88,500 so'm</td>
+                <td style="border:1px solid #000;padding:8px;">+3%</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Yangi mijozlar</td>
+                <td style="border:1px solid #000;padding:8px;">5 ta</td>
+                <td style="border:1px solid #000;padding:8px;">+25%</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Qaytarilgan buyurtmalar</td>
+                <td style="border:1px solid #000;padding:8px;">2 ta</td>
+                <td style="border:1px solid #000;padding:8px;">-50%</td>
+            </tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>3.2-jadval. Kunlik hisobot namunasi</i></p>
+    </div>
+
+    <!-- Sahifa 24 -->
+    <div class="page">
+        <p><b>Foydalanuvchi interfeysi</b></p>
+
+        <p>Tizimning foydalanuvchi interfeysi (UI) foydalanuvchilar bilan tizim o'rtasidagi aloqani ta'minlaydi. Interfeys responsive dizayn asosida yaratilgan bo'lib, turli qurilmalarda (kompyuter, planshet, telefon) to'g'ri ko'rinadi. Quyida tizimning asosiy sahifasi — Dashboard (boshqaruv paneli) ning sxematik ko'rinishi keltirilgan.</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <svg width="650" height="350" xmlns="http://www.w3.org/2000/svg">
+                <!-- Browser frame -->
+                <rect x="10" y="10" width="630" height="330" rx="5" fill="#fff" stroke="#333" stroke-width="2"/>
+                <!-- Title bar -->
+                <rect x="10" y="10" width="630" height="30" rx="5" fill="#2c3e50"/>
+                <circle cx="30" cy="25" r="5" fill="#e74c3c"/>
+                <circle cx="48" cy="25" r="5" fill="#f39c12"/>
+                <circle cx="66" cy="25" r="5" fill="#27ae60"/>
+                <text x="320" y="29" font-size="12" fill="white" text-anchor="middle">Muzqaymoq Do'koni - Boshqaruv Paneli</text>
+                <!-- Sidebar -->
+                <rect x="10" y="40" width="130" height="300" fill="#34495e"/>
+                <text x="75" y="65" font-size="10" fill="white" text-anchor="middle">MENYU</text>
+                <rect x="20" y="75" width="110" height="25" rx="3" fill="#2c3e50"/>
+                <text x="75" y="92" font-size="9" fill="white" text-anchor="middle">Dashboard</text>
+                <rect x="20" y="108" width="110" height="25" rx="3" fill="#3d566e"/>
+                <text x="75" y="125" font-size="9" fill="white" text-anchor="middle">Mahsulotlar</text>
+                <rect x="20" y="141" width="110" height="25" rx="3" fill="#3d566e"/>
+                <text x="75" y="158" font-size="9" fill="white" text-anchor="middle">Buyurtmalar</text>
+                <rect x="20" y="174" width="110" height="25" rx="3" fill="#3d566e"/>
+                <text x="75" y="191" font-size="9" fill="white" text-anchor="middle">Omborxona</text>
+                <rect x="20" y="207" width="110" height="25" rx="3" fill="#3d566e"/>
+                <text x="75" y="224" font-size="9" fill="white" text-anchor="middle">Hisobotlar</text>
+                <rect x="20" y="240" width="110" height="25" rx="3" fill="#3d566e"/>
+                <text x="75" y="257" font-size="9" fill="white" text-anchor="middle">Xodimlar</text>
+                <!-- Main content - cards -->
+                <rect x="155" y="50" width="115" height="70" rx="5" fill="#3498db" opacity="0.9"/>
+                <text x="212" y="80" font-size="9" fill="white" text-anchor="middle">Bugungi savdo</text>
+                <text x="212" y="100" font-size="14" fill="white" text-anchor="middle" font-weight="bold">4.2M</text>
+                <rect x="280" y="50" width="115" height="70" rx="5" fill="#27ae60" opacity="0.9"/>
+                <text x="337" y="80" font-size="9" fill="white" text-anchor="middle">Buyurtmalar</text>
+                <text x="337" y="100" font-size="14" fill="white" text-anchor="middle" font-weight="bold">48</text>
+                <rect x="405" y="50" width="115" height="70" rx="5" fill="#e67e22" opacity="0.9"/>
+                <text x="462" y="80" font-size="9" fill="white" text-anchor="middle">Mahsulotlar</text>
+                <text x="462" y="100" font-size="14" fill="white" text-anchor="middle" font-weight="bold">156</text>
+                <rect x="530" y="50" width="100" height="70" rx="5" fill="#9b59b6" opacity="0.9"/>
+                <text x="580" y="80" font-size="9" fill="white" text-anchor="middle">Mijozlar</text>
+                <text x="580" y="100" font-size="14" fill="white" text-anchor="middle" font-weight="bold">89</text>
+                <!-- Chart area -->
+                <rect x="155" y="130" width="240" height="195" rx="5" fill="#f9f9f9" stroke="#ddd"/>
+                <text x="275" y="150" font-size="10" fill="#333" text-anchor="middle" font-weight="bold">Haftalik savdo grafigi</text>
+                <!-- Simple line chart -->
+                <polyline points="175,290 215,260 255,270 295,240 335,220 375,200" fill="none" stroke="#3498db" stroke-width="2"/>
+                <text x="175" y="305" font-size="8" fill="#666">Du</text>
+                <text x="215" y="305" font-size="8" fill="#666">Se</text>
+                <text x="255" y="305" font-size="8" fill="#666">Cho</text>
+                <text x="295" y="305" font-size="8" fill="#666">Pa</text>
+                <text x="335" y="305" font-size="8" fill="#666">Ju</text>
+                <text x="375" y="305" font-size="8" fill="#666">Sh</text>
+                <!-- Recent orders -->
+                <rect x="405" y="130" width="225" height="195" rx="5" fill="#f9f9f9" stroke="#ddd"/>
+                <text x="517" y="150" font-size="10" fill="#333" text-anchor="middle" font-weight="bold">So'nggi buyurtmalar</text>
+                <text x="415" y="175" font-size="9" fill="#333">#1042 - Plombir x3 - 45,000</text>
+                <text x="415" y="195" font-size="9" fill="#333">#1041 - Shokolad x2 - 38,000</text>
+                <text x="415" y="215" font-size="9" fill="#333">#1040 - Fruktli x5 - 75,000</text>
+                <text x="415" y="235" font-size="9" fill="#333">#1039 - Vanil x1 - 15,000</text>
+                <text x="415" y="255" font-size="9" fill="#333">#1038 - Mix x4 - 92,000</text>
+            </svg>
+            <p class="center no-indent" style="font-size:14px;"><i>3.2-rasm. Tizimning boshqaruv paneli (Dashboard) ko'rinishi</i></p>
+        </div>
+
+        <p>Yuqoridagi sxemada tizimning boshqaruv paneli (Dashboard) ko'rsatilgan. Chap tomonda navigatsiya menyusi joylashgan — u orqali barcha modullarga o'tish mumkin. Yuqori qismda asosiy ko'rsatkichlar kartochkalar ko'rinishida aks etgan: bugungi savdo summasi, buyurtmalar soni, mahsulotlar soni va mijozlar soni. Pastki qismda haftalik savdo grafigi va so'nggi buyurtmalar ro'yxati ko'rsatilgan.</p>
+
+        <p>Interfeys dizaynida quyidagi tamoyillarga amal qilindi: oddiylik va intuitiv tushunarlilik, minimal bosqichlar soni (har bir amal 3 bosqichdan ko'p talab qilmasligi kerak), ranglar orqali vizual signal berish (yashil — muvaffaqiyat, qizil — xatolik, sariq — ogohlantirish) va responsive dizayn. Bootstrap 5 grid tizimi interfeys elementlarini turli ekran o'lchamlariga moslashtirishga imkon beradi.</p>
+    </div>
+
 </body>
 </html>
