@@ -1915,5 +1915,139 @@ ORDER BY m.qoldiq ASC;
         <p>Ushbu kontekst diagramma tizimning umumiy ko'rinishini beradi. Keyingi darajadagi DFD (1-daraja) da tizim ichki jarayonlarga — mahsulotlarni boshqarish, buyurtmalarni qayta ishlash, hisobotlarni shakllantirish va foydalanuvchilarni boshqarish — bo'linadi. Har bir ichki jarayon o'ziga tegishli ma'lumotlar omborxonasi (data store) bilan aloqada bo'ladi.</p>
     </div>
 
+    <div class="page">
+        <h3 style="text-align:left; font-weight:bold;">3.2.1 Omborxona boshqaruvi moduli</h3>
+
+        <p>Omborxona boshqaruvi moduli muzqaymoq do'koni uchun alohida ahamiyatga ega, chunki muzqaymoq mahsulotlari maxsus saqlash sharoitlarini talab qiladi. Bu modul mahsulotlar qoldig'ini real vaqtda kuzatib boradi, minimal qoldiq haqida ogohlantirish beradi, kirim-chiqim operatsiyalarini qayd etadi va mahsulotlarning yaroqlilik muddatini nazorat qiladi. Quyida omborxona moduli kodi keltirilgan.</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from flask import Blueprint, render_template, request, jsonify
+from flask_login import login_required
+from models.product import Mahsulot
+from datetime import datetime, date
+from app import db
+
+inventory_bp = Blueprint('inventory', __name__, url_prefix='/inventory')
+
+@inventory_bp.route('/')
+@login_required
+def inventory_dashboard():
+    """Omborxona holati"""
+    # Qoldig'i kam mahsulotlar (&lt; 10 dona)
+    kam_qoldiq = Mahsulot.query.filter(
+        Mahsulot.qoldiq &lt; 10,
+        Mahsulot.faol == True
+    ).all()
+    
+    # Yaroqlilik muddati tugab borayotgan (7 kun ichida)
+    bugun = date.today()
+    yaqin_muddat = Mahsulot.query.filter(
+        Mahsulot.saqlash_muddati &lt;= bugun + timedelta(days=7),
+        Mahsulot.saqlash_muddati &gt;= bugun,
+        Mahsulot.faol == True
+    ).all()
+    
+    # Muddati o'tgan mahsulotlar
+    muddati_otgan = Mahsulot.query.filter(
+        Mahsulot.saqlash_muddati &lt; bugun,
+        Mahsulot.faol == True
+    ).all()
+    
+    # Umumiy statistika
+    jami_mahsulot = Mahsulot.query.filter_by(faol=True).count()
+    jami_qiymat = db.session.query(
+        func.sum(Mahsulot.narxi * Mahsulot.qoldiq)
+    ).filter_by(faol=True).scalar() or 0
+    
+    return render_template('inventory/dashboard.html',
+                         kam_qoldiq=kam_qoldiq,
+                         yaqin_muddat=yaqin_muddat,
+                         muddati_otgan=muddati_otgan,
+                         jami_mahsulot=jami_mahsulot,
+                         jami_qiymat=jami_qiymat)
+
+@inventory_bp.route('/kirim', methods=['POST'])
+@login_required
+def mahsulot_kirim():
+    """Mahsulot kirimini qayd etish"""
+    mahsulot_id = request.form['mahsulot_id']
+    soni = int(request.form['soni'])
+    
+    mahsulot = Mahsulot.query.get_or_404(mahsulot_id)
+    mahsulot.qoldiq += soni
+    db.session.commit()
+    
+    return jsonify({
+        'status': 'success',
+        'message': f'{mahsulot.nomi}: {soni} dona kirim qilindi',
+        'yangi_qoldiq': mahsulot.qoldiq
+    })
+</pre>
+<p class="center no-indent" style="font-size:14px;"><i>3.9-kod. Omborxona boshqaruvi moduli</i></p>
+
+        <p>Omborxona moduli quyidagi asosiy funksiyalarni bajaradi. Birinchidan, real vaqtda omborxona holatini ko'rsatadi — har bir mahsulotning joriy qoldig'i, jami omborxona qiymati va holat ko'rsatkichlari. Ikkinchidan, minimal qoldiq tizimi — agar biror mahsulot qoldig'i belgilangan minimal darajadan (default: 10 dona) kamaysa, tizim ogohlantirish beradi. Uchinchidan, yaroqlilik muddati nazorati — muddati 7 kun ichida tugaydigan va allaqachon muddati o'tgan mahsulotlar alohida belgilanadi.</p>
+    </div>
+
+    <div class="page">
+        <h3 style="text-align:left; font-weight:bold;">3.2.2 Foydalanuvchi interfeysi shablonlari</h3>
+
+        <p>Flask freymvorkida foydalanuvchi interfeysi Jinja2 shablon mexanizmi yordamida yaratiladi. Jinja2 — bu Python uchun mo'ljallangan kuchli shablon tili bo'lib, u HTML ichida dinamik ma'lumotlarni ko'rsatish, shartli operatorlar va sikllardan foydalanish imkonini beradi. Quyida tizimning asosiy shabloni (base.html) keltirilgan.</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+&lt;!-- base.html - Asosiy shablon --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="uz"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;{% block title %}Muzqaymoq Do'koni{% endblock %}&lt;/title&gt;
+    &lt;link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"&gt;
+    &lt;link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav class="navbar navbar-dark bg-primary"&gt;
+        &lt;a class="navbar-brand" href="/"&gt;🍦 Muzqaymoq Do'koni&lt;/a&gt;
+        {% if current_user.is_authenticated %}
+        &lt;span class="text-white"&gt;{{ current_user.ism }}&lt;/span&gt;
+        &lt;a href="/logout" class="btn btn-outline-light btn-sm"&gt;Chiqish&lt;/a&gt;
+        {% endif %}
+    &lt;/nav&gt;
+    
+    &lt;div class="container-fluid"&gt;
+        &lt;div class="row"&gt;
+            {% if current_user.is_authenticated %}
+            &lt;nav class="col-md-2 sidebar"&gt;
+                &lt;ul class="nav flex-column"&gt;
+                    &lt;li&gt;&lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="/products"&gt;Mahsulotlar&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="/orders"&gt;Buyurtmalar&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="/inventory"&gt;Omborxona&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="/reports"&gt;Hisobotlar&lt;/a&gt;&lt;/li&gt;
+                    {% if current_user.is_admin %}
+                    &lt;li&gt;&lt;a href="/users"&gt;Foydalanuvchilar&lt;/a&gt;&lt;/li&gt;
+                    {% endif %}
+                &lt;/ul&gt;
+            &lt;/nav&gt;
+            {% endif %}
+            &lt;main class="col-md-10"&gt;
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                &lt;div class="alert alert-{{ category }}"&gt;{{ message }}&lt;/div&gt;
+                {% endfor %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            &lt;/main&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p class="center no-indent" style="font-size:14px;"><i>3.10-kod. Asosiy shablon (base.html)</i></p>
+
+        <p>Yuqoridagi shablon tizimning barcha sahifalari uchun umumiy asosiy tuzilmani belgilaydi. Unda navigatsiya paneli (navbar), yon menyu (sidebar) va asosiy kontentlar joylashgan. {% block %} belgilari orqali har bir sahifa o'ziga xos kontentni qo'shishi mumkin. {% if current_user.is_authenticated %} sharti orqali faqat tizimga kirgan foydalanuvchilarga yon menyuni ko'rsatish amalga oshirilgan. {% if current_user.is_admin %} esa faqat administratorlarga maxsus funksiyalarni ko'rsatadi.</p>
+
+        <p>Shablon merosxo'rligi (template inheritance) — Jinja2 ning eng kuchli xususiyatlaridan biri. Asosiy shablon (base.html) umumiy tuzilmani belgilaydi, bolalar shablonlari esa {% extends "base.html" %} orqali uni meros qilib olib, faqat o'ziga xos qismlarni o'zgartiradi. Bu yondashuv kodni takrorlashni oldini oladi va loyihani saqlashni osonlashtiradi.</p>
+    </div>
+
 </body>
 </html>
