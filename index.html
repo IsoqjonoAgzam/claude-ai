@@ -2821,6 +2821,160 @@ def client(app):
 </pre>
     </div>
 
+    <!-- SAHIFA 59 - Foydalanuvchi qo'llanmasi -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.3.6 Foydalanuvchi qo'llanmasi</p>
+
+        <p>Tizimga kirish va boshlash jarayoni oddiy va qulay tarzda tashkil etilgan. Foydalanuvchi brauzer orqali tizim manzilini kiritadi va kirish sahifasiga yo'naltiriladi. Kirish sahifasida login va parol maydonlari mavjud bo'lib, foydalanuvchi o'z hisob ma'lumotlarini kiritadi. Birinchi marta tizimga kirgan foydalanuvchiga administrator tomonidan berilgan vaqtinchalik parolni o'zgartirish talab qilinadi. Muvaffaqiyatli autentifikatsiyadan so'ng foydalanuvchi asosiy boshqaruv paneliga yo'naltiriladi. Xavfsizlik maqsadida 3 martadan ko'p noto'g'ri parol kiritilganda hisob 15 daqiqaga bloklanadi. Tizim har bir kirish urinishini log fayliga yozib boradi va administratorga shubhali faoliyat haqida bildirishnoma yuboradi.</p>
+
+        <p>Asosiy navigatsiya intuitiv tarzda loyihalangan bo'lib, barcha asosiy funksiyalarga tezkor kirish imkonini beradi. Chap tomonda asosiy menyu joylashgan bo'lib, u quyidagi bo'limlardan iborat: Bosh sahifa, Mahsulotlar, Buyurtmalar, Mijozlar, Hisobotlar va Sozlamalar. Har bir bo'lim o'z ichida pastki menyu elementlariga ega bo'lib, ularni bosish orqali kerakli funksiyaga o'tish mumkin. Yuqori qismda qidiruv paneli joylashgan bo'lib, u orqali mahsulot nomi, buyurtma raqami yoki mijoz ismi bo'yicha tezkor qidiruv amalga oshiriladi. O'ng yuqori burchakda foydalanuvchi profili va bildirishnomalar tugmasi joylashgan. Bildirishnomalar tizimi real vaqtda yangilanib, muhim hodisalar haqida xabar beradi.</p>
+
+        <p>Mahsulot qo'shish bosqichlari ketma-ket va mantiqiy tartibda tashkil etilgan. Birinchi qadam - Mahsulotlar bo'limiga o'tish va "Yangi mahsulot" tugmasini bosish. Ikkinchi qadam - mahsulot nomi, kategoriyasi (muzqaymoq turi), ishlab chiqaruvchi va tavsifini kiritish. Uchinchi qadam - narx ma'lumotlarini kiritish: kirish narxi, sotish narxi va chegirma foizi (ixtiyoriy). To'rtinchi qadam - ombor ma'lumotlari: boshlang'ich miqdor, minimal qoldiq soni va o'lchov birligi. Beshinchi qadam - mahsulot rasmini yuklash va saqlash tugmasini bosish. Tizim avtomatik ravishda mahsulotga unikal ID beradi va uni ma'lumotlar bazasiga saqlaydi. Qo'shilgan mahsulot darhol mahsulotlar ro'yxatida paydo bo'ladi.</p>
+
+        <p>Buyurtma yaratish qadamlari foydalanuvchi uchun eng ko'p ishlatiladigan funksiyalardan biri hisoblanadi. Buyurtma yaratish uchun avval Buyurtmalar bo'limiga o'tiladi va "Yangi buyurtma" tugmasi bosiladi. Keyin mijoz tanlanadi - mavjud mijozlar ro'yxatidan yoki yangi mijoz qo'shish orqali. So'ngra mahsulotlar qidiruv orqali topiladi va savatga qo'shiladi, har bir mahsulot uchun miqdor ko'rsatiladi. Tizim avtomatik ravishda umumiy summani hisoblaydi va ombordagi mavjud miqdorni tekshiradi. Agar mahsulot yetarli miqdorda bo'lmasa, tizim ogohlantirish beradi. To'lov usuli tanlanadi (naqd, karta yoki aralash) va buyurtma tasdiqlanadi. Muvaffaqiyatli buyurtmadan so'ng tizim kvitansiya chop etish imkonini beradi.</p>
+
+        <p>Hisobotlarni ko'rish va eksport qilish funksiyasi boshqaruv qarorlarini qabul qilishda muhim ahamiyatga ega. Hisobotlar bo'limida bir necha turdagi hisobotlar mavjud: kunlik savdo hisoboti, haftalik/oylik daromad hisoboti, mahsulotlar harakati hisoboti, mijozlar tahlili va ombor holati hisoboti. Har bir hisobot uchun sana oralig'ini belgilash mumkin va natijalar jadval yoki grafik ko'rinishida taqdim etiladi. Eksport funksiyasi hisobotlarni Excel (XLSX), PDF yoki CSV formatlarida yuklab olish imkonini beradi. Bundan tashqari, avtomatik hisobot yuborish funksiyasi mavjud - administrator belgilagan vaqtda tizim avtomatik ravishda kunlik yoki haftalik hisobotni email orqali yuboradi.</p>
+    </div>
+
+    <!-- SAHIFA 60 - Administrator qo'llanmasi -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.3.7 Administrator qo'llanmasi va tizim sozlamalari</p>
+
+        <p>Foydalanuvchilarni boshqarish administrator panelining eng muhim funksiyalaridan biridir. Administrator yangi foydalanuvchi qo'shish, mavjud foydalanuvchini o'chirish va rol o'zgartirish huquqiga ega. Yangi foydalanuvchi qo'shish uchun "Foydalanuvchilar" bo'limiga o'tib, "Yangi foydalanuvchi" tugmasi bosiladi. Kerakli ma'lumotlar (login, ism, familiya, rol) kiritiladi va vaqtinchalik parol belgilanadi. Rollar tizimi uch darajadan iborat: administrator (to'liq huquq), menejer (buyurtma va hisobotlar) va sotuvchi (faqat buyurtma yaratish). Foydalanuvchini o'chirish so'ralganida tizim tasdiqlash so'raydi va o'chirilgan foydalanuvchi ma'lumotlari arxivga ko'chiriladi.</p>
+
+        <p>Tizim sozlamalari bo'limi umumiy parametrlarni boshqarish imkonini beradi. Minimal qoldiq soni sozlamasi mahsulot miqdori belgilangan chegaradan pastga tushganda avtomatik ogohlantirish yuborish uchun ishlatiladi (standart qiymat: 10 dona). Parol siyosati sozlamalari minimal parol uzunligi (kamida 8 belgi), murakkablik talablari (katta va kichik harflar, raqam) va parol amal qilish muddatini (90 kun) belgilaydi. Sessiya muddati sozlamasi foydalanuvchi faoliyatsiz qolganida avtomatik chiqish vaqtini belgilaydi (standart: 30 daqiqa). Bundan tashqari, tizim tili, valyuta formati va vaqt zonasi sozlamalari ham mavjud.</p>
+
+        <p>Ma'lumotlar bazasini zaxiralash (backup) tizim xavfsizligining muhim tarkibiy qismidir. Avtomatik zaxiralash har kuni soat 02:00 da amalga oshiriladi va oxirgi 30 kunlik zaxira nusxalari saqlanadi. Administrator istalgan vaqtda qo'lda zaxiralash ham amalga oshirishi mumkin. Zaxira fayllari shifrlangan holda saqlash serveriga ko'chiriladi va ularning yaxlitligi avtomatik tekshiriladi. Tizimni qayta tiklash (restore) funksiyasi mavjud bo'lib, u istalgan zaxira nuqtasidan ma'lumotlarni qayta yuklash imkonini beradi. Zaxiralash jarayoni haqida administrator email orqali bildirishnoma oladi va har bir zaxiralash muddati, hajmi va holati logga yoziladi.</p>
+
+        <p>Tizim monitoringi va loglar bo'limi tizimning sog'lom ishlashini nazorat qilish uchun mo'ljallangan. Real vaqtda tizim ko'rsatkichlari - CPU yuklanishi, xotira iste'moli, disk maydoni va tarmoq trafigi - monitoring panelida ko'rsatiladi. Loglar tizimi barcha foydalanuvchi harakatlarini, tizim xatolarini va xavfsizlik hodisalarini qayd etadi. Loglar darajasi bo'yicha filtrlash mumkin: DEBUG, INFO, WARNING, ERROR va CRITICAL. Administrator shubhali faoliyat uchun ogohlantirishlarni sozlashi mumkin - masalan, bir IP manzildan ko'p marta noto'g'ri parol kiritish yoki oddiy ish vaqtidan tashqari tizimga kirish urinishlari. Loglar 90 kun davomida saqlanadi va keyin arxivga ko'chiriladi.</p>
+
+<pre style="background-color:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:15px;font-family:'Courier New',monospace;font-size:14px;overflow-x:auto;">
+@admin_bp.route('/users/add', methods=['POST'])
+@login_required
+@admin_required
+def add_user():
+    user = Foydalanuvchi(
+        login=request.form['login'],
+        ism=request.form['ism'],
+        familiya=request.form['familiya'],
+        rol=request.form['rol']
+    )
+    user.set_password(request.form['parol'])
+    db.session.add(user)
+    db.session.commit()
+    flash('Foydalanuvchi muvaffaqiyatli yaratildi!', 'success')
+    return redirect('/admin/users')
+</pre>
+    </div>
+
+    <!-- SAHIFA 61 - Tizim ishlashi haqida umumiy natijalar -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.4 Tizim ishlashining umumiy natijalar tahlili</p>
+
+        <p>Tizimning asosiy yutuqlari ishlab chiqish jarayonida belgilangan barcha maqsadlarga erishilganligini ko'rsatadi. Muzqaymoq do'koni uchun yaratilgan avtomatlashtirilgan boshqaruv tizimi mahsulotlar hisobini yuritish, buyurtmalarni qayta ishlash, mijozlar bazasini boshqarish va hisobotlar tayyorlash funksiyalarini to'liq qamrab oladi. Tizimning arxitekturasi zamonaviy dasturiy ta'minot ishlab chiqish tamoyillariga asoslangan bo'lib, kengaytiriluvchanlik, xavfsizlik va foydalanish qulayligi ta'minlangan. Flask micro-framework va SQLAlchemy ORM tanlovi tizimning yengilligini va samaradorligini ta'minladi. RESTful API arxitekturasi kelajakda mobil ilovalar va tashqi tizimlar bilan integratsiya qilish imkonini beradi.</p>
+
+        <p>Amaliy sinov natijalari 5 kun davomida real sharoitlarda o'tkazilgan testlar asosida olingan. Sinov davomida tizim haqiqiy muzqaymoq do'koni ma'lumotlari bilan ishladi va 3 nafar xodim tomonidan kundalik operatsiyalar bajarildi. Birinchi kuni foydalanuvchilar tizim interfeysi bilan tanishib, asosiy funksiyalarni o'rgandi. Uchinchi kunga kelib operatsiyalar tezligi sezilarli oshdi va xatolar soni keskin kamaydi. Beshinchi kunga kelib barcha xodimlar tizimdan erkin foydalana oldi va hech qanday kritik xatolik qayd etilmadi. Sinov natijalarida tizimning barqaror va ishonchli ishlashi tasdiqlandi.</p>
+
+        <p>Foydalanuvchilar fikr-mulohazalari tizimning amaliy qulayligini baholash uchun yig'ildi. Sotuvchilar buyurtma yaratish jarayonining tezligi va qulayligini yuqori baholadi - oldingi qo'lda yozish usulidan 4-5 baravar tezroq ekanligini ta'kidladi. Menejerlar hisobotlar funksiyasini alohida qadrladilar, chunki oldin kunlik hisobot tayyorlashga 2-3 soat vaqt sarflanardi, endi esa 10 soniya ichida tayyor hisobot olish mumkin. Administrator tizimni boshqarish qulayligi va xavfsizlik darajasini yuqori baholadi. Barcha foydalanuvchilar interfeys dizaynining soddaligi va tushunarliligini ta'kidladi. Umumiy foydalanuvchi qoniqish darajasi 5 ball tizimida 4.6 ballni tashkil etdi.</p>
+
+        <p>Aniqlangan muammolar va ularning yechimlari sinov davomida qayd etildi va operativ tarzda bartaraf etildi. Birinchi muammo - katta hajmdagi buyurtmalarda (20 dan ortiq mahsulot) sahifa yuklanish tezligining sekinlashishi edi, bu muammo ma'lumotlar bazasi so'rovlarini optimizatsiya qilish (lazy loading) orqali hal qilindi. Ikkinchi muammo - bir vaqtda ikki sotuvchi bir xil mahsulotni sotganda ombor hisobida nomuvofiqlik yuzaga kelishi edi, bu database-level locking mexanizmi joriy etilishi orqali bartaraf etildi. Uchinchi muammo - Internet aloqasi uzilganda foydalanuvchilar kiritgan ma'lumotlarning yo'qolishi edi, bu offline rejim va local storage orqali hal qilindi.</p>
+
+        <p>Kelajak rejalari tizimni yanada rivojlantirish va kengaytirish yo'nalishlarini o'z ichiga oladi. Birinchi navbatda mobil ilova yaratish rejalashtirilgan - Android va iOS platformalari uchun React Native asosida. Ikkinchi yo'nalish - sun'iy intellekt elementlarini qo'shish: talab prognozi, narxlash strategiyasi tavsiyalari va anomaliyalarni aniqlash. Uchinchi yo'nalish - boshqa tizimlar bilan integratsiya: buxgalteriya dasturlari (1C), to'lov tizimlari (Payme, Click) va yetkazib berish xizmatlari. To'rtinchi yo'nalish - franchise modeli uchun multi-tenant arxitekturani joriy etish. Beshinchi yo'nalish - ma'lumotlar tahlili va business intelligence modulini qo'shish.</p>
+
+        <table style="width:100%;border-collapse:collapse;margin:15px 0;font-size:14px;">
+            <caption style="font-weight:bold;margin-bottom:8px;text-align:left;">Tizim ko'rsatkichlari - 5 kunlik sinov natijalari</caption>
+            <tr style="background-color:#f0f0f0;">
+                <th style="border:1px solid #333;padding:8px;text-align:left;">Ko'rsatkich</th>
+                <th style="border:1px solid #333;padding:8px;text-align:center;">1-kun</th>
+                <th style="border:1px solid #333;padding:8px;text-align:center;">3-kun</th>
+                <th style="border:1px solid #333;padding:8px;text-align:center;">5-kun</th>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Qayta ishlangan buyurtmalar</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">23</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">45</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">67</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">O'rtacha javob vaqti</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">1.2s</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">0.9s</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">0.7s</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Xatolar soni</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">5</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">2</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">0</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Foydalanuvchi qoniqishi</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">3.8/5</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">4.2/5</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">4.6/5</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Tizim uptime</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">98%</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">99.2%</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">99.8%</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- SAHIFA 62 - Tizimni boshqa sohalarga moslashtirish -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.4.1 Tizimni boshqa sohalarga moslashtirish imkoniyatlari</p>
+
+        <p>Tizimning universalligi uning modulli arxitekturasi va moslashuvchan konfiguratsiya tizimi orqali ta'minlanadi. Tizim yaratilayotganda maxsus e'tibor uning boshqa savdo sohalarga oson moslashtirilishi mumkinligiga qaratildi. Asosiy biznes-logika (mahsulot hisobi, buyurtma boshqaruvi, mijozlar bazasi, hisobotlar) barcha savdo sohalari uchun universal bo'lib, faqat maxsus modullar va konfiguratsiya parametrlari o'zgartiriladi. Tizimning plugin arxitekturasi yangi modullarni asosiy tizimga ta'sir qilmasdan qo'shish imkonini beradi. Har bir sohaga moslashtirish uchun alohida konfiguratsiya fayli yaratiladi va u mahsulot kategoriyalari, maxsus atributlar va biznes qoidalarini belgilaydi.</p>
+
+        <p>Qandolatchilik do'koni, non-do'koni, gul do'koni va dorixona kabi sohalarga moslashtirish mumkin. Qandolatchilik do'koni uchun faqat mahsulot turlari va kategoriyalar o'zgartiriladi - muzqaymoq o'rniga tort, pirojniy, shokolad turlarini kiritish kifoya. Non do'koni uchun harorat nazorati moduli o'chiriladi (chunki non mahsulotlari xona haroratida saqlanadi) va yaroqlilik muddati qisqartiriladi (1-3 kun). Gul do'koni uchun yaroqlilik muddati moduli qo'shiladi va mahsulot holati kuzatiladi (yangi, so'liy boshlagan, chegirmali). Dorixona uchun eng murakkab moslashtirish talab etiladi: retsept bo'yicha sotish moduli, dori-darmonlar litsenziyalash tizimi, farmatsevtik standartlarga muvofiq hisobot va ogohlantirish tizimlari.</p>
+
+        <p>Moslashtirish uchun zarur o'zgarishlar texnik va biznes darajada amalga oshiriladi. Texnik o'zgarishlar: ma'lumotlar bazasi sxemasiga yangi jadvallar yoki ustunlar qo'shish, maxsus validatsiya qoidalarini yozish, interfeys elementlarini moslashtirish va sohaga xos hisobotlar shablonlarini yaratish. Biznes darajadagi o'zgarishlar: mahsulot kategoriyalari, narxlash strategiyasi, chegirma qoidalari va mijozlar segmentatsiyasini belgilash. Har bir moslashtirish loyihasi uchun texnik topshiriq tuziladi va bajarilish muddati sohaning murakkabligiga qarab 1 haftadan 2 oygacha bo'lishi mumkin. Moslashtirish jarayonida mavjud tizim ishlashiga ta'sir qilinmaydi, barcha o'zgarishlar alohida muhitda test qilinadi.</p>
+
+        <p>Franchise modeli imkoniyati tizimning eng istiqbolli rivojlanish yo'nalishlaridan biri hisoblanadi. Multi-tenant arxitektura bir serverda bir nechta mustaqil do'konlarni boshqarish imkonini beradi, bunda har bir do'konning ma'lumotlari to'liq izolyatsiyalangan. Franchise egasi markaziy boshqaruv paneli orqali barcha filiallarning umumiy ko'rsatkichlarini kuzatishi, yagona narx siyosatini belgilashi va ommaviy yangilanishlarni amalga oshirishi mumkin. Har bir filial o'zining lokal sozlamalariga ega bo'ladi: mahalliy valyuta, soliq stavkalari, ish vaqti va xodimlar ro'yxati. Oylik obuna modeli asosida moliyalashtiriladi - bazaviy tarif (1 filial), standart (5 gacha filial) va premium (cheksiz filiallar). Bu model kichik biznesdan boshlab yirik tarmoq kompaniyalarigacha kengayish imkonini beradi.</p>
+
+        <table style="width:100%;border-collapse:collapse;margin:15px 0;font-size:14px;">
+            <caption style="font-weight:bold;margin-bottom:8px;text-align:left;">Moslashtirish sohalari</caption>
+            <tr style="background-color:#f0f0f0;">
+                <th style="border:1px solid #333;padding:8px;text-align:left;">Soha</th>
+                <th style="border:1px solid #333;padding:8px;text-align:left;">O'zgarishlar darajasi</th>
+                <th style="border:1px solid #333;padding:8px;text-align:center;">Vaqt</th>
+                <th style="border:1px solid #333;padding:8px;text-align:center;">Murakkablik</th>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Qandolatchilik</td>
+                <td style="border:1px solid #333;padding:8px;">Minimal (mahsulot turlari)</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">1 hafta</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">Past</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Non do'koni</td>
+                <td style="border:1px solid #333;padding:8px;">O'rta (harorat moduli o'chirish)</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">2 hafta</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">O'rta</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Gul do'koni</td>
+                <td style="border:1px solid #333;padding:8px;">O'rta (yaroqlilik moduli)</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">2 hafta</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">O'rta</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Dorixona</td>
+                <td style="border:1px solid #333;padding:8px;">Yuqori (retsept, litsenziya)</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">1 oy</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">Yuqori</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #333;padding:8px;">Restoran</td>
+                <td style="border:1px solid #333;padding:8px;">Yuqori (oshxona modul)</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">2 oy</td>
+                <td style="border:1px solid #333;padding:8px;text-align:center;">Yuqori</td>
+            </tr>
+        </table>
+    </div>
+
 </body>
 </html>
 
