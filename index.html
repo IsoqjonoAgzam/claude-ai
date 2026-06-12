@@ -699,5 +699,171 @@ if __name__ == '__main__':
         <p>Yuqoridagi kodda Flask ilovasi yaratilgan, ma'lumotlar bazasi ulanishi sozlangan va Blueprint arxitekturasi yordamida modullar ro'yxatdan o'tkazilgan. Blueprint — bu Flask'da katta ilovalarni mantiqiy qismlarga bo'lish uchun ishlatiladigan mexanizm. Har bir modul alohida Blueprint sifatida yaratilgan, bu kodni tashkil etish va kengaytirishni osonlashtiradi.</p>
     </div>
 
+    <!-- Sahifa 21 -->
+    <div class="page">
+        <h2 style="text-align: left; font-weight: bold; font-size: 16px; margin-top: 30px;">3.2 Tizim modullarini ishlab chiqish</h2>
+
+        <p>Tizimning asosiy modullari quyidagilardan iborat: Autentifikatsiya moduli, Mahsulotlar boshqaruvi moduli, Buyurtmalar moduli, Omborxona moduli, Hisobotlar moduli va Foydalanuvchilar boshqaruvi moduli. Har bir modul alohida Flask Blueprint sifatida amalga oshirilgan. Quyida har bir modulning asosiy kodi va ishlash tamoyili batafsil ko'rib chiqiladi.</p>
+
+        <p>Mahsulot modeli (models/product.py):</p>
+
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from app import db
+from datetime import datetime
+
+class Toifa(db.Model):
+    __tablename__ = 'toifalar'
+    id = db.Column(db.Integer, primary_key=True)
+    nomi = db.Column(db.String(100), nullable=False)
+    tavsif = db.Column(db.Text)
+    mahsulotlar = db.relationship('Mahsulot', backref='toifa')
+
+class Mahsulot(db.Model):
+    __tablename__ = 'mahsulotlar'
+    id = db.Column(db.Integer, primary_key=True)
+    nomi = db.Column(db.String(100), nullable=False)
+    toifa_id = db.Column(db.Integer, db.ForeignKey('toifalar.id'))
+    narxi = db.Column(db.Float, nullable=False)
+    qoldiq = db.Column(db.Integer, default=0)
+    saqlash_muddati = db.Column(db.Date, nullable=False)
+    harorat_min = db.Column(db.Float, nullable=False, default=-18)
+    harorat_max = db.Column(db.Float, nullable=False, default=-12)
+    rasm_url = db.Column(db.String(200))
+    yaratilgan_sana = db.Column(db.DateTime, default=datetime.utcnow)
+    faol = db.Column(db.Boolean, default=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nomi': self.nomi,
+            'toifa': self.toifa.nomi if self.toifa else None,
+            'narxi': self.narxi,
+            'qoldiq': self.qoldiq
+        }
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.2-kod. Mahsulot va Toifa modellari</i></p>
+
+        <p>Yuqoridagi kodda SQLAlchemy ORM yordamida Toifa va Mahsulot modellari yaratilgan. Har bir model ma'lumotlar bazasidagi jadvalga mos keladi. db.relationship() metodi jadvallar orasidagi bog'lanishni belgilaydi. to_dict() metodi ob'ektni JSON formatiga aylantirish uchun ishlatiladi — bu API javoblarini shakllantirish uchun zarur.</p>
+
+        <p>Mahsulotlar boshqaruvi marshrutlari (routes/products.py):</p>
+
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from flask import Blueprint, render_template, request, redirect, flash
+from flask_login import login_required
+from models.product import Mahsulot, Toifa
+from app import db
+
+products_bp = Blueprint('products', __name__, url_prefix='/products')
+
+@products_bp.route('/')
+@login_required
+def product_list():
+    """Barcha mahsulotlar ro'yxati"""
+    toifa_id = request.args.get('toifa_id', type=int)
+    search = request.args.get('search', '')
+    
+    query = Mahsulot.query.filter_by(faol=True)
+    if toifa_id:
+        query = query.filter_by(toifa_id=toifa_id)
+    if search:
+        query = query.filter(Mahsulot.nomi.contains(search))
+    
+    mahsulotlar = query.order_by(Mahsulot.nomi).all()
+    toifalar = Toifa.query.all()
+    return render_template('products/list.html',
+                         mahsulotlar=mahsulotlar,
+                         toifalar=toifalar)
+
+@products_bp.route('/add', methods=['GET', 'POST'])
+@login_required
+def add_product():
+    """Yangi mahsulot qo'shish"""
+    if request.method == 'POST':
+        mahsulot = Mahsulot(
+            nomi=request.form['nomi'],
+            toifa_id=request.form['toifa_id'],
+            narxi=float(request.form['narxi']),
+            qoldiq=int(request.form['qoldiq']),
+            saqlash_muddati=request.form['saqlash_muddati'],
+            harorat_min=float(request.form['harorat_min']),
+            harorat_max=float(request.form['harorat_max'])
+        )
+        db.session.add(mahsulot)
+        db.session.commit()
+        flash('Mahsulot muvaffaqiyatli qo\'shildi!', 'success')
+        return redirect('/products')
+    toifalar = Toifa.query.all()
+    return render_template('products/add.html', toifalar=toifalar)
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.3-kod. Mahsulotlar moduli marshrutlari</i></p>
+    </div>
+
+    <!-- Sahifa 22 -->
+    <div class="page">
+        <p>Buyurtmalar moduli tizimning eng muhim qismlaridan biri hisoblanadi. U yangi buyurtmalar yaratish, mavjud buyurtmalar holatini o'zgartirish va buyurtmalar tarixini ko'rish funksiyalarini ta'minlaydi. Quyida buyurtma modeli va asosiy marshrutlari keltirilgan.</p>
+
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from app import db
+from datetime import datetime
+
+class Buyurtma(db.Model):
+    __tablename__ = 'buyurtmalar'
+    id = db.Column(db.Integer, primary_key=True)
+    mijoz_id = db.Column(db.Integer, db.ForeignKey('mijozlar.id'))
+    xodim_id = db.Column(db.Integer, db.ForeignKey('xodimlar.id'))
+    sana = db.Column(db.DateTime, default=datetime.utcnow)
+    umumiy_summa = db.Column(db.Float, nullable=False)
+    holati = db.Column(db.String(20), default='yangi')
+    tolov_usuli = db.Column(db.String(20), nullable=False)
+    
+    tafsilotlar = db.relationship('BuyurtmaTafsilot', backref='buyurtma')
+    mijoz = db.relationship('Mijoz', backref='buyurtmalar')
+
+class BuyurtmaTafsilot(db.Model):
+    __tablename__ = 'buyurtma_tafsilotlari'
+    id = db.Column(db.Integer, primary_key=True)
+    buyurtma_id = db.Column(db.Integer, db.ForeignKey('buyurtmalar.id'))
+    mahsulot_id = db.Column(db.Integer, db.ForeignKey('mahsulotlar.id'))
+    soni = db.Column(db.Integer, nullable=False)
+    narxi = db.Column(db.Float, nullable=False)
+    
+    mahsulot = db.relationship('Mahsulot')
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.4-kod. Buyurtma va BuyurtmaTafsilot modellari</i></p>
+
+        <p>Buyurtma yaratish jarayoni quyidagi bosqichlardan iborat: avval sotuvchi mijozni tanlaydi yoki yangi mijoz qo'shadi, keyin mahsulotlar ro'yxatidan kerakli mahsulotlarni va ularning sonini belgilaydi, tizim avtomatik ravishda umumiy summani hisoblab chiqadi, so'ngra to'lov usuli tanlanadi va buyurtma tasdiqlanadi. Buyurtma tasdiqlangandan so'ng, omborxonadagi tegishli mahsulotlar qoldig'i avtomatik ravishda kamaytiriladi.</p>
+
+        <p>Buyurtmalar moduli shuningdek buyurtmalar tarixini filtrlash imkoniyatini ham taqdim etadi. Foydalanuvchi buyurtmalarni sana oralig'i, holati (yangi, bajarilmoqda, bajarildi, bekor qilindi), mijoz nomi va to'lov usuli bo'yicha filtrlashi mumkin. Bu funksiya boshqaruvchilarga savdo dinamikasini kuzatish va tahlil qilish imkonini beradi.</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;text-align:left;">Buyurtma holati</th>
+                <th style="border:1px solid #000;padding:8px;text-align:left;">Tavsifi</th>
+                <th style="border:1px solid #000;padding:8px;text-align:left;">Keyingi mumkin bo'lgan holat</th>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Yangi</td>
+                <td style="border:1px solid #000;padding:8px;">Buyurtma yaratilgan, hali tasdiqlanmagan</td>
+                <td style="border:1px solid #000;padding:8px;">Bajarilmoqda, Bekor qilindi</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Bajarilmoqda</td>
+                <td style="border:1px solid #000;padding:8px;">Buyurtma qabul qilingan va tayyorlanmoqda</td>
+                <td style="border:1px solid #000;padding:8px;">Bajarildi, Bekor qilindi</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Bajarildi</td>
+                <td style="border:1px solid #000;padding:8px;">Buyurtma muvaffaqiyatli yakunlangan</td>
+                <td style="border:1px solid #000;padding:8px;">—</td>
+            </tr>
+            <tr>
+                <td style="border:1px solid #000;padding:8px;">Bekor qilindi</td>
+                <td style="border:1px solid #000;padding:8px;">Buyurtma bekor qilingan</td>
+                <td style="border:1px solid #000;padding:8px;">—</td>
+            </tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>3.1-jadval. Buyurtma holatlari va o'tish qoidalari</i></p>
+    </div>
+
 </body>
 </html>
