@@ -597,5 +597,107 @@
         <p class="center no-indent" style="font-size:14px;"><i>2.6-jadval. Aktorlar va ularning funksiyalari</i></p>
     </div>
 
+    <!-- Sahifa 19 -->
+    <div class="page">
+        <h1 style="text-align: center; font-weight: bold; font-size: 18px; margin-top: 40px;">III BOB. TIZIMNI DASTURIY TA'MINOT BILAN AMALGA OSHIRISH</h1>
+
+        <h2 style="text-align: left; font-weight: bold; font-size: 16px; margin-top: 30px;">3.1 Dasturlash tillari va texnologiyalarni tanlash</h2>
+
+        <p>Tizimni amalga oshirish bosqichida to'g'ri texnologiyalarni tanlash muhim ahamiyatga ega. Texnologiya tanlashda quyidagi mezonlar hisobga olinadi: loyiha talablariga mosligi, ishlab chiqish tezligi, kutubxonalar va freymvorklar mavjudligi, jamoaning tajribasi, texnologiyaning rivojlanish istiqbollari va hamjamiyat (community) qo'llab-quvvatlashi. Ushbu mezonlar asosida biz quyidagi texnologiya stackini tanladik.</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Qatlam</th>
+                <th style="border:1px solid #000;padding:8px;">Texnologiya</th>
+                <th style="border:1px solid #000;padding:8px;">Versiya</th>
+                <th style="border:1px solid #000;padding:8px;">Maqsad</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Backend</td><td style="border:1px solid #000;padding:8px;">Python</td><td style="border:1px solid #000;padding:8px;">3.11</td><td style="border:1px solid #000;padding:8px;">Asosiy dasturlash tili</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Web framework</td><td style="border:1px solid #000;padding:8px;">Flask</td><td style="border:1px solid #000;padding:8px;">3.0</td><td style="border:1px solid #000;padding:8px;">Veb-ilova freymvorki</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Ma'lumotlar bazasi</td><td style="border:1px solid #000;padding:8px;">SQLite</td><td style="border:1px solid #000;padding:8px;">3.40</td><td style="border:1px solid #000;padding:8px;">Relyatsion MBBT</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">ORM</td><td style="border:1px solid #000;padding:8px;">SQLAlchemy</td><td style="border:1px solid #000;padding:8px;">2.0</td><td style="border:1px solid #000;padding:8px;">Ob'ekt-relyatsion mapping</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Frontend</td><td style="border:1px solid #000;padding:8px;">HTML5/CSS3/JS</td><td style="border:1px solid #000;padding:8px;">-</td><td style="border:1px solid #000;padding:8px;">Foydalanuvchi interfeysi</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">CSS framework</td><td style="border:1px solid #000;padding:8px;">Bootstrap</td><td style="border:1px solid #000;padding:8px;">5.3</td><td style="border:1px solid #000;padding:8px;">Responsive dizayn</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Autentifikatsiya</td><td style="border:1px solid #000;padding:8px;">Flask-Login</td><td style="border:1px solid #000;padding:8px;">0.6</td><td style="border:1px solid #000;padding:8px;">Foydalanuvchi sessiyalari</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Shifrlash</td><td style="border:1px solid #000;padding:8px;">Werkzeug</td><td style="border:1px solid #000;padding:8px;">3.0</td><td style="border:1px solid #000;padding:8px;">Parol xeshlash</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>3.1-jadval. Tizimda ishlatiladigan texnologiyalar</i></p>
+
+        <p>Python dasturlash tili tanlashning asosiy sabablari: sodda va o'qilishi oson sintaksis, katta kutubxonalar ekotizimi, Flask kabi yengil freymvorklarning mavjudligi, tez prototiplash imkoniyati. Python 2023-yilda TIOBE indeksida birinchi o'rinni egallagan eng mashhur dasturlash tillaridan biri hisoblanadi.</p>
+
+        <p>Flask mikro-freymvorki tanlashning sababi — u minimal konfiguratsiya bilan ishga tushirilishi mumkin va kerakli funksionallikni plaginlar orqali kengaytirish oson. Django kabi to'liq stack freymvorklardan farqli o'laroq, Flask ishlab chiquvchiga ko'proq erkinlik beradi va kichik-o'rta loyihalar uchun idealdir.</p>
+    </div>
+
+    <!-- Sahifa 20 -->
+    <div class="page">
+        <p>Loyihaning asosiy fayl strukturasi quyidagicha tashkil etilgan:</p>
+
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+muzqaymoq_app/
+├── app.py                  # Asosiy ilova fayli
+├── config.py               # Sozlamalar
+├── models/
+│   ├── __init__.py
+│   ├── product.py          # Mahsulot modeli
+│   ├── order.py            # Buyurtma modeli
+│   ├── user.py             # Foydalanuvchi modeli
+│   └── customer.py         # Mijoz modeli
+├── routes/
+│   ├── __init__.py
+│   ├── auth.py             # Autentifikatsiya
+│   ├── products.py         # Mahsulotlar API
+│   ├── orders.py           # Buyurtmalar API
+│   └── reports.py          # Hisobotlar API
+├── templates/
+│   ├── base.html           # Asosiy shablon
+│   ├── login.html          # Kirish sahifasi
+│   ├── dashboard.html      # Bosh sahifa
+│   └── products/
+│       ├── list.html
+│       └── add.html
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── img/
+└── database.db             # SQLite bazasi
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.1-rasm. Loyihaning fayl strukturasi</i></p>
+
+        <p>Ilovaning asosiy fayli (app.py) quyidagicha ko'rinishga ega:</p>
+
+        <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'muzqaymoq-secret-key'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.login'
+
+# Blueprint'larni ro'yxatdan o'tkazish
+from routes.auth import auth_bp
+from routes.products import products_bp
+from routes.orders import orders_bp
+from routes.reports import reports_bp
+
+app.register_blueprint(auth_bp)
+app.register_blueprint(products_bp)
+app.register_blueprint(orders_bp)
+app.register_blueprint(reports_bp)
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.1-kod. Ilovaning asosiy konfiguratsiya fayli (app.py)</i></p>
+
+        <p>Yuqoridagi kodda Flask ilovasi yaratilgan, ma'lumotlar bazasi ulanishi sozlangan va Blueprint arxitekturasi yordamida modullar ro'yxatdan o'tkazilgan. Blueprint — bu Flask'da katta ilovalarni mantiqiy qismlarga bo'lish uchun ishlatiladigan mexanizm. Har bir modul alohida Blueprint sifatida yaratilgan, bu kodni tashkil etish va kengaytirishni osonlashtiradi.</p>
+    </div>
+
 </body>
 </html>
