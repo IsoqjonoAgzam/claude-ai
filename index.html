@@ -1591,5 +1591,105 @@ def test_narx_validatsiya(client):
         <p>Client-server arxitekturasida mijoz (client) — bu foydalanuvchi tomonidagi dastur (brauzer), server esa so'rovlarni qabul qilib, qayta ishlaydigan va javob qaytaradigan dastur. HTTP protokoli orqali mijoz serverga so'rov yuboradi (GET, POST, PUT, DELETE), server esa tegishli javobni qaytaradi. REST (Representational State Transfer) arxitektura uslubi zamonaviy veb-API larni yaratishda eng keng qo'llaniladigan yondashuv hisoblanadi. REST tamoyillariga ko'ra har bir resurs unikal URL manziliga ega va standart HTTP metodlari orqali boshqariladi.</p>
     </div>
 
+    <!-- Sahifa 33 - Ma'lumotlar bazasi normalizatsiyasi -->
+    <div class="page">
+        <p style="text-align:left;text-indent:0;"><b>2.2.1 Ma'lumotlar bazasi normalizatsiyasi va SQL so'rovlari</b></p>
+
+        <p>Ma'lumotlar bazasini normalizatsiya qilish — bu ma'lumotlar takrorlanishini (redundancy) bartaraf etish va anomaliyalarni oldini olish maqsadida jadvallarni optimal tuzilishga keltirish jarayoni. Normalizatsiya jarayoni bir necha bosqichdan (normal formalardan) iborat. Birinchi normal forma (1NF) — har bir ustunda faqat atomik (bo'linmas) qiymatlar saqlanishi kerak. Ikkinchi normal forma (2NF) — barcha noprimary atributlar to'liq primary keyga funksional bog'liq bo'lishi kerak. Uchinchi normal forma (3NF) — tranzitiv bog'liqliklar bartaraf etilishi kerak.</p>
+
+        <p>Bizning tizimda normalizatsiya jarayonini Mahsulotlar jadvali misolida ko'rib chiqamiz. Boshlang'ich holatda mahsulot nomi, narxi, toifa nomi, toifa tavsifi — hammasi bitta jadvalda saqlanishi mumkin edi. Lekin bu holda toifa nomi va tavsifi har bir mahsulot uchun takrorlanadi. Normalizatsiya natijasida alohida Toifalar jadvali yaratildi va Mahsulotlar jadvalida faqat toifa_id (tashqi kalit) saqlanadi.</p>
+
+        <p>Quyida tizimning asosiy SQL so'rovlari keltirilgan:</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+-- Jadvallarni yaratish
+CREATE TABLE toifalar (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nomi VARCHAR(100) NOT NULL,
+    tavsif TEXT,
+    yaratilgan_sana DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE mahsulotlar (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nomi VARCHAR(100) NOT NULL,
+    toifa_id INTEGER REFERENCES toifalar(id),
+    narxi DECIMAL(10,2) NOT NULL,
+    qoldiq INTEGER DEFAULT 0,
+    saqlash_muddati DATE NOT NULL,
+    harorat_min FLOAT DEFAULT -18,
+    harorat_max FLOAT DEFAULT -12,
+    rasm_url VARCHAR(200),
+    faol BOOLEAN DEFAULT 1,
+    yaratilgan_sana DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE mijozlar (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ism VARCHAR(100) NOT NULL,
+    telefon VARCHAR(20),
+    email VARCHAR(100),
+    bonus_ball INTEGER DEFAULT 0,
+    yaratilgan_sana DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE buyurtmalar (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    mijoz_id INTEGER REFERENCES mijozlar(id),
+    xodim_id INTEGER REFERENCES foydalanuvchilar(id),
+    sana DATETIME DEFAULT CURRENT_TIMESTAMP,
+    umumiy_summa DECIMAL(12,2) NOT NULL,
+    holati VARCHAR(20) DEFAULT 'yangi',
+    tolov_usuli VARCHAR(20) NOT NULL
+);
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>2.1-kod. Ma'lumotlar bazasi jadvallarini yaratish SQL kodi</i></p>
+    </div>
+
+    <!-- Sahifa 34 - SQL so'rovlar davomi va indekslar -->
+    <div class="page">
+        <p>Tizimda ishlatiladigan asosiy SQL so'rovlari quyidagilardan iborat:</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+-- Eng ko'p sotilgan mahsulotlar (TOP 10)
+SELECT m.nomi, SUM(bt.soni) as jami_sotilgan,
+       SUM(bt.soni * bt.narxi) as jami_summa
+FROM buyurtma_tafsilotlari bt
+JOIN mahsulotlar m ON bt.mahsulot_id = m.id
+JOIN buyurtmalar b ON bt.buyurtma_id = b.id
+WHERE b.holati = 'bajarildi'
+  AND b.sana >= DATE('now', '-30 days')
+GROUP BY m.id
+ORDER BY jami_sotilgan DESC
+LIMIT 10;
+
+-- Kunlik savdo statistikasi
+SELECT DATE(sana) as kun,
+       COUNT(*) as buyurtmalar_soni,
+       SUM(umumiy_summa) as kunlik_savdo,
+       AVG(umumiy_summa) as ortacha_chek
+FROM buyurtmalar
+WHERE holati = 'bajarildi'
+  AND sana >= DATE('now', '-7 days')
+GROUP BY DATE(sana)
+ORDER BY kun DESC;
+
+-- Omborxonada qoldig'i kam mahsulotlar
+SELECT m.nomi, m.qoldiq, t.nomi as toifa,
+       m.saqlash_muddati
+FROM mahsulotlar m
+JOIN toifalar t ON m.toifa_id = t.id
+WHERE m.qoldiq < 10 AND m.faol = 1
+ORDER BY m.qoldiq ASC;
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>2.2-kod. Asosiy SQL so'rovlar namunalari</i></p>
+
+        <p>Ma'lumotlar bazasi unumdorligini oshirish uchun indekslar yaratildi. Indekslar tez-tez ishlatiladigan so'rovlarning bajarilish vaqtini sezilarli darajada qisqartiradi. Quyidagi indekslar yaratilgan: mahsulotlar jadvalida toifa_id va nomi ustunlari uchun, buyurtmalar jadvalida sana va holati ustunlari uchun, mijozlar jadvalida telefon ustuni uchun.</p>
+
+        <p>Ma'lumotlar yaxlitligini ta'minlash uchun quyidagi cheklovlar (constraints) o'rnatilgan. PRIMARY KEY — har bir jadvalda unikal identifikator. FOREIGN KEY — jadvallar orasidagi bog'lanishlarni nazorat qilish. NOT NULL — majburiy maydonlarni belgilash. DEFAULT — standart qiymatlarni o'rnatish. CHECK — ma'lumotlar qiymatlarini tekshirish (masalan, narxi > 0). UNIQUE — takrorlanmas qiymatlarni ta'minlash (masalan, foydalanuvchi login).</p>
+
+        <p>Tizimda ma'lumotlarni zaxiralash (backup) mexanizmi ham joriy etilgan. SQLite bazasi bitta fayldan iborat bo'lganligi sababli, zaxiralash jarayoni oddiy — fayl nusxasi olinadi. Tizim har kuni yarim tunda avtomatik ravishda ma'lumotlar bazasining zaxira nusxasini yaratadi. Zaxira nusxalari 30 kun davomida saqlanadi, so'ngra eski nusxalari avtomatik o'chiriladi. Bu mexanizm ma'lumotlar yo'qolishi xavfini minimallashtirishga yordam beradi.</p>
+    </div>
+
 </body>
 </html>
