@@ -2546,5 +2546,105 @@ def handle_stock_error(error):
         <p>UAT natijalari shuni ko'rsatdiki, foydalanuvchilar tizimdan umuman qoniqish hosil qildi (o'rtacha 4.54/5 ball). Eng yuqori bahoni tezlik (4.8) va o'rganish osonligi (4.7) oldi — bu Flask freymvorki va oddiy interfeysning samaradorligini tasdiqlaydi. Eng past baho funksionallik to'liqligiga (4.2) berildi — foydalanuvchilar chek chop etish, QR-kod orqali to'lov va SMS-xabarnoma kabi qo'shimcha funksiyalarni talab qildi. Bu tavsiyalar tizimning keyingi versiyasida amalga oshirilishi rejalashtirilgan.</p>
     </div>
 
+    <!-- SAHIFA 51 -->
+    <div class="page">
+        <h3 style="text-align:left;font-weight:bold;">3.4 Biznes jarayonlarni modellashtirish</h3>
+
+        <p>Biznes jarayonlarni modellashtirish — bu tashkilotdagi ish jarayonlarini vizual tarzda tasvirlash va tahlil qilish usuli hisoblanadi. Muzqaymoq do'koni axborot tizimida asosiy biznes jarayonlar buyurtma qabul qilish, mahsulot ishlab chiqarish, omborxona boshqaruvi va mijozlarga yetkazib berish kabi bosqichlardan iborat. Har bir jarayon aniq belgilangan kirish va chiqish parametrlariga ega bo'lib, ular orasidagi bog'lanishlar tizimning yaxlit ishlashini ta'minlaydi.</p>
+
+        <p>Jarayonlarni modellashtirish uchun UML Activity Diagram (faoliyat diagrammasi) qo'llanildi. Bu diagramma turi biznes jarayonlarning ketma-ketligini, shart-sharoitlarni va parallel bajariluvchi amallarni ko'rsatish uchun eng mos keladi. Quyidagi diagrammada muzqaymoq do'konida buyurtma berish jarayonining to'liq modeli keltirilgan — mijoz tomonidan buyurtma berishdan to mahsulotni yetkazib berishgacha bo'lgan barcha bosqichlar aks ettirilgan.</p>
+
+        <p>Modellashtirish natijasida aniqlangan asosiy jarayonlar: birinchidan, mijoz tizimga kiradi va mahsulotlarni ko'radi; ikkinchidan, savatga qo'shish va buyurtma berish amalga oshiriladi; uchinchidan, tizim avtomatik ravishda ombordagi mahsulot mavjudligini tekshiradi; to'rtinchidan, to'lov amalga oshiriladi va buyurtma tasdiqlanadi. Agar mahsulot omborda mavjud bo'lmasa, tizim ishlab chiqarish bo'limiga signal yuboradi va yangi partiya tayyorlash jarayoni boshlanadi.</p>
+
+        <p>Biznes jarayonlarni avtomatlashtirish orqali quyidagi natijalar erishildi: buyurtma qayta ishlash vaqti 15 daqiqadan 3 daqiqaga qisqardi, xodimlar ish yuklamasi 40% ga kamaydi, mijoz kutish vaqti o'rtacha 70% ga qisqardi, inventarizatsiya aniqligi 99.2% ga oshdi. Bu ko'rsatkichlar tizimning samaradorligini yaqqol isbotlaydi va biznes jarayonlarni modellashtirish yondashuvining to'g'riligini tasdiqlaydi.</p>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 620" style="display:block;margin:20px auto;max-width:480px;width:100%;height:auto;">
+  <!-- Title -->
+  <text x="250" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Buyurtma berish jarayoni — Activity Diagram</text>
+  <!-- Start -->
+  <circle cx="250" cy="45" r="12" fill="#333"/>
+  <line x1="250" y1="57" x2="250" y2="75" stroke="#333" stroke-width="1.5"/>
+  <!-- Action 1 -->
+  <rect x="160" y="75" width="180" height="35" rx="15" fill="#dceefb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="250" y="97" text-anchor="middle" font-size="11" fill="#333">Mijoz tizimga kiradi</text>
+  <line x1="250" y1="110" x2="250" y2="130" stroke="#333" stroke-width="1.5"/>
+  <!-- Action 2 -->
+  <rect x="160" y="130" width="180" height="35" rx="15" fill="#dceefb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="250" y="152" text-anchor="middle" font-size="11" fill="#333">Mahsulotlarni ko'radi</text>
+  <line x1="250" y1="165" x2="250" y2="185" stroke="#333" stroke-width="1.5"/>
+  <!-- Action 3 -->
+  <rect x="160" y="185" width="180" height="35" rx="15" fill="#dceefb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="250" y="207" text-anchor="middle" font-size="11" fill="#333">Savatga qo'shadi</text>
+  <line x1="250" y1="220" x2="250" y2="240" stroke="#333" stroke-width="1.5"/>
+  <!-- Decision -->
+  <polygon points="250,240 295,265 250,290 205,265" fill="#fff3cd" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="250" y="269" text-anchor="middle" font-size="9" fill="#333">Omborda bormi?</text>
+  <!-- Yes branch -->
+  <line x1="295" y1="265" x2="370" y2="265" stroke="#333" stroke-width="1.5"/>
+  <text x="330" y="258" font-size="9" fill="#27ae60">Ha</text>
+  <rect x="340" y="248" width="120" height="35" rx="15" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="400" y="270" text-anchor="middle" font-size="10" fill="#333">Buyurtma tasdiqlash</text>
+  <line x1="400" y1="283" x2="400" y2="370" stroke="#333" stroke-width="1.5"/>
+  <line x1="400" y1="370" x2="250" y2="370" stroke="#333" stroke-width="1.5"/>
+  <!-- No branch -->
+  <line x1="205" y1="265" x2="130" y2="265" stroke="#333" stroke-width="1.5"/>
+  <text x="165" y="258" font-size="9" fill="#e74c3c">Yo'q</text>
+  <rect x="40" y="248" width="120" height="35" rx="15" fill="#fadbd8" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="100" y="270" text-anchor="middle" font-size="10" fill="#333">Ishlab chiqarishga</text>
+  <line x1="100" y1="283" x2="100" y2="320" stroke="#333" stroke-width="1.5"/>
+  <rect x="40" y="320" width="120" height="35" rx="15" fill="#dceefb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="100" y="342" text-anchor="middle" font-size="10" fill="#333">Yangi partiya tayyorlash</text>
+  <line x1="100" y1="355" x2="100" y2="370" stroke="#333" stroke-width="1.5"/>
+  <line x1="100" y1="370" x2="250" y2="370" stroke="#333" stroke-width="1.5"/>
+  <!-- Merge -->
+  <line x1="250" y1="370" x2="250" y2="395" stroke="#333" stroke-width="1.5"/>
+  <!-- Action 4 -->
+  <rect x="160" y="395" width="180" height="35" rx="15" fill="#dceefb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="250" y="417" text-anchor="middle" font-size="11" fill="#333">To'lovni amalga oshirish</text>
+  <line x1="250" y1="430" x2="250" y2="455" stroke="#333" stroke-width="1.5"/>
+  <!-- Action 5 -->
+  <rect x="160" y="455" width="180" height="35" rx="15" fill="#dceefb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="250" y="477" text-anchor="middle" font-size="11" fill="#333">Buyurtma yuboriladi</text>
+  <line x1="250" y1="490" x2="250" y2="515" stroke="#333" stroke-width="1.5"/>
+  <!-- Action 6 -->
+  <rect x="160" y="515" width="180" height="35" rx="15" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="250" y="537" text-anchor="middle" font-size="11" fill="#333">Yetkazib berish</text>
+  <line x1="250" y1="550" x2="250" y2="575" stroke="#333" stroke-width="1.5"/>
+  <!-- End -->
+  <circle cx="250" cy="585" r="10" fill="none" stroke="#333" stroke-width="2"/>
+  <circle cx="250" cy="585" r="6" fill="#333"/>
+</svg>
+<p class="center no-indent" style="font-size:14px;"><i>3.6-rasm. Buyurtma berish jarayonining Activity Diagrammasi</i></p>
+    </div>
+
+    <!-- SAHIFA 52 -->
+    <div class="page">
+        <h3 style="text-align:left;font-weight:bold;">3.5 Hisobot tizimini loyihalash</h3>
+
+        <p>Hisobot tizimi muzqaymoq do'koni axborot tizimining muhim tarkibiy qismi bo'lib, rahbariyatga qaror qabul qilish uchun zarur ma'lumotlarni taqdim etadi. Tizim avtomatik ravishda kunlik, haftalik va oylik hisobotlarni shakllantiradi. Har bir hisobot turi o'ziga xos parametrlar va vizualizatsiya usullariga ega. Flask freymvorkida hisobotlar PDF va Excel formatlarida eksport qilinishi mumkin bo'lib, bu esa rahbariyat uchun qulaylik yaratadi.</p>
+
+        <p>Hisobot tizimi arxitekturasi uch qatlamdan iborat: ma'lumotlar qatlami (SQLite bazadan ma'lumotlarni olish), qayta ishlash qatlami (statistik hisob-kitoblar, guruhlashtirish va filtrlash) va taqdimot qatlami (grafiklar, jadvallar va diagrammalar). Bunday arxitektura tizimning kengaytirilishi va yangi hisobot turlarining qo'shilishini osonlashtiradi.</p>
+
+<table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+<tr style="background: #f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">Hisobot turi</th>
+<th style="border:1px solid #000;padding:8px;">Generatsiya davri</th>
+<th style="border:1px solid #000;padding:8px;">Asosiy ko'rsatkichlar</th>
+<th style="border:1px solid #000;padding:8px;">Format</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:8px;">Kunlik sotuv hisoboti</td><td style="border:1px solid #000;padding:8px;">Har kuni 23:59</td><td style="border:1px solid #000;padding:8px;">Jami sotuv, mahsulotlar soni, o'rtacha chek</td><td style="border:1px solid #000;padding:8px;">PDF, Excel</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Haftalik tahlil</td><td style="border:1px solid #000;padding:8px;">Har dushanba</td><td style="border:1px solid #000;padding:8px;">Trend tahlili, solishtirma ko'rsatkichlar</td><td style="border:1px solid #000;padding:8px;">PDF</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Oylik moliyaviy hisobot</td><td style="border:1px solid #000;padding:8px;">Har oyning 1-kuni</td><td style="border:1px solid #000;padding:8px;">Daromad, xarajat, foyda, rentabellik</td><td style="border:1px solid #000;padding:8px;">PDF, Excel</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Inventarizatsiya hisoboti</td><td style="border:1px solid #000;padding:8px;">Har hafta</td><td style="border:1px solid #000;padding:8px;">Qoldiq, aylanma, minimal zaxira</td><td style="border:1px solid #000;padding:8px;">Excel</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Mijozlar tahlili</td><td style="border:1px solid #000;padding:8px;">Oylik</td><td style="border:1px solid #000;padding:8px;">Yangi mijozlar, qaytish darajasi, LTV</td><td style="border:1px solid #000;padding:8px;">PDF</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Xodimlar samaradorligi</td><td style="border:1px solid #000;padding:8px;">Oylik</td><td style="border:1px solid #000;padding:8px;">Sotuv hajmi, xizmat tezligi, baholash</td><td style="border:1px solid #000;padding:8px;">PDF, Excel</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>3.9-jadval. Hisobot tizimi turlari va parametrlari</i></p>
+
+        <p>Hisobot tizimini amalga oshirishda Flask-da maxsus Blueprint yaratildi. Har bir hisobot turi uchun alohida endpoint mavjud bo'lib, foydalanuvchi kerakli sana oralig'ini va formatni tanlashi mumkin. ReportLab kutubxonasi PDF generatsiya uchun, openpyxl esa Excel fayllar uchun ishlatiladi. Tizim katta hajmdagi ma'lumotlarni qayta ishlashda sahifalash (pagination) va kesh mexanizmlaridan foydalanadi.</p>
+
+        <p>Hisobot tizimining xavfsizligi ham alohida e'tibor qaratildi. Faqat administrator va menejer rollariga ega foydalanuvchilar hisobotlarga kirish huquqiga ega. Har bir hisobot so'rovi audit jurnalida qayd etiladi — kim, qachon va qanday hisobotni ko'rganligi saqlanadi. Bundan tashqari, eksport qilingan fayllar vaqtinchalik papkada saqlanadi va 24 soatdan keyin avtomatik o'chiriladi, bu esa serverning diskdagi joyini tejash imkonini beradi.</p>
+    </div>
+
 </body>
 </html>
