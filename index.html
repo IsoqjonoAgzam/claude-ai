@@ -1268,5 +1268,129 @@ def daily_report():
         <p>Interfeys dizaynida quyidagi tamoyillarga amal qilindi: oddiylik va intuitiv tushunarlilik, minimal bosqichlar soni (har bir amal 3 bosqichdan ko'p talab qilmasligi kerak), ranglar orqali vizual signal berish (yashil — muvaffaqiyat, qizil — xatolik, sariq — ogohlantirish) va responsive dizayn. Bootstrap 5 grid tizimi interfeys elementlarini turli ekran o'lchamlariga moslashtirishga imkon beradi.</p>
     </div>
 
+    <div class="page">
+        <p><b>Autentifikatsiya moduli</b></p>
+
+        <p>Autentifikatsiya moduli tizim xavfsizligining asosiy elementi hisoblanadi. U foydalanuvchilarni tizimga kirish va chiqish, sessiyalarni boshqarish hamda parollarni xavfsiz saqlash funksiyalarini ta'minlaydi. Tizimda Flask-Login kutubxonasi yordamida sessiya asosidagi autentifikatsiya amalga oshirilgan. Parollar Werkzeug kutubxonasining generate_password_hash va check_password_hash funksiyalari yordamida BCrypt algoritmi bilan xeshlanadi.</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import db
+
+class Foydalanuvchi(UserMixin, db.Model):
+    __tablename__ = 'foydalanuvchilar'
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(80), unique=True, nullable=False)
+    parol_hash = db.Column(db.String(200), nullable=False)
+    ism = db.Column(db.String(100), nullable=False)
+    familiya = db.Column(db.String(100), nullable=False)
+    rol = db.Column(db.String(20), nullable=False, default='sotuvchi')
+    faol = db.Column(db.Boolean, default=True)
+    yaratilgan_sana = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def set_password(self, parol):
+        """Parolni xeshlash"""
+        self.parol_hash = generate_password_hash(parol, method='pbkdf2:sha256')
+    
+    def check_password(self, parol):
+        """Parolni tekshirish"""
+        return check_password_hash(self.parol_hash, parol)
+    
+    @property
+    def is_admin(self):
+        return self.rol == 'admin'
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.6-kod. Foydalanuvchi modeli va parol xeshlash</i></p>
+
+        <p>Kirish (login) jarayoni quyidagicha amalga oshadi: foydalanuvchi login va parolini kiritadi, tizim ma'lumotlar bazasidan foydalanuvchini qidiradi, parolni xesh bilan solishtiradi va muvaffaqiyatli bo'lsa sessiya yaratadi.</p>
+
+<pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 13px; overflow-x: auto; border: 1px solid #ddd;">
+from flask import Blueprint, render_template, request, redirect, flash
+from flask_login import login_user, logout_user, login_required
+from models.user import Foydalanuvchi
+
+auth_bp = Blueprint('auth', __name__)
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        login_name = request.form['login']
+        parol = request.form['parol']
+        
+        user = Foydalanuvchi.query.filter_by(
+            login=login_name, faol=True
+        ).first()
+        
+        if user and user.check_password(parol):
+            login_user(user)
+            flash('Tizimga muvaffaqiyatli kirdingiz!', 'success')
+            return redirect('/dashboard')
+        else:
+            flash('Login yoki parol noto\'g\'ri!', 'danger')
+    
+    return render_template('login.html')
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/login')
+</pre>
+        <p class="center no-indent" style="font-size:14px;"><i>3.7-kod. Autentifikatsiya marshrutlari</i></p>
+    </div>
+
+    <div class="page">
+        <p><b>Xavfsizlik choralari va login sahifasi</b></p>
+
+        <p>Tizimda quyidagi xavfsizlik choralari amalga oshirilgan:</p>
+
+        <table style="width:100%; border-collapse: collapse; font-size: 14px; margin: 15px 0;">
+            <tr style="background: #f0f0f0;">
+                <th style="border:1px solid #000;padding:8px;">Xavf turi</th>
+                <th style="border:1px solid #000;padding:8px;">Himoya chorasi</th>
+                <th style="border:1px solid #000;padding:8px;">Amalga oshirish</th>
+            </tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Parol o'g'irlash</td><td style="border:1px solid #000;padding:8px;">Parollarni xeshlash</td><td style="border:1px solid #000;padding:8px;">BCrypt/PBKDF2 algoritmi</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">SQL Injection</td><td style="border:1px solid #000;padding:8px;">Parametrlangan so'rovlar</td><td style="border:1px solid #000;padding:8px;">SQLAlchemy ORM</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">XSS hujumi</td><td style="border:1px solid #000;padding:8px;">Kiritilgan ma'lumotlarni tozalash</td><td style="border:1px solid #000;padding:8px;">Jinja2 auto-escaping</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">CSRF hujumi</td><td style="border:1px solid #000;padding:8px;">CSRF token</td><td style="border:1px solid #000;padding:8px;">Flask-WTF</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Ruxsatsiz kirish</td><td style="border:1px solid #000;padding:8px;">Rolga asoslangan kirish nazorati</td><td style="border:1px solid #000;padding:8px;">Flask-Login dekoratorlari</td></tr>
+            <tr><td style="border:1px solid #000;padding:8px;">Sessiya o'g'irlash</td><td style="border:1px solid #000;padding:8px;">Xavfsiz cookie sozlamalari</td><td style="border:1px solid #000;padding:8px;">SECRET_KEY, HttpOnly</td></tr>
+        </table>
+        <p class="center no-indent" style="font-size:14px;"><i>3.3-jadval. Tizimning xavfsizlik choralari</i></p>
+
+        <p>Quyida tizimning kirish sahifasi (login page) ko'rinishi keltirilgan:</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <svg width="500" height="350" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="500" height="350" fill="#ecf0f1"/>
+                <!-- Login card -->
+                <rect x="100" y="30" width="300" height="290" rx="10" fill="white" stroke="#bdc3c7" stroke-width="1"/>
+                <!-- Title -->
+                <text x="250" y="70" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">Tizimga kirish</text>
+                <!-- Icon -->
+                <circle cx="250" cy="100" r="18" fill="#3498db" opacity="0.2"/>
+                <text x="250" y="106" font-size="18" text-anchor="middle" fill="#3498db">&#x1F512;</text>
+                <!-- Login input -->
+                <rect x="130" y="125" width="240" height="35" rx="5" fill="#f8f9fa" stroke="#ced4da"/>
+                <text x="145" y="147" font-size="12" fill="#6c757d">Login</text>
+                <!-- Password input -->
+                <rect x="130" y="175" width="240" height="35" rx="5" fill="#f8f9fa" stroke="#ced4da"/>
+                <text x="145" y="197" font-size="12" fill="#6c757d">Parol</text>
+                <!-- Remember me -->
+                <rect x="130" y="225" width="12" height="12" rx="2" fill="white" stroke="#ced4da"/>
+                <text x="150" y="235" font-size="11" fill="#495057">Meni eslab qol</text>
+                <!-- Login button -->
+                <rect x="130" y="255" width="240" height="40" rx="5" fill="#3498db"/>
+                <text x="250" y="280" font-size="14" fill="white" text-anchor="middle" font-weight="bold">KIRISH</text>
+            </svg>
+            <p class="center no-indent" style="font-size:14px;"><i>3.3-rasm. Tizimga kirish sahifasi</i></p>
+        </div>
+
+        <p>Login sahifasida foydalanuvchi o'z login va parolini kiritadi. Agar 3 martadan ortiq noto'g'ri parol kiritilsa, tizim 15 daqiqaga bloklanadi. Bu brute-force hujumlardan himoya qiladi. Shuningdek, "Meni eslab qol" funksiyasi orqali foydalanuvchi har safar login qilmasdan tizimga kirishi mumkin — bu holda cookie 30 kun davomida saqlanadi.</p>
+    </div>
+
 </body>
 </html>
