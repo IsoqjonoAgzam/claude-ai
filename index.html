@@ -2708,5 +2708,119 @@ def handle_stock_error(error):
 <p class="center no-indent" style="font-size:14px;"><i>3.11-jadval. Rivojlantirish rejalari</i></p>
     </div>
 
+    <!-- SAHIFA 55 - Sovuq zanjir nazorati moduli -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.2.6 Sovuq zanjir nazorati moduli</p>
+
+        <p>Sovuq zanjir (cold chain) - bu mahsulotni ishlab chiqarish joyidan iste'molchigacha bo'lgan barcha bosqichlarda belgilangan harorat rejimini uzluksiz ta'minlash tizimi hisoblanadi. Muzqaymoq sanoatida sovuq zanjir tushunchasi alohida ahamiyatga ega, chunki mahsulot sifati bevosita saqlash sharoitlariga bog'liq. Harorat rejimining buzilishi nafaqat mahsulot sifatining pasayishiga, balki iste'molchilar sog'lig'iga ham salbiy ta'sir ko'rsatishi mumkin. Shu sababli, zamonaviy boshqaruv tizimida sovuq zanjir nazorati moduli eng muhim komponentlardan biri sifatida ishlab chiqilgan.</p>
+
+        <p>Harorat nazorati muzqaymoq mahsulotlari uchun eng kritik parametr hisoblanadi. Xalqaro standartlarga ko'ra, muzqaymoq -18°C dan -12°C oralig'ida saqlanishi kerak. Agar harorat -12°C dan yuqoriga ko'tarilsa, mahsulot tarkibidagi muz kristallari erib, qayta muzlashda mahsulot tuzilishi buziladi. -18°C dan pastga tushsa esa, ortiqcha energiya sarflanadi va mahsulot haddan tashqari qurib qolishi mumkin. Tizimimiz har 30 soniyada harorat ko'rsatkichlarini o'lchab, ma'lumotlar bazasiga yozib boradi va statistik tahlil uchun asos yaratadi.</p>
+
+        <p>IoT (Internet of Things) sensorlar bilan integratsiya tizimning zamonaviy texnologiyalar bilan uyg'unligini ta'minlaydi. DHT22 va DS18B20 tipidagi raqamli harorat sensorlari muzlatgichlar ichiga o'rnatiladi va Wi-Fi orqali markaziy serverga ma'lumot uzatadi. ESP32 mikrokontroller asosida qurilgan sensor tugunlari kam energiya sarflaydi va ishonchli aloqa ta'minlaydi. MQTT protokoli orqali real vaqt rejimida ma'lumot almashish amalga oshiriladi, bu esa tizimning tezkor ishlashini ta'minlaydi.</p>
+
+        <p>Ogohlantirish tizimi harorat me'yordan chetga chiqqanda darhol xodimlarni xabardor qiladi. Tizim uch bosqichli ogohlantirish mexanizmini qo'llaydi: sariq daraja (-12°C dan -10°C, SMS xabar), qizil daraja (-10°C dan yuqori, telefon qo'ng'irog'i va SMS), favqulodda daraja (0°C dan yuqori, barcha xodimlarga signal va avtomatik zaxira muzlatgichni yoqish). Bu yondashuv mahsulot yo'qotilish xavfini minimallashtirib, tezkor reaktsiyani ta'minlaydi.</p>
+
+<pre style="background-color:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:15px;font-family:'Courier New',monospace;font-size:14px;overflow-x:auto;">
+def check_temperature(mahsulot_id, joriy_harorat):
+    mahsulot = Mahsulot.query.get(mahsulot_id)
+    if joriy_harorat > mahsulot.harorat_max:
+        send_alert(f"OGOHLANTIRISH: {mahsulot.nomi} harorati {joriy_harorat}°C - norma oshirildi!")
+        return False
+    return True
+</pre>
+    </div>
+
+    <!-- SAHIFA 56 - Mijozlar sodiqlik dasturi -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.2.7 Mijozlar boshqaruvi va sodiqlik dasturi</p>
+
+        <p>CRM (Customer Relationship Management) kontseptsiyasi zamonaviy biznesda mijozlar bilan munosabatlarni samarali boshqarish uchun qo'llaniladigan strategik yondashuv hisoblanadi. Muzqaymoq do'koni kontekstida CRM tizimi mijozlarning xarid tarixini, afzalliklarini, aloqa ma'lumotlarini va sodiqlik darajasini yagona platformada boshqarish imkonini beradi. Bu ma'lumotlar asosida personalizatsiyalashgan marketing kampaniyalari, maqsadli chegirmalar va maxsus takliflar ishlab chiqiladi. Tizim har bir mijoz uchun individual profil yaratadi va uning xarid xulq-atvorini tahlil qiladi.</p>
+
+        <p>Bonus tizimi mijozlarni rag'batlantirish va sodiqlikni oshirish uchun asosiy vosita sifatida ishlab chiqilgan. Har 10,000 so'mlik xaridga 100 bonus ball hisoblanadi. To'plangan bonus ballari keyingi xaridlarda to'lov vositasi sifatida ishlatilishi mumkin (1 ball = 1 so'm). Bonus ballari hisoblanishida yaxlitlash pastga amalga oshiriladi, ya'ni 9,999 so'mlik xarid uchun bonus hisoblanmaydi. Tug'ilgan kunda ikki barobar bonus, bayram kunlarida 50% qo'shimcha bonus kabi maxsus aksiyalar tizim tomonidan avtomatik qo'llaniladi.</p>
+
+        <p>Chegirmalar avtomatik hisob-kitobi tizim tomonidan mijozning sodiqlik darajasiga qarab amalga oshiriladi. Tizim to'rtta daraja - Bronza, Kumush, Oltin va Platinum - asosida ishlaydi. Har bir daraja uchun minimal xarid hajmi, foizli chegirma va bonus koeffitsienti belgilangan. Daraja o'tish avtomatik ravishda amalga oshiriladi: mijozning umumiy xarid summasi keyingi daraja chegarasiga yetganda, tizim avtomatik ravishda uning statusini yangilaydi va yangi imtiyozlarni qo'llaydi. Chegirma har bir xaridda avtomatik hisoblanib, chekda ko'rsatiladi.</p>
+
+        <p>Mijoz tahlili moduli to'plangan ma'lumotlar asosida chuqur analitik hisobotlar tayyorlaydi. RFM (Recency, Frequency, Monetary) tahlili orqali mijozlar segmentlarga ajratiladi: sodiq mijozlar, yo'qolib borayotgan mijozlar, bir martalik xaridorlar va potentsial VIP mijozlar. Bu segmentatsiya asosida maqsadli marketing strategiyalari ishlab chiqiladi. Cohort tahlili orqali yangi mijozlarning saqlanish darajasi (retention rate) kuzatiladi va mijoz jalb qilish kanallarining samaradorligi baholanadi.</p>
+
+<pre style="background-color:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:15px;font-family:'Courier New',monospace;font-size:14px;overflow-x:auto;">
+def add_bonus(mijoz_id, summa):
+    mijoz = Mijoz.query.get(mijoz_id)
+    bonus = int(summa / 10000) * 100
+    mijoz.bonus_ball += bonus
+    db.session.commit()
+    return bonus
+</pre>
+
+        <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+<tr style="background-color:#f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">Daraja</th>
+<th style="border:1px solid #000;padding:8px;">Minimal xarid</th>
+<th style="border:1px solid #000;padding:8px;">Chegirma</th>
+<th style="border:1px solid #000;padding:8px;">Bonus koeff.</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:8px;">Bronza</td><td style="border:1px solid #000;padding:8px;">0</td><td style="border:1px solid #000;padding:8px;">0%</td><td style="border:1px solid #000;padding:8px;">x1</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Kumush</td><td style="border:1px solid #000;padding:8px;">500,000</td><td style="border:1px solid #000;padding:8px;">3%</td><td style="border:1px solid #000;padding:8px;">x1.5</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Oltin</td><td style="border:1px solid #000;padding:8px;">2,000,000</td><td style="border:1px solid #000;padding:8px;">5%</td><td style="border:1px solid #000;padding:8px;">x2</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Platinum</td><td style="border:1px solid #000;padding:8px;">5,000,000</td><td style="border:1px solid #000;padding:8px;">10%</td><td style="border:1px solid #000;padding:8px;">x3</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>3.12-jadval. Sodiqlik dasturi darajalari</i></p>
+    </div>
+
+    <!-- SAHIFA 57 - Ma'lumotlar xavfsizligi va GDPR -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.2.8 Shaxsiy ma'lumotlar himoyasi</p>
+
+        <p>O'zbekiston Respublikasining "Shaxsiy ma'lumotlar to'g'risida"gi qonuni (2019-yil 2-iyul) shaxsiy ma'lumotlarni yig'ish, qayta ishlash, saqlash va tarqatish tartibini belgilaydi. Ushbu qonunga ko'ra, har qanday tashkilot shaxsiy ma'lumotlarni faqat ma'lumot egasining roziligi bilan yig'ishi va faqat belgilangan maqsadlarda ishlatishi mumkin. Tizimimiz ushbu qonun talablariga to'liq rioya qilish uchun maxsus himoya mexanizmlari bilan jihozlangan. Ma'lumotlar bazasiga kirish nazorati, audit loglari va ma'lumotlarni shifrlash tizimning asosiy xavfsizlik komponentlari hisoblanadi.</p>
+
+        <p>GDPR (General Data Protection Regulation) Yevropa Ittifoqining shaxsiy ma'lumotlar himoyasi bo'yicha asosiy me'yoriy hujjati bo'lib, uning tamoyillari xalqaro standart sifatida keng qo'llaniladi. GDPR ning asosiy tamoyillari: qonuniylik, adolatlilik va shaffoflik; maqsadning cheklanganligi; ma'lumotlarning minimalligi; aniqlik; saqlash muddatining cheklanganligi; yaxlitlik va maxfiylik. Tizimimiz xalqaro standartlarga mos ravishda loyihalashtirilgan bo'lib, Privacy by Design va Privacy by Default tamoyillarini qo'llaydi.</p>
+
+        <p>Tizimda shaxsiy ma'lumotlar bir necha darajali himoya mexanizmlari orqali saqlanadi. Parollar PBKDF2 xeshlash algoritmi yordamida qaytarib bo'lmas formatda saqlanadi va tizim ham ularning asl qiymatini bilmaydi. Telefon raqamlari va email manzillari AES-256 shifrlash algoritmi bilan himoyalangan holda ma'lumotlar bazasida saqlanadi. Shifrlash kalitlari alohida xavfsiz muhitda (environment variables) saqlanadi va doimiy ravishda yangilanadi. Kirish nazorati (access control) orqali har bir foydalanuvchi faqat o'z roli doirasidagi ma'lumotlarga kira oladi.</p>
+
+        <p>Ma'lumotlarni o'chirish huquqi (Right to Erasure yoki Right to be Forgotten) har bir foydalanuvchiga o'z shaxsiy ma'lumotlarini tizimdan to'liq o'chirishni talab qilish imkonini beradi. Tizimda maxsus "data_deletion_request" funksiyasi mavjud bo'lib, u foydalanuvchining barcha shaxsiy ma'lumotlarini bazadan qaytarib bo'lmas tarzda o'chiradi, faqat statistik maqsadlarda anonimizatsiya qilingan ma'lumotlar saqlanadi. O'chirish so'rovi kelganidan keyin 30 kun ichida jarayon yakunlanadi va foydalanuvchiga tasdiqlash xabari yuboriladi.</p>
+
+        <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+<tr style="background-color:#f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">Ma'lumot turi</th>
+<th style="border:1px solid #000;padding:8px;">Saqlash joyi</th>
+<th style="border:1px solid #000;padding:8px;">Shifrlash</th>
+<th style="border:1px solid #000;padding:8px;">Kirish huquqi</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:8px;">Parollar</td><td style="border:1px solid #000;padding:8px;">DB (xeshlangan)</td><td style="border:1px solid #000;padding:8px;">PBKDF2</td><td style="border:1px solid #000;padding:8px;">Faqat tizim</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Telefon raqamlari</td><td style="border:1px solid #000;padding:8px;">DB</td><td style="border:1px solid #000;padding:8px;">AES-256</td><td style="border:1px solid #000;padding:8px;">Admin, Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Email</td><td style="border:1px solid #000;padding:8px;">DB</td><td style="border:1px solid #000;padding:8px;">AES-256</td><td style="border:1px solid #000;padding:8px;">Admin, Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Buyurtma tarixi</td><td style="border:1px solid #000;padding:8px;">DB</td><td style="border:1px solid #000;padding:8px;">Yo'q</td><td style="border:1px solid #000;padding:8px;">Foydalanuvchi o'zi</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>3.13-jadval. Shaxsiy ma'lumotlar turlari va himoya choralari</i></p>
+    </div>
+
+    <!-- SAHIFA 58 - Tizimni sinovdan o'tkazish muhiti -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.3.5 Sinovdan o'tkazish muhiti va vositalari</p>
+
+        <p>Tizimni sinovdan o'tkazish muhiti professional dasturiy ta'minot ishlab chiqish standartlariga muvofiq tashkil etilgan. Asosiy texnologik stek quyidagilardan iborat: Python 3.11 dasturlash tili, Flask 3.0 web-framework, SQLite in-memory ma'lumotlar bazasi (testlar uchun) va pytest 7.4 test frameworki. Test muhiti ishlab chiqarish muhitidan mustaqil ravishda ishlaydi, bu esa testlarning tezkor va ishonchli bajarilishini ta'minlaydi. Virtual muhit (venv) orqali bog'liqliklar izolyatsiya qilingan va har bir test sessiyasi toza holat bilan boshlanadi.</p>
+
+        <p>CI/CD pipeline (Continuous Integration / Continuous Deployment) GitHub Actions platformasi asosida tashkil etilgan. Har bir pull request yaratilganda avtomatik ravishda testlar ishga tushadi, kod sifati tekshiriladi va security audit o'tkaziladi. Pipeline bosqichlari: lint (kod formatlashni tekshirish), test (unit va integration testlar), build (ilovani yig'ish), deploy (staging muhitga joylash). Agar biron bosqichda xatolik aniqlansa, pipeline to'xtatiladi va ishlab chiquvchiga bildirishnoma yuboriladi. Bu yondashuv "shift-left" strategiyasini amalga oshirib, xatolarni iloji boricha erta bosqichda aniqlash imkonini beradi.</p>
+
+        <p>Kod sifati vositalari tizimning barqaror va xavfsiz ishlashini ta'minlash uchun qo'llaniladi. Flake8 - Python kod stilini PEP 8 standartiga mosligini tekshiradi va potentsial xatolarni aniqlaydi. Black - avtomatik kod formatlash vositasi bo'lib, jamoada yagona kod stilini ta'minlaydi (satr uzunligi 88 belgi). Mypy - statik tip tekshiruvi vositasi bo'lib, runtime xatolarini oldindan aniqlashga yordam beradi. Bu uchta vosita birgalikda ishlatilganda kod sifati 95% dan yuqori bo'lishini ta'minlaydi va technical debt ning kamayishiga olib keladi.</p>
+
+        <p>Testlarni avtomatik ishga tushirish bir necha darajada amalga oshiriladi. Birinchi daraja - lokal muhitda ishlab chiquvchi tomonidan "pytest" buyrug'i bilan ishga tushirish. Ikkinchi daraja - pre-commit hook orqali commit qilishdan oldin avtomatik tekshirish. Uchinchi daraja - GitHub Actions orqali pull request ochilganda. To'rtinchi daraja - nightly build sifatida har kecha barcha testlarni to'liq ishga tushirish. Test natijalari HTML formatda hisobot sifatida saqlanadi va coverage 90% dan pastga tushmasligi nazorat qilinadi.</p>
+
+<pre style="background-color:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:15px;font-family:'Courier New',monospace;font-size:14px;overflow-x:auto;">
+# conftest.py
+@pytest.fixture
+def app():
+    app = create_app('testing')
+    with app.app_context():
+        db.create_all()
+        yield app
+        db.drop_all()
+
+@pytest.fixture
+def client(app):
+    return app.test_client()
+</pre>
+    </div>
+
 </body>
 </html>
+
