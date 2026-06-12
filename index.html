@@ -3,38 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muzqaymoq do'koni boshqaruv tizimi</title>
+    <title>Kurs Ishi - Muzqaymoq Do'koni Boshqaruv Tizimi</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        html {
+            scroll-behavior: smooth;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            color: #333333;
-            line-height: 1.6;
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background: #525659;
+            margin: 0;
+            padding: 20px 0;
         }
-
-        h1 {
-            text-align: center;
-            margin-top: 100px;
-            color: #2c3e50;
-            font-size: 2rem;
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 2cm 1.5cm 2cm 3cm;
+            margin: 10px auto;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        p {
+        .cover-top {
             text-align: center;
-            margin-top: 20px;
-            color: #7f8c8d;
-            font-size: 1.1rem;
+            margin-top: 1cm;
+        }
+        .cover-top p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        .cover-middle {
+            text-align: center;
+        }
+        .cover-middle p {
+            margin: 5px 0;
+        }
+        .cover-middle .kurs-ishi {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .cover-middle .mavzu {
+            font-weight: bold;
+        }
+        .cover-right {
+            text-align: right;
+            width: 100%;
+            padding-right: 1cm;
+        }
+        .cover-right p {
+            margin: 3px 0;
+        }
+        .cover-bottom {
+            text-align: center;
+            margin-bottom: 1cm;
+        }
+        .cover-bottom p {
+            font-weight: bold;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .page {
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                page-break-after: always;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Muzqaymoq do'koni boshqaruv tizimi</h1>
-    <p>Sahifa tayyorlanmoqda...</p>
+    <div class="page">
+        <div class="cover-top">
+            <p>RENESSANS TA'LIM UNIVERSITETI</p>
+            <p>&nbsp;</p>
+            <p>"MATEMATIKA VA IQTISOD" FAKULTETI</p>
+            <p>&nbsp;</p>
+            <p>"AXBOROT TEXNOLOGIYALARI" KAFEDRASI</p>
+            <p>&nbsp;</p>
+            <p style="font-weight: normal; font-style: italic;">60610100-Axborot tizimlari va texnologiyalari</p>
+            <p>&nbsp;</p>
+            <p>"AXBOROT TIZIMLARI" FANIDAN</p>
+        </div>
+
+        <div class="cover-middle">
+            <p class="kurs-ishi">KURS ISHI</p>
+            <p class="mavzu">MAVZU: MUZQAYMOQ DO'KONI BOSHQARUV TIZIMINI YARATISH</p>
+        </div>
+
+        <div class="cover-right">
+            <p>Guruh: 3-kurs 62S-23</p>
+            <p>Bajardi: Bababekova Gozal.</p>
+            <p>Qabul qildi: dots.Maxmudova M.A.</p>
+            <p>Baho: ____________</p>
+        </div>
+
+        <div class="cover-bottom">
+            <p>TOSHKENT-2026</p>
+        </div>
+    </div>
 </body>
 </html>
