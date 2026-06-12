@@ -1836,5 +1836,84 @@ ORDER BY m.qoldiq ASC;
         <p>Class diagrammada inkapsulyatsiya tamoyili qo'llanilgan — barcha atributlar private (shaxsiy) sifatida belgilangan (minus belgisi), metodlar esa public (ommaviy) (plyus belgisi). Bu ob'ektga yo'naltirilgan dasturlashning asosiy tamoyillaridan biri bo'lib, ma'lumotlarning to'g'ridan-to'g'ri o'zgartirilishining oldini oladi va ularni faqat maxsus metodlar orqali boshqarish imkonini beradi. Shuningdek, har bir sinfda CRUD (Create, Read, Update, Delete) operatsiyalarini amalga oshiruvchi metodlar mavjud.</p>
     </div>
 
+    <!-- SAHIFA 37 -->
+    <div class="page">
+        <h3 style="text-align:left; font-weight:bold;">2.3.3 REST API loyihalash</h3>
+
+        <p>REST (Representational State Transfer) — zamonaviy veb-ilovalarni yaratishda eng keng qo'llaniladigan arxitektura uslubi. RESTful API dizaynida har bir resurs unikal URL manziliga ega va standart HTTP metodlari (GET, POST, PUT, DELETE) orqali boshqariladi. Muzqaymoq do'koni boshqaruv tizimida barcha modullar REST API orqali aloqa qiladi. Quyida tizimning asosiy API endpointlari keltirilgan.</p>
+
+<table style="width:100%; border-collapse: collapse; font-size: 13px; margin: 15px 0;">
+<tr style="background: #f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">Metod</th>
+<th style="border:1px solid #000;padding:8px;">URL</th>
+<th style="border:1px solid #000;padding:8px;">Tavsif</th>
+<th style="border:1px solid #000;padding:8px;">Rol</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:6px;">GET</td><td style="border:1px solid #000;padding:6px;">/api/products</td><td style="border:1px solid #000;padding:6px;">Barcha mahsulotlar ro'yxati</td><td style="border:1px solid #000;padding:6px;">Hammaga</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">POST</td><td style="border:1px solid #000;padding:6px;">/api/products</td><td style="border:1px solid #000;padding:6px;">Yangi mahsulot qo'shish</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">PUT</td><td style="border:1px solid #000;padding:6px;">/api/products/{id}</td><td style="border:1px solid #000;padding:6px;">Mahsulotni tahrirlash</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">DELETE</td><td style="border:1px solid #000;padding:6px;">/api/products/{id}</td><td style="border:1px solid #000;padding:6px;">Mahsulotni o'chirish</td><td style="border:1px solid #000;padding:6px;">Admin</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">GET</td><td style="border:1px solid #000;padding:6px;">/api/orders</td><td style="border:1px solid #000;padding:6px;">Buyurtmalar ro'yxati</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">POST</td><td style="border:1px solid #000;padding:6px;">/api/orders</td><td style="border:1px solid #000;padding:6px;">Yangi buyurtma yaratish</td><td style="border:1px solid #000;padding:6px;">Sotuvchi</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">PUT</td><td style="border:1px solid #000;padding:6px;">/api/orders/{id}/status</td><td style="border:1px solid #000;padding:6px;">Buyurtma holatini o'zgartirish</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">GET</td><td style="border:1px solid #000;padding:6px;">/api/reports/daily</td><td style="border:1px solid #000;padding:6px;">Kunlik hisobot</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">GET</td><td style="border:1px solid #000;padding:6px;">/api/reports/monthly</td><td style="border:1px solid #000;padding:6px;">Oylik hisobot</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">POST</td><td style="border:1px solid #000;padding:6px;">/api/auth/login</td><td style="border:1px solid #000;padding:6px;">Tizimga kirish</td><td style="border:1px solid #000;padding:6px;">Hammaga</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">POST</td><td style="border:1px solid #000;padding:6px;">/api/auth/logout</td><td style="border:1px solid #000;padding:6px;">Tizimdan chiqish</td><td style="border:1px solid #000;padding:6px;">Hammaga</td></tr>
+<tr><td style="border:1px solid #000;padding:6px;">GET</td><td style="border:1px solid #000;padding:6px;">/api/inventory</td><td style="border:1px solid #000;padding:6px;">Omborxona holati</td><td style="border:1px solid #000;padding:6px;">Menejer</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>2.7-jadval. REST API endpointlar ro'yxati</i></p>
+
+        <p>API javoblari JSON formatida qaytariladi. Muvaffaqiyatli so'rov 200 (OK) yoki 201 (Created) kodi bilan, xatolik esa 400 (Bad Request), 401 (Unauthorized), 404 (Not Found) yoki 500 (Internal Server Error) kodlari bilan javob beradi. Har bir javobda status, data va message maydonlari mavjud bo'ladi. Bu standart yondashuv frontend tomonida javoblarni qayta ishlashni osonlashtiradi.</p>
+
+        <p>API xavfsizligi uchun JWT (JSON Web Token) asosidagi autentifikatsiya mexanizmi qo'llanilgan. Foydalanuvchi tizimga kirganda unga token beriladi va keyingi barcha so'rovlarda bu token Authorization headerida yuboriladi. Token 24 soat davomida amal qiladi, muddati o'tgandan so'ng foydalanuvchi qayta login qilishi kerak bo'ladi.</p>
+    </div>
+
+    <!-- SAHIFA 38 -->
+    <div class="page">
+        <h3 style="text-align:left; font-weight:bold;">2.3.4 Ma'lumotlar oqimi diagrammasi (DFD)</h3>
+
+        <p>Ma'lumotlar oqimi diagrammasi (Data Flow Diagram — DFD) tizimda ma'lumotlarning qanday harakatlanishini ko'rsatadi. DFD tizimning funktsional jihatini tasvirlaydi — qayerdan ma'lumot keladi, qanday qayta ishlanadi va qayerga yo'naltiriladi. Quyida muzqaymoq do'koni boshqaruv tizimining 0-darajali (kontekst) DFD diagrammasi keltirilgan.</p>
+
+<div style="text-align: center; margin: 20px 0;">
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="350" viewBox="0 0 650 350" style="max-width:100%; height:auto; display:block; margin:0 auto;">
+  <rect width="650" height="350" fill="#fafafa"/>
+  <!-- External entities -->
+  <rect x="20" y="50" width="100" height="50" fill="#fff3cd" stroke="#856404" stroke-width="1.5" rx="3"/>
+  <text x="70" y="80" text-anchor="middle" font-size="11" font-weight="bold">Mijoz</text>
+  <rect x="20" y="250" width="100" height="50" fill="#fff3cd" stroke="#856404" stroke-width="1.5" rx="3"/>
+  <text x="70" y="280" text-anchor="middle" font-size="11" font-weight="bold">Yetkazuvchi</text>
+  <rect x="530" y="50" width="100" height="50" fill="#fff3cd" stroke="#856404" stroke-width="1.5" rx="3"/>
+  <text x="580" y="80" text-anchor="middle" font-size="11" font-weight="bold">Boshqaruvchi</text>
+  <rect x="530" y="250" width="100" height="50" fill="#fff3cd" stroke="#856404" stroke-width="1.5" rx="3"/>
+  <text x="580" y="280" text-anchor="middle" font-size="11" font-weight="bold">Sotuvchi</text>
+  <!-- Central process -->
+  <ellipse cx="325" cy="175" rx="120" ry="60" fill="#d4edda" stroke="#155724" stroke-width="2"/>
+  <text x="325" y="165" text-anchor="middle" font-size="11" font-weight="bold">Muzqaymoq</text>
+  <text x="325" y="180" text-anchor="middle" font-size="11" font-weight="bold">do'koni BT</text>
+  <text x="325" y="195" text-anchor="middle" font-size="9">(Boshqaruv tizimi)</text>
+  <!-- Data flows -->
+  <line x1="120" y1="75" x2="205" y2="155" stroke="#333" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="140" y="105" font-size="9" fill="#333">Buyurtma</text>
+  <line x1="205" y1="175" x2="120" y2="75" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="130" y="140" font-size="9" fill="#666">Chek</text>
+  <line x1="120" y1="275" x2="205" y2="195" stroke="#333" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="135" y="250" font-size="9" fill="#333">Mahsulot kirimi</text>
+  <line x1="445" y1="155" x2="530" y2="75" stroke="#333" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="500" y="105" font-size="9" fill="#333">Hisobotlar</text>
+  <line x1="530" y1="275" x2="445" y2="195" stroke="#333" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="505" y="245" font-size="9" fill="#333">Sotuv ma'lumoti</text>
+  <line x1="445" y1="175" x2="530" y2="275" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="510" y="230" font-size="9" fill="#666">Tasdiqlash</text>
+  <defs><marker id="arrow2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#333"/></marker></defs>
+</svg>
+<p class="center no-indent" style="font-size:14px;"><i>2.6-rasm. Tizimning kontekst DFD diagrammasi</i></p>
+</div>
+
+        <p>DFD diagrammadan ko'rinib turibdiki, tizim to'rtta tashqi ob'ekt (external entity) bilan o'zaro aloqada: Mijoz — buyurtma beradi va chek oladi, Yetkazuvchi — mahsulot kirimini amalga oshiradi, Boshqaruvchi — hisobotlarni oladi va tizimni nazorat qiladi, Sotuvchi — sotuv ma'lumotlarini kiritadi va tasdiqlash oladi. Markaziy jarayon — muzqaymoq do'koni boshqaruv tizimi — barcha ma'lumot oqimlarini qayta ishlaydi.</p>
+
+        <p>Ushbu kontekst diagramma tizimning umumiy ko'rinishini beradi. Keyingi darajadagi DFD (1-daraja) da tizim ichki jarayonlarga — mahsulotlarni boshqarish, buyurtmalarni qayta ishlash, hisobotlarni shakllantirish va foydalanuvchilarni boshqarish — bo'linadi. Har bir ichki jarayon o'ziga tegishli ma'lumotlar omborxonasi (data store) bilan aloqada bo'ladi.</p>
+    </div>
+
 </body>
 </html>
