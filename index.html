@@ -2646,5 +2646,67 @@ def handle_stock_error(error):
         <p>Hisobot tizimining xavfsizligi ham alohida e'tibor qaratildi. Faqat administrator va menejer rollariga ega foydalanuvchilar hisobotlarga kirish huquqiga ega. Har bir hisobot so'rovi audit jurnalida qayd etiladi — kim, qachon va qanday hisobotni ko'rganligi saqlanadi. Bundan tashqari, eksport qilingan fayllar vaqtinchalik papkada saqlanadi va 24 soatdan keyin avtomatik o'chiriladi, bu esa serverning diskdagi joyini tejash imkonini beradi.</p>
     </div>
 
+    <!-- SAHIFA 53 - Iqtisodiy samaradorlik tahlili -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.3.3 Tizimning iqtisodiy samaradorlik tahlili</p>
+
+        <p>Muzqaymoq do'koni boshqaruv tizimini joriy etishning iqtisodiy samaradorligini baholash loyihaning muvaffaqiyatini aniqlashda muhim ahamiyatga ega. Tizimni ishlab chiqish va joriy etish xarajatlari bir necha asosiy yo'nalishlardan tashkil topadi: dasturiy ta'minot ishlab chiqish xarajatlari (dasturchilar ish haqi, texnik vositalar), server infratuzilmasini tashkil etish xarajatlari (hosting, domen, SSL sertifikat), xodimlarni o'qitish xarajatlari (trening, qo'llanmalar tayyorlash) va tizimni qo'llab-quvvatlash xarajatlari (texnik yordam, yangilanishlar). Umumiy boshlang'ich investitsiya hajmi 25,000,000 so'mni tashkil etadi.</p>
+
+        <p>Tizimdan kutilayotgan asosiy foyda bir necha yo'nalishda namoyon bo'ladi. Birinchidan, xodimlar sonini optimallashtirish hisobiga ish haqi fondidan tejash amalga oshiriladi. Ikkinchidan, xatolarning kamayishi natijasida moddiy yo'qotishlar keskin qisqaradi. Uchinchidan, hisobot tayyorlash vaqtining qisqarishi menejerlar samaradorligini oshiradi. To'rtinchidan, mijozlarga xizmat ko'rsatish tezligining oshishi sotuvlar hajmini ko'paytiradi. Yillik kutilayotgan iqtisodiy foyda 18,000,000 so'mni tashkil etadi.</p>
+
+        <p>ROI (Return on Investment) ko'rsatkichi loyihaning rentabelligini baholashda asosiy mezon hisoblanadi. Hisoblash formulasi: ROI = (Yillik foyda - Yillik xarajatlar) / Boshlang'ich investitsiya * 100%. Bizning holatda: ROI = (18,000,000 - 3,600,000) / 25,000,000 * 100% = 57.6%. Bu ko'rsatkich IT loyihalar uchun yuqori natija hisoblanadi va tizimning iqtisodiy jihatdan o'zini oqlashini ko'rsatadi. Sanoat o'rtachasi 30-40% atrofida bo'lganligi sababli, bizning loyiha bozor standartlaridan sezilarli yuqori turadi.</p>
+
+        <p>Payback period (o'zini qoplash muddati) hisoblash natijasida tizim 16.7 oy ichida o'zini to'liq qoplaydi. Bu ko'rsatkich quyidagicha hisoblanadi: Payback Period = Boshlang'ich investitsiya / Oylik sof foyda = 25,000,000 / 1,200,000 = 20.8 oy. Ammo qo'shimcha daromad manbalarini (sotuvlar o'sishi, yangi mijozlar) hisobga olsak, real muddat 14-16 oyga qisqaradi. Bu muddat kichik va o'rta biznes uchun maqbul ko'rsatkich bo'lib, loyihaning moliyaviy jihatdan jozibadorligini tasdiqlaydi.</p>
+
+        <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+<tr style="background-color:#f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">Ko'rsatkich</th>
+<th style="border:1px solid #000;padding:8px;">Qo'lda boshqaruv</th>
+<th style="border:1px solid #000;padding:8px;">Tizim bilan</th>
+<th style="border:1px solid #000;padding:8px;">Farq</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:8px;">Xodimlar soni</td><td style="border:1px solid #000;padding:8px;">5</td><td style="border:1px solid #000;padding:8px;">3</td><td style="border:1px solid #000;padding:8px;">-2</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Ish vaqti sarfi</td><td style="border:1px solid #000;padding:8px;">8 soat</td><td style="border:1px solid #000;padding:8px;">5 soat</td><td style="border:1px solid #000;padding:8px;">-3 soat</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Xatolar soni</td><td style="border:1px solid #000;padding:8px;">15%</td><td style="border:1px solid #000;padding:8px;">2%</td><td style="border:1px solid #000;padding:8px;">-13%</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Hisobot vaqti</td><td style="border:1px solid #000;padding:8px;">3 soat</td><td style="border:1px solid #000;padding:8px;">5 daqiqa</td><td style="border:1px solid #000;padding:8px;">-2:55</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Yillik tejash</td><td style="border:1px solid #000;padding:8px;">0</td><td style="border:1px solid #000;padding:8px;">18,000,000 so'm</td><td style="border:1px solid #000;padding:8px;">+18M</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>3.10-jadval. Xarajat-foyda tahlili</i></p>
+
+        <p>Yuqoridagi jadvaldan ko'rinib turibdiki, tizimni joriy etish barcha asosiy ko'rsatkichlarda sezilarli yaxshilanish olib keladi. Ayniqsa, xatolar sonining 15% dan 2% ga kamayishi va hisobot tayyorlash vaqtining 3 soatdan 5 daqiqaga qisqarishi biznes uchun eng muhim o'zgarishlar hisoblanadi. Bu natijalar nafaqat moliyaviy tejamkorlik, balki boshqaruv sifatining tubdan yaxshilanishini ham anglatadi.</p>
+
+        <p>Iqtisodiy samaradorlik tahlilining yakuniy xulosasi shundan iboratki, loyiha barcha moliyaviy ko'rsatkichlar bo'yicha ijobiy natija beradi. NPV (Net Present Value) hisoblash natijasi ham musbat qiymatga ega bo'lib, diskontlash stavkasi 15% da NPV = 8,400,000 so'mni tashkil etadi. Bu esa loyihaning uzoq muddatli istiqbolda ham foydaligini isbotlaydi. Shuningdek, tizimning kengaytirilishi (ko'p filiallik rejim, onlayn savdo) qo'shimcha daromad manbalarini yaratadi.</p>
+    </div>
+
+    <!-- SAHIFA 54 - Tizimni kengaytirish yo'nalishlari -->
+    <div class="page">
+        <p style="text-align:left;font-weight:bold;">3.3.4 Tizimni kengaytirish va rivojlantirish yo'nalishlari</p>
+
+        <p>Muzqaymoq do'koni boshqaruv tizimining birinchi versiyasi muvaffaqiyatli ishga tushirilganidan so'ng, uni yanada rivojlantirish va kengaytirish bo'yicha bir qator strategik yo'nalishlar belgilangan. Mobil ilova (Android va iOS platformalari uchun) yaratish birinchi navbatdagi vazifa hisoblanadi. React Native frameworki asosida cross-platform mobil ilova ishlab chiqiladi, bu esa do'kon egasi va menejerlariga istalgan joydan tizimni boshqarish imkoniyatini beradi. Mobil ilova orqali real vaqt rejimida sotuvlarni kuzatish, zaxira holati haqida bildirishnomalar olish va tezkor boshqaruv qarorlarini qabul qilish mumkin bo'ladi.</p>
+
+        <p>Sun'iy intellekt moduli tizimning ikkinchi muhim rivojlanish yo'nalishi sifatida rejalashtirilgan. Machine Learning algoritmlari asosida talab prognozlash tizimi ishlab chiqiladi. Bu modul tarixiy savdo ma'lumotlarini, ob-havo sharoitlarini, bayram kunlarini va mavsumiy omillarni tahlil qilib, kelgusi hafta va oy uchun mahsulot talabini bashorat qiladi. Shuningdek, AI asosida assortiment tavsiyalari moduli mijozlarning xarid tarixini tahlil qilib, yangi mahsulotlar qo'shish yoki mavjudlarini o'zgartirish bo'yicha tavsiyalar beradi. Kutilayotgan prognoz aniqligi 85% ni tashkil etadi.</p>
+
+        <p>Onlayn buyurtma va yetkazib berish integratsiyasi zamonaviy savdo talablariga javob berish uchun zarur. Telegram bot va web-sayt orqali mijozlar onlayn buyurtma berishi, to'lovni amalga oshirishi va yetkazib berish manzilini ko'rsatishi mumkin. Yandex Maps API integratsiyasi orqali yetkazib berish marshrutini optimallashtirish va aniq yetkazib berish vaqtini hisoblash imkoniyati yaratiladi. Bu modul yangi mijozlar oqimini 30% ga oshirishi kutilmoqda.</p>
+
+        <p>Ko'p filiallik boshqaruv moduli biznesning o'sishi bilan zarur bo'ladigan muhim kengaytma hisoblanadi. Markazlashtirilgan boshqaruv paneli orqali bir nechta do'kon filiallari yagona tizimdan boshqariladi. Har bir filialning alohida hisoboti va umumiy konsolidatsiyalashgan hisobot imkoniyati, filiallar orasida mahsulot transferi, markazlashtirilgan xarid va ta'minot zanjiri boshqaruvi amalga oshiriladi. Bu modul franchise modeli bo'yicha biznesni kengaytirishga asos yaratadi.</p>
+
+        <p>Bulutli texnologiyalarga o'tish tizimning ishonchliligi va kengayuvchanligini oshirish uchun strategik qaror hisoblanadi. AWS yoki Google Cloud platformasiga migratsiya qilish orqali 99.9% uptime kafolati ta'minlanadi. Microservices arxitekturasiga o'tish, Docker konteynerlashtirish va Kubernetes orkestrlash tizimning mustaqil ravishda kengayishi (auto-scaling) imkonini beradi. Shuningdek, bulutli infratuzilma ma'lumotlar xavfsizligini oshiradi va disaster recovery imkoniyatini ta'minlaydi.</p>
+
+        <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+<tr style="background-color:#f0f0f0;">
+<th style="border:1px solid #000;padding:8px;">Yo'nalish</th>
+<th style="border:1px solid #000;padding:8px;">Prioritet</th>
+<th style="border:1px solid #000;padding:8px;">Muddati</th>
+<th style="border:1px solid #000;padding:8px;">Kutilayotgan natija</th>
+</tr>
+<tr><td style="border:1px solid #000;padding:8px;">Mobil ilova</td><td style="border:1px solid #000;padding:8px;">Yuqori</td><td style="border:1px solid #000;padding:8px;">3 oy</td><td style="border:1px solid #000;padding:8px;">30% ko'proq buyurtma</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">AI modul</td><td style="border:1px solid #000;padding:8px;">O'rta</td><td style="border:1px solid #000;padding:8px;">6 oy</td><td style="border:1px solid #000;padding:8px;">talab prognozi 85% aniqlik</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Onlayn buyurtma</td><td style="border:1px solid #000;padding:8px;">Yuqori</td><td style="border:1px solid #000;padding:8px;">2 oy</td><td style="border:1px solid #000;padding:8px;">yangi mijozlar oqimi</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Ko'p filial</td><td style="border:1px solid #000;padding:8px;">Past</td><td style="border:1px solid #000;padding:8px;">12 oy</td><td style="border:1px solid #000;padding:8px;">markazlashtirilgan boshqaruv</td></tr>
+<tr><td style="border:1px solid #000;padding:8px;">Bulutli tizim</td><td style="border:1px solid #000;padding:8px;">O'rta</td><td style="border:1px solid #000;padding:8px;">6 oy</td><td style="border:1px solid #000;padding:8px;">99.9% uptime</td></tr>
+</table>
+<p class="center no-indent" style="font-size:14px;"><i>3.11-jadval. Rivojlantirish rejalari</i></p>
+    </div>
+
 </body>
 </html>
