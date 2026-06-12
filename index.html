@@ -1691,5 +1691,150 @@ ORDER BY m.qoldiq ASC;
         <p>Tizimda ma'lumotlarni zaxiralash (backup) mexanizmi ham joriy etilgan. SQLite bazasi bitta fayldan iborat bo'lganligi sababli, zaxiralash jarayoni oddiy — fayl nusxasi olinadi. Tizim har kuni yarim tunda avtomatik ravishda ma'lumotlar bazasining zaxira nusxasini yaratadi. Zaxira nusxalari 30 kun davomida saqlanadi, so'ngra eski nusxalari avtomatik o'chiriladi. Bu mexanizm ma'lumotlar yo'qolishi xavfini minimallashtirishga yordam beradi.</p>
     </div>
 
+    <!-- SAHIFA 35 - Sequence Diagram -->
+    <div class="page">
+        <p style="text-align: left; font-weight: bold;">2.3.1 Sequence diagramma — buyurtma yaratish jarayoni</p>
+
+        <p>Sequence (ketma-ketlik) diagrammasi ob'ektlar orasidagi xabarlar almashinuvini vaqt o'qi bo'yicha ko'rsatadi. Bu diagramma tizimning dinamik jihatini — ya'ni ob'ektlar qanday tartibda o'zaro ta'sir qilishini ifodalaydi. Quyida muzqaymoq do'koni boshqaruv tizimida buyurtma yaratish jarayonining sequence diagrammasi keltirilgan. Jarayon sotuvchining buyurtma formasini ochishidan boshlanib, buyurtmaning ma'lumotlar bazasiga yozilishi bilan yakunlanadi.</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="400" viewBox="0 0 650 400" style="max-width:100%; height:auto; display:block; margin:0 auto;">
+  <rect width="650" height="400" fill="#fafafa"/>
+  <!-- Actors -->
+  <rect x="50" y="20" width="80" height="30" fill="#3498db" stroke="#2c3e50" rx="3"/>
+  <text x="90" y="40" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Sotuvchi</text>
+  <rect x="200" y="20" width="80" height="30" fill="#27ae60" stroke="#2c3e50" rx="3"/>
+  <text x="240" y="40" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Frontend</text>
+  <rect x="350" y="20" width="80" height="30" fill="#e67e22" stroke="#2c3e50" rx="3"/>
+  <text x="390" y="40" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Backend</text>
+  <rect x="500" y="20" width="100" height="30" fill="#9b59b6" stroke="#2c3e50" rx="3"/>
+  <text x="550" y="40" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Database</text>
+  <!-- Lifelines -->
+  <line x1="90" y1="50" x2="90" y2="380" stroke="#666" stroke-dasharray="5,5"/>
+  <line x1="240" y1="50" x2="240" y2="380" stroke="#666" stroke-dasharray="5,5"/>
+  <line x1="390" y1="50" x2="390" y2="380" stroke="#666" stroke-dasharray="5,5"/>
+  <line x1="550" y1="50" x2="550" y2="380" stroke="#666" stroke-dasharray="5,5"/>
+  <!-- Messages -->
+  <line x1="90" y1="80" x2="240" y2="80" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="165" y="75" text-anchor="middle" font-size="9" fill="#333">1. Buyurtma formasi</text>
+  <line x1="240" y1="120" x2="390" y2="120" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="315" y="115" text-anchor="middle" font-size="9" fill="#333">2. POST /api/orders</text>
+  <line x1="390" y1="160" x2="550" y2="160" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="470" y="155" text-anchor="middle" font-size="9" fill="#333">3. INSERT buyurtma</text>
+  <line x1="550" y1="200" x2="390" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <text x="470" y="195" text-anchor="middle" font-size="9" fill="#333">4. OK (id=1042)</text>
+  <line x1="390" y1="240" x2="550" y2="240" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="470" y="235" text-anchor="middle" font-size="9" fill="#333">5. UPDATE qoldiq</text>
+  <line x1="550" y1="280" x2="390" y2="280" stroke="#333" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <text x="470" y="275" text-anchor="middle" font-size="9" fill="#333">6. OK</text>
+  <line x1="390" y1="320" x2="240" y2="320" stroke="#333" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <text x="315" y="315" text-anchor="middle" font-size="9" fill="#333">7. 201 Created</text>
+  <line x1="240" y1="360" x2="90" y2="360" stroke="#333" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrow)"/>
+  <text x="165" y="355" text-anchor="middle" font-size="9" fill="#333">8. Buyurtma tasdiqlandi</text>
+  <!-- Arrow marker -->
+  <defs><marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#333"/></marker></defs>
+</svg>
+<p class="center no-indent" style="font-size:14px;"><i>2.4-rasm. Buyurtma yaratish jarayonining sequence diagrammasi</i></p>
+</div>
+
+        <p>Diagrammadan ko'rinib turibdiki, buyurtma yaratish jarayoni 8 ta bosqichdan iborat. Sotuvchi buyurtma formasini to'ldiradi va yuboradi. Frontend POST so'rovini backend API ga jo'natadi. Backend avval buyurtmani ma'lumotlar bazasiga yozadi, keyin omborxonadagi mahsulot qoldig'ini kamaytiradi. Muvaffaqiyatli natijadan so'ng frontendga javob qaytariladi va sotuvchiga tasdiqlovchi xabar ko'rsatiladi.</p>
+
+        <p>Ushbu jarayonda xatolik yuz berganda (masalan, mahsulot qoldig'i yetarli emas), backend tegishli xatolik kodini (400 Bad Request) qaytaradi va frontend foydalanuvchiga tushuntirish xabarini ko'rsatadi. Bundan tashqari, butun operatsiya tranzaksiya (transaction) ichida bajariladi — agar biror bosqichda xatolik yuz bersa, barcha o'zgarishlar bekor qilinadi (rollback), bu esa ma'lumotlar yaxlitligini ta'minlaydi.</p>
+    </div>
+
+    <!-- SAHIFA 36 - Class Diagram -->
+    <div class="page">
+        <p style="text-align: left; font-weight: bold;">2.3.2 Class diagramma — tizimning ob'ekt modeli</p>
+
+        <p>Class (sinf) diagrammasi tizimning statik tuzilishini — sinflar, ularning atributlari, metodlari va sinflar orasidagi munosabatlarni ko'rsatadi. U ob'ektga yo'naltirilgan loyihalashning asosiy vositasi hisoblanadi. Quyida muzqaymoq do'koni boshqaruv tizimining class diagrammasi keltirilgan.</p>
+
+        <div style="text-align: center; margin: 20px 0;">
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="420" viewBox="0 0 650 420" style="max-width:100%; height:auto; display:block; margin:0 auto;">
+  <rect width="650" height="420" fill="#fafafa"/>
+  <!-- Mahsulot class -->
+  <rect x="20" y="20" width="180" height="160" fill="white" stroke="#333" stroke-width="1.5"/>
+  <rect x="20" y="20" width="180" height="25" fill="#3498db"/>
+  <text x="110" y="37" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Mahsulot</text>
+  <line x1="20" y1="45" x2="200" y2="45" stroke="#333"/>
+  <text x="28" y="60" font-size="9">- id: Integer</text>
+  <text x="28" y="73" font-size="9">- nomi: String</text>
+  <text x="28" y="86" font-size="9">- narxi: Float</text>
+  <text x="28" y="99" font-size="9">- qoldiq: Integer</text>
+  <text x="28" y="112" font-size="9">- saqlash_muddati: Date</text>
+  <line x1="20" y1="118" x2="200" y2="118" stroke="#333"/>
+  <text x="28" y="133" font-size="9">+ to_dict(): Dict</text>
+  <text x="28" y="146" font-size="9">+ check_expiry(): Bool</text>
+  <text x="28" y="159" font-size="9">+ update_stock(n): void</text>
+  <text x="28" y="172" font-size="9">+ get_by_category(): List</text>
+  <!-- Buyurtma class -->
+  <rect x="240" y="20" width="180" height="160" fill="white" stroke="#333" stroke-width="1.5"/>
+  <rect x="240" y="20" width="180" height="25" fill="#27ae60"/>
+  <text x="330" y="37" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Buyurtma</text>
+  <line x1="240" y1="45" x2="420" y2="45" stroke="#333"/>
+  <text x="248" y="60" font-size="9">- id: Integer</text>
+  <text x="248" y="73" font-size="9">- sana: DateTime</text>
+  <text x="248" y="86" font-size="9">- umumiy_summa: Float</text>
+  <text x="248" y="99" font-size="9">- holati: String</text>
+  <text x="248" y="112" font-size="9">- tolov_usuli: String</text>
+  <line x1="240" y1="118" x2="420" y2="118" stroke="#333"/>
+  <text x="248" y="133" font-size="9">+ create_order(): Buyurtma</text>
+  <text x="248" y="146" font-size="9">+ cancel(): void</text>
+  <text x="248" y="159" font-size="9">+ complete(): void</text>
+  <text x="248" y="172" font-size="9">+ get_total(): Float</text>
+  <!-- Foydalanuvchi class -->
+  <rect x="460" y="20" width="170" height="150" fill="white" stroke="#333" stroke-width="1.5"/>
+  <rect x="460" y="20" width="170" height="25" fill="#e67e22"/>
+  <text x="545" y="37" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Foydalanuvchi</text>
+  <line x1="460" y1="45" x2="630" y2="45" stroke="#333"/>
+  <text x="468" y="60" font-size="9">- id: Integer</text>
+  <text x="468" y="73" font-size="9">- login: String</text>
+  <text x="468" y="86" font-size="9">- parol_hash: String</text>
+  <text x="468" y="99" font-size="9">- rol: String</text>
+  <line x1="460" y1="108" x2="630" y2="108" stroke="#333"/>
+  <text x="468" y="123" font-size="9">+ set_password(p): void</text>
+  <text x="468" y="136" font-size="9">+ check_password(p): Bool</text>
+  <text x="468" y="149" font-size="9">+ is_admin(): Bool</text>
+  <text x="468" y="162" font-size="9">+ get_orders(): List</text>
+  <!-- Mijoz class -->
+  <rect x="130" y="250" width="170" height="140" fill="white" stroke="#333" stroke-width="1.5"/>
+  <rect x="130" y="250" width="170" height="25" fill="#9b59b6"/>
+  <text x="215" y="267" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Mijoz</text>
+  <line x1="130" y1="275" x2="300" y2="275" stroke="#333"/>
+  <text x="138" y="290" font-size="9">- id: Integer</text>
+  <text x="138" y="303" font-size="9">- ism: String</text>
+  <text x="138" y="316" font-size="9">- telefon: String</text>
+  <text x="138" y="329" font-size="9">- bonus_ball: Integer</text>
+  <line x1="130" y1="338" x2="300" y2="338" stroke="#333"/>
+  <text x="138" y="353" font-size="9">+ add_bonus(n): void</text>
+  <text x="138" y="366" font-size="9">+ get_history(): List</text>
+  <text x="138" y="379" font-size="9">+ get_total_spent(): Float</text>
+  <!-- Toifa class -->
+  <rect x="380" y="250" width="170" height="120" fill="white" stroke="#333" stroke-width="1.5"/>
+  <rect x="380" y="250" width="170" height="25" fill="#e74c3c"/>
+  <text x="465" y="267" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Toifa</text>
+  <line x1="380" y1="275" x2="550" y2="275" stroke="#333"/>
+  <text x="388" y="290" font-size="9">- id: Integer</text>
+  <text x="388" y="303" font-size="9">- nomi: String</text>
+  <text x="388" y="316" font-size="9">- tavsif: Text</text>
+  <line x1="380" y1="325" x2="550" y2="325" stroke="#333"/>
+  <text x="388" y="340" font-size="9">+ get_products(): List</text>
+  <text x="388" y="353" font-size="9">+ count_products(): Int</text>
+  <!-- Relationships -->
+  <line x1="200" y1="100" x2="240" y2="100" stroke="#333" stroke-width="1.5"/>
+  <text x="220" y="93" text-anchor="middle" font-size="8" fill="#666">1..*</text>
+  <line x1="110" y1="180" x2="215" y2="250" stroke="#333" stroke-width="1"/>
+  <line x1="200" y1="140" x2="380" y2="290" stroke="#333" stroke-width="1"/>
+  <text x="280" y="220" font-size="8" fill="#666">1..*</text>
+  <line x1="330" y1="180" x2="215" y2="250" stroke="#333" stroke-width="1"/>
+  <text x="260" y="225" font-size="8" fill="#666">0..*</text>
+</svg>
+<p class="center no-indent" style="font-size:14px;"><i>2.5-rasm. Tizimning class diagrammasi</i></p>
+</div>
+
+        <p>Class diagrammada tizimning beshta asosiy sinfi ko'rsatilgan: Mahsulot, Buyurtma, Foydalanuvchi, Mijoz va Toifa. Har bir sinf o'ziga xos atributlar (xususiyatlar) va metodlar (funksiyalar)ga ega. Sinflar orasidagi munosabatlar chiziqlar bilan ko'rsatilgan. Masalan, bitta Toifa bir nechta Mahsulotlarga ega bo'lishi mumkin (1:N munosabat), bitta Mijoz bir nechta Buyurtmalar berishi mumkin (1:N munosabat).</p>
+
+        <p>Class diagrammada inkapsulyatsiya tamoyili qo'llanilgan — barcha atributlar private (shaxsiy) sifatida belgilangan (minus belgisi), metodlar esa public (ommaviy) (plyus belgisi). Bu ob'ektga yo'naltirilgan dasturlashning asosiy tamoyillaridan biri bo'lib, ma'lumotlarning to'g'ridan-to'g'ri o'zgartirilishining oldini oladi va ularni faqat maxsus metodlar orqali boshqarish imkonini beradi. Shuningdek, har bir sinfda CRUD (Create, Read, Update, Delete) operatsiyalarini amalga oshiruvchi metodlar mavjud.</p>
+    </div>
+
 </body>
 </html>
