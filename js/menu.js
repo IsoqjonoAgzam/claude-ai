@@ -434,6 +434,9 @@ const Menu = {
     // Buyurtmani saqlash
     Storage.pushToArray('orders', order);
 
+    // Debug log
+    console.log('Buyurtma saqlandi:', order.raqam, 'Jami orders:', Storage.get('orders', []).length);
+
     // Mahsulot qoldiqlarini kamaytirish
     this.updateProductStock();
 

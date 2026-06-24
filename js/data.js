@@ -6,22 +6,29 @@
 const SampleData = {
   /**
    * Namuna ma'lumotlarni yuklash
-   * Har bir kalit uchun alohida tekshiradi - mavjud bo'lsa ustiga yozmaydi
+   * Har bir kalit uchun alohida tekshiradi - mavjud bo'lsa HECH QACHON ustiga yozmaydi
+   * Faqat localStorage da ma'lumot yo'q bo'lgandagina sample data yuklanadi
    */
   init: function() {
     var changed = false;
 
-    if (!Storage.has('customers') || Storage.get('customers', []).length === 0) {
+    // Mijozlar: faqat bo'sh bo'lsa yuklash
+    var existingCustomers = Storage.get('customers', []);
+    if (!Storage.has('customers') || existingCustomers.length === 0) {
       this.loadCustomers();
       changed = true;
     }
 
-    if (!Storage.has('products') || Storage.get('products', []).length === 0) {
+    // Mahsulotlar: faqat bo'sh bo'lsa yuklash
+    var existingProducts = Storage.get('products', []);
+    if (!Storage.has('products') || existingProducts.length === 0) {
       this.loadProducts();
       changed = true;
     }
 
-    if (!Storage.has('orders') || Storage.get('orders', []).length === 0) {
+    // Buyurtmalar: faqat bo'sh bo'lsa yuklash, MAVJUD buyurtmalarni HECH QACHON o'chirmaymiz
+    var existingOrders = Storage.get('orders', []);
+    if (!Storage.has('orders') || existingOrders.length === 0) {
       this.loadOrders();
       changed = true;
     }
