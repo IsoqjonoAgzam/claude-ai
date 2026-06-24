@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyurtmalar - Muzqaymoq Do'koni</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Overlay (mobil) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">🍦</span>
+        <div class="sidebar-brand">
+          Muzqaymoq Do'koni
+          <small>Boshqaruv tizimi</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              Bosh sahifa
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <span class="nav-icon">🍨</span>
+              Mahsulotlar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link active">
+              <span class="nav-icon">📋</span>
+              Buyurtmalar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <span class="nav-icon">📈</span>
+              Hisobotlar
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-details">
+            <div class="user-name" id="userName">Foydalanuvchi</div>
+            <div class="user-role" id="userRole">Rol</div>
+          </div>
+          <button class="btn-logout" id="logoutBtn" title="Chiqish">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Asosiy kontent -->
+    <main class="main-content">
+      <header class="main-header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1 class="page-title">Buyurtmalar</h1>
+        </div>
+        <div class="header-right">
+          <span class="header-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Mini statistika -->
+        <div class="stats-grid stats-mini">
+          <div class="stat-card">
+            <div class="stat-icon blue">📋</div>
+            <div class="stat-info">
+              <h3 id="ordersTotal">0</h3>
+              <p>Jami buyurtmalar</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">📅</div>
+            <div class="stat-info">
+              <h3 id="ordersToday">0</h3>
+              <p>Bugungi</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">⏳</div>
+            <div class="stat-info">
+              <h3 id="ordersActive">0</h3>
+              <p>Faol buyurtmalar</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="products-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="orderSearchInput" placeholder="Buyurtma raqami yoki mijoz nomi..." class="search-input">
+            </div>
+            <select id="statusFilter" class="filter-select">
+              <option value="all">Barcha statuslar</option>
+              <option value="yangi">Yangi</option>
+              <option value="tayyorlanmoqda">Tayyorlanmoqda</option>
+              <option value="tayyor">Tayyor</option>
+              <option value="berildi">Berildi</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <span class="total-count" id="ordersCount">0 ta buyurtma</span>
+            <button class="btn btn-primary btn-add" id="addOrderBtn">+ Yangi buyurtma</button>
+          </div>
+        </div>
+
+        <!-- Buyurtmalar jadvali -->
+        <div class="card">
+          <div id="ordersTableWrapper" class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Raqam</th>
+                  <th>Mijoz</th>
+                  <th>Mahsulotlar</th>
+                  <th>Summa</th>
+                  <th>Status</th>
+                  <th>To'lov</th>
+                  <th>Sana</th>
+                  <th>Amallar</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Bo'sh holat -->
+          <div id="ordersEmptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">📋</div>
+            <p>Buyurtmalar topilmadi</p>
+            <p class="empty-hint">Yangi buyurtma qo'shish uchun yuqoridagi tugmani bosing</p>
+          </div>
+        </div>
+
+        <!-- Sahifalash -->
+        <div class="pagination" id="ordersPagination"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Yangi buyurtma modali -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Yangi buyurtma</h2>
+        <button class="modal-close" id="closeOrderModal">&times;</button>
+      </div>
+      <form id="orderForm" class="modal-body">
+        <!-- Mijoz tanlash -->
+        <div class="form-group">
+          <label for="orderCustomer">Mijoz *</label>
+          <select id="orderCustomer" required>
+            <option value="">Mijozni tanlang</option>
+          </select>
+        </div>
+
+        <!-- Yangi mijoz maydonlari -->
+        <div id="newCustomerFields" style="display:none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newCustomerName">Mijoz ismi *</label>
+              <input type="text" id="newCustomerName" placeholder="Ism Familiya">
+            </div>
+            <div class="form-group">
+              <label for="newCustomerPhone">Telefon raqami *</label>
+              <input type="tel" id="newCustomerPhone" placeholder="+998901234567">
+            </div>
+          </div>
+        </div>
+
+        <!-- Mahsulotlar -->
+        <div class="form-group">
+          <label>Mahsulotlar *</label>
+          <div class="order-items-header">
+            <span class="items-col-product">Mahsulot</span>
+            <span class="items-col-qty">Soni</span>
+            <span class="items-col-subtotal">Summa</span>
+            <span class="items-col-action"></span>
+          </div>
+          <div id="orderItemsList"></div>
+          <button type="button" class="btn-add-item" id="addItemBtn">+ Mahsulot qo'shish</button>
+        </div>
+
+        <!-- Jami -->
+        <div class="order-total-row">
+          <strong>Jami:</strong>
+          <span id="orderTotal" class="order-total-amount">0 so'm</span>
+        </div>
+
+        <!-- To'lov usuli -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="orderPayment">To'lov usuli</label>
+            <select id="orderPayment">
+              <option value="naqd">Naqd pul</option>
+              <option value="karta">Plastik karta</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="orderNote">Izoh</label>
+            <input type="text" id="orderNote" placeholder="Qo'shimcha izoh...">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" id="cancelOrderBtn">Bekor qilish</button>
+          <button type="submit" class="btn btn-primary btn-save">Buyurtma berish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Buyurtma tafsilotlari modali -->
+  <div class="modal-overlay" id="orderDetailModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Buyurtma tafsilotlari</h2>
+        <button class="modal-close" id="closeDetailModal">&times;</button>
+      </div>
+      <div class="modal-body" id="orderDetailBody">
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>
