@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menyu - Muzqaymoq Do'koni</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍦</text></svg>">
+  <link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="menu-header">
+    <div class="header-content">
+      <div class="logo">🍦</div>
+      <div class="brand">
+        <h1>Muzqaymoq Do'koni</h1>
+        <p>Eng mazali muzqaymoqlar!</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toifalar filtri -->
+  <section class="categories-section">
+    <div class="categories-scroll">
+      <button class="category-tab active" data-category="Barchasi">Barchasi</button>
+      <button class="category-tab" data-category="Klassik muzqaymoq">Klassik</button>
+      <button class="category-tab" data-category="Fruktli muzqaymoq">Fruktli</button>
+      <button class="category-tab" data-category="Shokoladli muzqaymoq">Shokoladli</button>
+      <button class="category-tab" data-category="Maxsus muzqaymoq">Maxsus</button>
+      <button class="category-tab" data-category="Piyola va konuslar">Piyola</button>
+      <button class="category-tab" data-category="Ichimliklar">Ichimliklar</button>
+    </div>
+  </section>
+
+  <!-- Mahsulotlar gridi -->
+  <main class="products-grid" id="productsGrid">
+    <!-- JS orqali to'ldiriladi -->
+  </main>
+
+  <!-- Bo'sh holat -->
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="empty-icon">🔍</div>
+    <p>Bu toifada mahsulot topilmadi</p>
+  </div>
+
+  <!-- Pastdagi savat paneli -->
+  <div class="cart-bar" id="cartBar" style="display:none;">
+    <div class="cart-bar-content" id="openCart">
+      <div class="cart-bar-left">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+        <span class="cart-label">mahsulot</span>
+      </div>
+      <div class="cart-bar-right">
+        <span class="cart-total" id="cartTotal">0 so'm</span>
+        <span class="cart-arrow">▲</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Savat paneli (slide-up) -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-panel-header">
+      <h2>🛒 Savat</h2>
+      <button class="cart-close-btn" id="closeCart">&times;</button>
+    </div>
+    <div class="cart-panel-body" id="cartItems">
+      <!-- JS orqali to'ldiriladi -->
+    </div>
+    <div class="cart-panel-footer">
+      <div class="cart-footer-total">
+        <span>Jami:</span>
+        <strong id="cartPanelTotal">0 so'm</strong>
+      </div>
+      <button class="btn-order" id="btnOrder">Buyurtma berish</button>
+    </div>
+  </div>
+
+  <!-- Buyurtma formasi modali -->
+  <div class="modal-overlay" id="orderModalOverlay"></div>
+  <div class="modal" id="orderModal">
+    <div class="modal-header">
+      <h2>📋 Buyurtma berish</h2>
+      <button class="modal-close" id="closeOrderModal">&times;</button>
+    </div>
+    <form class="order-form" id="orderForm">
+      <div class="form-group">
+        <label for="customerName">Ismingiz *</label>
+        <input type="text" id="customerName" placeholder="To'liq ismingiz" required>
+      </div>
+      <div class="form-group">
+        <label for="customerPhone">Telefon raqam *</label>
+        <input type="tel" id="customerPhone" placeholder="+998901234567" required>
+      </div>
+      <div class="form-group">
+        <label>To'lov usuli</label>
+        <div class="payment-options">
+          <label class="payment-option">
+            <input type="radio" name="payment" value="naqd" checked>
+            <span class="payment-label">💵 Naqd</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="karta">
+            <span class="payment-label">💳 Karta</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="orderNote">Izoh (ixtiyoriy)</label>
+        <textarea id="orderNote" placeholder="Qo'shimcha izoh..." rows="3"></textarea>
+      </div>
+      <div class="order-summary">
+        <div class="order-summary-items" id="orderSummaryItems"></div>
+        <div class="order-summary-total">
+          <span>Jami:</span>
+          <strong id="orderSummaryTotal">0 so'm</strong>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit-order">Buyurtmani tasdiqlash</button>
+    </form>
+  </div>
+
+  <!-- Rahmat sahifasi -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-content">
+      <div class="success-icon">🎉</div>
+      <h2>Rahmat!</h2>
+      <p>Buyurtmangiz qabul qilindi</p>
+      <div class="success-order-num" id="successOrderNum"></div>
+      <p class="success-note">Tez orada siz bilan bog'lanamiz</p>
+      <button class="btn-back-menu" id="btnBackMenu">Menyuga qaytish</button>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+</html>
