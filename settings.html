@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sozlamalar - Muzqaymoq Do'koni</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍦</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Overlay (mobil) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">🍦</span>
+        <div class="sidebar-brand">
+          Muzqaymoq Do'koni
+          <small>Boshqaruv tizimi</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              Bosh sahifa
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <span class="nav-icon">🍨</span>
+              Mahsulotlar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link">
+              <span class="nav-icon">📋</span>
+              Buyurtmalar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <span class="nav-icon">📈</span>
+              Hisobotlar
+            </a>
+          </li>
+          <li class="nav-item nav-settings">
+            <a href="settings.html" class="nav-link active">
+              <span class="nav-icon">&#9881;</span>
+              Sozlamalar
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-details">
+            <div class="user-name" id="userName">Foydalanuvchi</div>
+            <div class="user-role" id="userRole">Rol</div>
+          </div>
+          <button class="btn-logout" id="logoutBtn" title="Chiqish">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Asosiy kontent -->
+    <main class="main-content">
+      <header class="main-header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1 class="page-title">Sozlamalar</h1>
+        </div>
+        <div class="header-right">
+          <span class="header-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="settings-grid">
+          <!-- Do'kon ma'lumotlari -->
+          <div class="card settings-card">
+            <div class="card-header">
+              <h3>🏪 Do'kon ma'lumotlari</h3>
+            </div>
+            <div class="card-body">
+              <form id="storeInfoForm">
+                <div class="form-group">
+                  <label for="storeNomi">Do'kon nomi</label>
+                  <input type="text" id="storeNomi" placeholder="Do'kon nomi">
+                </div>
+                <div class="form-group">
+                  <label for="storeManzil">Manzil</label>
+                  <input type="text" id="storeManzil" placeholder="Manzil">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="storeTelefon">Telefon raqami</label>
+                    <input type="tel" id="storeTelefon" placeholder="+998 90 123 45 67">
+                  </div>
+                  <div class="form-group">
+                    <label for="storeIshVaqti">Ish vaqti</label>
+                    <input type="text" id="storeIshVaqti" placeholder="09:00 - 21:00">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Saqlash</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Foydalanuvchilar boshqaruvi (faqat admin) -->
+          <div class="card settings-card" id="usersSection">
+            <div class="card-header">
+              <h3>👤 Parol o'zgartirish</h3>
+            </div>
+            <div class="card-body">
+              <form id="passwordForm">
+                <div class="form-group">
+                  <label for="passwordUser">Foydalanuvchi</label>
+                  <select id="passwordUser">
+                    <option value="">Foydalanuvchini tanlang</option>
+                    <option value="1">Administrator</option>
+                    <option value="2">Menejer</option>
+                    <option value="3">Sotuvchi</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="newPassword">Yangi parol</label>
+                  <input type="password" id="newPassword" placeholder="Yangi parol (kamida 4 belgi)" minlength="4">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Parolni tasdiqlash</label>
+                  <input type="password" id="confirmPassword" placeholder="Parolni qayta kiriting">
+                </div>
+                <button type="submit" class="btn btn-primary">Parolni o'zgartirish</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Minimal qoldiq ogohlantirish chegarasi -->
+          <div class="card settings-card" id="thresholdSection">
+            <div class="card-header">
+              <h3>📦 Minimal qoldiq ogohlantirish</h3>
+            </div>
+            <div class="card-body">
+              <form id="thresholdForm">
+                <div class="form-group">
+                  <label for="alertThreshold">Ogohlantirish chegarasi (dona)</label>
+                  <input type="number" id="alertThreshold" min="1" max="100" value="10" placeholder="10">
+                  <p class="settings-hint">Mahsulot qoldig'i shu sondan kam bo'lganda ogohlantirish ko'rsatiladi</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Saqlash</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Ma'lumotlarni eksport qilish -->
+          <div class="card settings-card">
+            <div class="card-header">
+              <h3>📥 Ma'lumotlarni eksport qilish</h3>
+            </div>
+            <div class="card-body">
+              <p class="settings-description">Barcha ma'lumotlarni (mahsulotlar, buyurtmalar, mijozlar) JSON fayl sifatida yuklab oling.</p>
+              <button class="btn btn-success" id="exportBtn">📥 Eksport qilish (JSON)</button>
+            </div>
+          </div>
+
+          <!-- Ma'lumotlarni import qilish (faqat admin) -->
+          <div class="card settings-card" id="importSection">
+            <div class="card-header">
+              <h3>📤 Ma'lumotlarni import qilish</h3>
+            </div>
+            <div class="card-body">
+              <p class="settings-description">Oldindan eksport qilingan JSON fayldan ma'lumotlarni tiklang. Joriy ma'lumotlar o'rniga yoziladi.</p>
+              <button class="btn btn-primary" id="importBtn">📤 Import qilish (JSON)</button>
+              <input type="file" id="importFile" accept=".json" style="display:none;">
+            </div>
+          </div>
+
+          <!-- Ma'lumotlarni tozalash (faqat admin) -->
+          <div class="card settings-card" id="resetSection">
+            <div class="card-header">
+              <h3>🗑️ Ma'lumotlarni tozalash</h3>
+            </div>
+            <div class="card-body">
+              <p class="settings-description settings-danger-text">Diqqat! Bu amal barcha buyurtmalarni o'chiradi. Qaytarib bo'lmaydi!</p>
+              <button class="btn btn-danger" id="resetBtn">🗑️ Barcha buyurtmalarni o'chirish</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

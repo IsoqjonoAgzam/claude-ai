@@ -1962,6 +1962,254 @@ input {
   }
 }
 
+/* ===== TOAST BILDIRISHNOMALAR ===== */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  width: calc(100% - 40px);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-lg);
+  border-left: 4px solid;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+  pointer-events: all;
+}
+
+.toast.toast-show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.toast-hide {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.toast-success {
+  border-left-color: var(--success);
+}
+
+.toast-error {
+  border-left-color: var(--danger);
+}
+
+.toast-warning {
+  border-left-color: var(--warning);
+}
+
+.toast-info {
+  border-left-color: var(--primary);
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.toast-success .toast-icon {
+  background: #e8f5e9;
+  color: var(--success);
+}
+
+.toast-error .toast-icon {
+  background: #fde8e8;
+  color: var(--danger);
+}
+
+.toast-warning .toast-icon {
+  background: #fff3e0;
+  color: var(--warning);
+}
+
+.toast-info .toast-icon {
+  background: #e3f2fd;
+  color: var(--primary);
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.toast-close:hover {
+  color: var(--text-primary);
+}
+
+/* ===== 404 XATO SAHIFASI ===== */
+
+.error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #e8f4fd 0%, #fce4ec 50%, #e8f5e9 100%);
+}
+
+.error-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 60px 40px;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+}
+
+.error-icon {
+  font-size: 80px;
+  margin-bottom: 16px;
+  animation: errorBounce 2s ease infinite;
+}
+
+@keyframes errorBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.error-code {
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.error-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.error-message {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.error-btn {
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* ===== SOZLAMALAR SAHIFASI ===== */
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+.settings-card .card-body {
+  padding: 24px;
+}
+
+.settings-card .form-group {
+  margin-bottom: 16px;
+}
+
+.settings-card .btn {
+  margin-top: 8px;
+}
+
+.settings-hint {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 6px;
+}
+
+.settings-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.settings-danger-text {
+  color: var(--danger);
+  font-weight: 500;
+}
+
+/* Responsive - Sozlamalar */
+@media (max-width: 768px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive - 404 */
+@media (max-width: 480px) {
+  .error-card {
+    padding: 40px 24px;
+  }
+
+  .error-icon {
+    font-size: 60px;
+  }
+
+  .error-code {
+    font-size: 56px;
+  }
+
+  .error-title {
+    font-size: 20px;
+  }
+}
+
+/* Responsive - Toast */
+@media (max-width: 480px) {
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    width: auto;
+  }
+
+  .toast {
+    padding: 12px 14px;
+  }
+}
+
 /* ===== PRINT MEDIA QUERY ===== */
 @media print {
   /* Faqat hisobot mazmunini chop etish */
