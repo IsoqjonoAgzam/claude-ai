@@ -147,16 +147,6 @@ const Storage = {
         { id: '3', login: 'sotuvchi', parol: 'sotuvchi123', rol: 'sotuvchi', ism: 'Sotuvchi' }
       ]);
     }
-
-    // Mahsulotlar (Products moduli tomonidan boshqariladi)
-    if (!this.has('products')) {
-      this.set('products', []);
-    }
-
-    // Buyurtmalar (bo'sh massiv)
-    if (!this.has('orders')) {
-      this.set('orders', []);
-    }
   }
 };
 
