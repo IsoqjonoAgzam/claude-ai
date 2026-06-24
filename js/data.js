@@ -6,16 +6,29 @@
 const SampleData = {
   /**
    * Namuna ma'lumotlarni yuklash
-   * Agar allaqachon yuklangan bo'lsa, qayta yuklamaydi
+   * Har bir kalit uchun alohida tekshiradi - mavjud bo'lsa ustiga yozmaydi
    */
   init: function() {
-    if (Storage.has('dataInitialized')) return;
+    var changed = false;
 
-    this.loadCustomers();
-    this.loadProducts();
-    this.loadOrders();
+    if (!Storage.has('customers') || Storage.get('customers', []).length === 0) {
+      this.loadCustomers();
+      changed = true;
+    }
 
-    Storage.set('dataInitialized', true);
+    if (!Storage.has('products') || Storage.get('products', []).length === 0) {
+      this.loadProducts();
+      changed = true;
+    }
+
+    if (!Storage.has('orders') || Storage.get('orders', []).length === 0) {
+      this.loadOrders();
+      changed = true;
+    }
+
+    if (changed) {
+      Storage.set('dataInitialized', true);
+    }
   },
 
   /**

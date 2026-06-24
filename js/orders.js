@@ -732,3 +732,11 @@ const Orders = {
 document.addEventListener('DOMContentLoaded', function() {
   Orders.init();
 });
+
+// Tab ga qaytganda buyurtmalarni avtomatik yangilash
+window.addEventListener('focus', function() {
+  if (typeof Orders !== 'undefined') {
+    Orders.renderOrders();
+    Orders.renderStats();
+  }
+});

@@ -230,3 +230,13 @@ const Dashboard = {
 document.addEventListener('DOMContentLoaded', function() {
   Dashboard.init();
 });
+
+// Tab ga qaytganda dashboard ni avtomatik yangilash
+window.addEventListener('focus', function() {
+  if (typeof Dashboard !== 'undefined') {
+    Dashboard.renderStats();
+    Dashboard.renderRecentOrders();
+    Dashboard.renderLowStock();
+    Dashboard.renderWeeklyChart();
+  }
+});
