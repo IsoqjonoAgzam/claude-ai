@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hisobotlar - Muzqaymoq Do'koni</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Overlay (mobil) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">🍦</span>
+        <div class="sidebar-brand">
+          Muzqaymoq Do'koni
+          <small>Boshqaruv tizimi</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              Bosh sahifa
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <span class="nav-icon">🍨</span>
+              Mahsulotlar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link">
+              <span class="nav-icon">📋</span>
+              Buyurtmalar
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link active">
+              <span class="nav-icon">📈</span>
+              Hisobotlar
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-details">
+            <div class="user-name" id="userName">Foydalanuvchi</div>
+            <div class="user-role" id="userRole">Rol</div>
+          </div>
+          <button class="btn-logout" id="logoutBtn" title="Chiqish">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Asosiy kontent -->
+    <main class="main-content">
+      <header class="main-header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h1 class="page-title">Hisobotlar</h1>
+        </div>
+        <div class="header-right">
+          <span class="header-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="card">
+          <div class="card-header">
+            <h3>Hisobotlar</h3>
+          </div>
+          <div class="card-body">
+            <div class="empty-state">
+              <div class="empty-icon">📈</div>
+              <p>Hisobotlar moduli keyingi bosqichda qo'shiladi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
