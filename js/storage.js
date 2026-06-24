@@ -148,7 +148,7 @@ const Storage = {
       ]);
     }
 
-    // Mahsulotlar (bo'sh massiv)
+    // Mahsulotlar (Products moduli tomonidan boshqariladi)
     if (!this.has('products')) {
       this.set('products', []);
     }

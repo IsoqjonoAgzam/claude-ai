@@ -75,23 +75,124 @@
       </header>
 
       <div class="page-content">
-        <div class="card">
-          <div class="card-header">
-            <h3>Mahsulotlar ro'yxati</h3>
-          </div>
-          <div class="card-body">
-            <div class="empty-state">
-              <div class="empty-icon">🍨</div>
-              <p>Mahsulotlar moduli keyingi bosqichda qo'shiladi</p>
+        <!-- Toolbar -->
+        <div class="products-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="searchInput" placeholder="Mahsulot nomi bo'yicha qidirish..." class="search-input">
             </div>
+            <select id="categoryFilter" class="filter-select">
+              <option value="all">Barcha toifalar</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <span class="total-count" id="totalCount">0 ta mahsulot</span>
+            <button class="btn btn-primary btn-add" id="addProductBtn">+ Yangi mahsulot</button>
           </div>
         </div>
+
+        <!-- Mahsulotlar jadvali -->
+        <div class="card">
+          <div id="tableWrapper" class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nomi</th>
+                  <th>Toifasi</th>
+                  <th>Narxi</th>
+                  <th>Qoldig'i</th>
+                  <th>Harorat</th>
+                  <th class="actions-header">Amallar</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Bo'sh holat -->
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">🍨</div>
+            <p>Mahsulotlar topilmadi</p>
+            <p class="empty-hint">Yangi mahsulot qo'shish uchun yuqoridagi tugmani bosing</p>
+          </div>
+        </div>
+
+        <!-- Sahifalash -->
+        <div class="pagination" id="pagination"></div>
       </div>
     </main>
+  </div>
+
+  <!-- Mahsulot qo'shish/tahrirlash modali -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Yangi mahsulot qo'shish</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <form id="productForm" class="modal-body">
+        <input type="hidden" id="productId">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productName">Mahsulot nomi *</label>
+            <input type="text" id="productName" required placeholder="Masalan: Vanilli muzqaymoq">
+          </div>
+          <div class="form-group">
+            <label for="productCategory">Toifasi *</label>
+            <select id="productCategory" required>
+              <option value="">Toifani tanlang</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productPrice">Narxi (so'm) *</label>
+            <input type="number" id="productPrice" required min="0" placeholder="15000">
+          </div>
+          <div class="form-group">
+            <label for="productStock">Qoldig'i (dona) *</label>
+            <input type="number" id="productStock" required min="0" placeholder="50">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productTempMin">Min harorat (&deg;C) *</label>
+            <input type="number" id="productTempMin" required placeholder="-22">
+          </div>
+          <div class="form-group">
+            <label for="productTempMax">Max harorat (&deg;C) *</label>
+            <input type="number" id="productTempMax" required placeholder="-18">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="productShelfLife">Saqlash muddati</label>
+            <input type="text" id="productShelfLife" placeholder="Masalan: 6 oy">
+          </div>
+          <div class="form-group">
+            <label for="productImage">Rasm URL</label>
+            <input type="url" id="productImage" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" id="cancelBtn">Bekor qilish</button>
+          <button type="submit" class="btn btn-primary btn-save">Saqlash</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/products.js"></script>
 </body>
 </html>
