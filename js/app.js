@@ -24,6 +24,9 @@ const App = {
 
     // Joriy sahifani belgilash
     this.highlightCurrentPage();
+
+    // Sozlamalar linkini tekshirish
+    this.checkSettingsAccess();
   },
 
   /**
@@ -105,6 +108,23 @@ const App = {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
+      }
+    });
+  },
+
+  /**
+   * Sozlamalar linkini rolga qarab ko'rsatish/yashirish
+   * Sotuvchi: ko'rinmasin
+   * Menejer va Admin: ko'rinsin
+   */
+  checkSettingsAccess: function() {
+    var user = Auth.getCurrentUser();
+    if (!user) return;
+
+    var settingsItems = document.querySelectorAll('.nav-settings');
+    settingsItems.forEach(function(item) {
+      if (user.rol === 'sotuvchi') {
+        item.style.display = 'none';
       }
     });
   }

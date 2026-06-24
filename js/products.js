@@ -497,12 +497,12 @@ const Products = {
 
     // Validatsiya
     if (!nomi || !toifa || isNaN(narx) || isNaN(qoldiq) || isNaN(haroratMin) || isNaN(haroratMax)) {
-      alert('Iltimos, barcha majburiy maydonlarni to\'ldiring!');
+      Toast.warning('Iltimos, barcha majburiy maydonlarni to\'ldiring!');
       return;
     }
 
     if (haroratMin > haroratMax) {
-      alert('Minimal harorat maksimaldan katta bo\'lishi mumkin emas!');
+      Toast.warning('Minimal harorat maksimaldan katta bo\'lishi mumkin emas!');
       return;
     }
 

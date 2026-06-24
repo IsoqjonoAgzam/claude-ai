@@ -455,7 +455,7 @@ const Orders = {
       mijozIsmi = document.getElementById('newCustomerName').value.trim();
       mijozTelefon = document.getElementById('newCustomerPhone').value.trim();
       if (!mijozIsmi || !mijozTelefon) {
-        alert("Iltimos, mijoz ma'lumotlarini to'ldiring!");
+        Toast.warning("Iltimos, mijoz ma'lumotlarini to'ldiring!");
         return;
       }
       // Yangi mijozni saqlash
@@ -476,7 +476,7 @@ const Orders = {
         mijozTelefon = customer.telefon;
       }
     } else {
-      alert('Iltimos, mijozni tanlang!');
+      Toast.warning('Iltimos, mijozni tanlang!');
       return;
     }
 
@@ -514,7 +514,7 @@ const Orders = {
     });
 
     if (!valid || mahsulotlar.length === 0) {
-      alert('Iltimos, kamida bitta mahsulot tanlang!');
+      Toast.warning('Iltimos, kamida bitta mahsulot tanlang!');
       return;
     }
 
@@ -666,7 +666,7 @@ const Orders = {
 
     var user = Auth.getCurrentUser();
     if (user && user.rol === 'sotuvchi') {
-      alert("Sizda buyurtmani o'chirish huquqi yo'q!");
+      Toast.error("Sizda buyurtmani o'chirish huquqi yo'q!");
       return;
     }
 
